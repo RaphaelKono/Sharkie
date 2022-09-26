@@ -3,6 +3,7 @@ class Light extends MovableObject {
     width = 720 / 2;
     x = 0;
     y = 0;
+    speed = 5 / fps;
 
     constructor() {
         super().loadImage('img/3. Background/Legacy/Layers/1. Light/1.png');
@@ -11,9 +12,6 @@ class Light extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            this.x -= 5 / fps;
-        }, 1000 / fps);
-
+        this.moveLeft();
     }
 }
