@@ -1,12 +1,12 @@
 let canvas;
-let character = new MovableObject();
-let ctx;
-
+let world;
+let fps = 60;
 
 function init() {
     canvas = document.getElementById('canvas');
-    ctx = canvas.getContext('2d');
-    console.log('My character is', character);
+    world = new World(canvas);
+
+    console.log('My character is', world.character);
 }
 
 window.addEventListener('keydown', (event) => {
