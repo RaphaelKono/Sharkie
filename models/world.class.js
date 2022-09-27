@@ -56,24 +56,22 @@ class World {
         if (mo.leftDirection) {
             this.flipImage(mo);
         }
-        if (mo.upDirection) {
-            this.ctx.save();
-            // this.ctx.translate(mo.x, mo.y);
-            this.ctx.translate(mo.x + (mo.width / 2), mo.y + (mo.height / 2));
-            mo.x = -mo.width / 2;
-            mo.y = -mo.height / 2;
-            this.ctx.rotate(270 * Math.PI / 180);
-
-        }
+        // if (mo.upDirection) {
+        //     this.ctx.save();
+        //     this.ctx.translate(mo.x + (mo.width / 2), mo.y + (mo.height / 2));
+        //     mo.x = -mo.width / 2;
+        //     mo.y = -mo.height / 2;
+        //     this.ctx.rotate(270 * Math.PI / 180);
+        // }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         if (mo.leftDirection) {
             this.restoreContext(mo);
         }
-        if (mo.upDirection) {
-            mo.x = -(mo.x + mo.height / 2);
-            mo.y = -(mo.y + mo.width / 2);
-            this.ctx.restore();
-        }
+        // if (mo.upDirection) {
+        //     mo.x = -(mo.x + mo.height / 2);
+        //     mo.y = -(mo.y + mo.width / 2);
+        //     this.ctx.restore();
+        // }
     }
 
     drawNewFrame() {

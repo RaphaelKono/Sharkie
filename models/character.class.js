@@ -97,7 +97,7 @@ class Character extends MovableObject {
     swimUp() {
         console.log('Swimming up');
         this.y -= this.speed;
-        this.upDirection = true;
+        // this.upDirection = true;
     }
 
     swimDown() {
