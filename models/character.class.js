@@ -51,6 +51,7 @@ class Character extends MovableObject {
                 this.swimUp();
             if (this.isSwimmingDown())
                 this.swimDown();
+            this.swimDownDefault(5 / fps);
         }, 1000 / fps);
 
         setInterval(() => {
@@ -96,10 +97,15 @@ class Character extends MovableObject {
     swimUp() {
         console.log('Swimming up');
         this.y -= this.speed;
+        this.upDirection = true;
     }
 
     swimDown() {
         this.y += this.speed;
+    }
+
+    swimDownDefault(speed) {
+        this.y += speed;
     }
 
 

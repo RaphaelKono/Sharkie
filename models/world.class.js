@@ -56,9 +56,20 @@ class World {
         if (mo.leftDirection) {
             this.flipImage(mo);
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.upDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.x * 2.2, mo.y * 1.7);
+            this.ctx.rotate(270 * Math.PI / 180);
+            this.ctx.drawImage(mo.img, -mo.width / 2, -mo.height / 2, mo.width, mo.height);
+        }
+        if (!mo.upDirection) {
+            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        }
         if (mo.leftDirection) {
             this.restoreContext(mo);
+        }
+        if (mo.upDirection) {
+            this.ctx.restore();
         }
     }
 
