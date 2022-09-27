@@ -1,5 +1,5 @@
 class Jellyfish extends MovableObject {
-    x = 680;
+    x = 680 - Math.random() * 180;
     y = Math.random() * 480 - 30;
     height = 300 / 6;
     width = 211 / 6;
@@ -9,7 +9,7 @@ class Jellyfish extends MovableObject {
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png',
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png'
     ];
-    speed = (Math.random() * 8) / fps;
+    speed = (Math.random() * 60) / fps;
 
     constructor() {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');

@@ -3,6 +3,8 @@ class Character extends MovableObject {
     y = 140;
     height = 1000 / 6;
     width = 815 / 6;
+    world;
+    speed = 3;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -41,18 +43,64 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            let i = this.currentImage % this.IMAGES_SWIM.length;
-            let path = this.IMAGES_SWIM[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            if (this.isSwimmingRight())
+                this.swimRight();
+            if (this.isSwimmingLeft())
+                this.swimLeft();
+            if (this.isSwimmingUp())
+                this.swimUp();
+            if (this.isSwimmingDown())
+                this.swimDown();
+        }, 1000 / fps);
+
+        setInterval(() => {
+            if (this.isSwimming()) {
+                let i = this.currentImage % this.IMAGES_SWIM.length;
+                let path = this.IMAGES_SWIM[i];
+                this.img = this.imageCache[path];
+                this.currentImage++;
+            }
         }, 200);
     }
 
-    moveRight() {}
+    isSwimming() {
+        return this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown();
+    }
 
-    moveUp() {}
+    isSwimmingRight() {
+        return this.world.keyboard.RIGHT;
+    }
 
-    moveDown() {}
+    isSwimmingLeft() {
+        return this.world.keyboard.LEFT;
+    }
+
+    isSwimmingUp() {
+        return this.world.keyboard.UP;
+    }
+
+    isSwimmingDown() {
+        return this.world.keyboard.DOWN;
+    }
+
+    swimRight() {
+        this.x += this.speed;
+        this.leftDirection = false;
+    }
+
+    swimLeft() {
+        this.x -= this.speed;
+        this.leftDirection = true;
+    }
+
+    swimUp() {
+        console.log('Swimming up');
+        this.y -= this.speed;
+    }
+
+    swimDown() {
+        this.y += this.speed;
+    }
 
 
 }

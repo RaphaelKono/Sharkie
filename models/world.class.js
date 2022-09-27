@@ -1,4 +1,8 @@
 class World {
+    ctx;
+    canvas;
+    keyboard;
+
     character = new Character();
     enemies = [
         new Jellyfish(),
@@ -6,8 +10,6 @@ class World {
         new Jellyfish(),
     ];
     lights = [new Light()];
-    ctx;
-    canvas;
     backgroundObjects = [
         new BackgroundObject('img/3. Background/Legacy/Layers/5. Water/D1.png'),
         new BackgroundObject('img/3. Background/Legacy/Layers/4.Fondo 2/D1.png'),
@@ -15,16 +17,22 @@ class World {
         new BackgroundObject('img/3. Background/Legacy/Layers/2. Floor/D1.png')
     ];
 
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.keyboard = keyboard;
         this.draw();
+        this.setWorld();
     }
 
     draw() {
         this.clearPriorFrame();
         this.addToMap();
         this.drawNewFrame();
+    }
+
+    setWorld() {
+        this.character.world = this;
     }
 
     clearPriorFrame() {
@@ -45,7 +53,13 @@ class World {
     }
 
     addObjectToMap(mo) {
+        if (mo.leftDirection) {
+            this.flipImage(mo);
+        }
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.leftDirection) {
+            this.restoreContext(mo);
+        }
     }
 
     drawNewFrame() {
@@ -53,5 +67,17 @@ class World {
         requestAnimationFrame(function() {
             self.draw();
         });
+    }
+
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = -mo.x;
+    }
+
+    restoreContext(mo) {
+        mo.x = -mo.x;
+        this.ctx.restore();
     }
 }
