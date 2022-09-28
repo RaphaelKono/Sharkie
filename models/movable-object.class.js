@@ -32,4 +32,11 @@ class MovableObject {
             this.x -= this.speed;
         }, 1000 / fps);
     }
+
+    playAnimation(imgs) {
+        let i = this.currentImage % imgs.length;
+        let path = imgs[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
 }

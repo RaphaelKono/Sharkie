@@ -33,6 +33,7 @@ class Character extends MovableObject {
         'img/1.Sharkie/3.Swim/5.png',
         'img/1.Sharkie/3.Swim/6.png'
     ];
+    swimming_sound = new Audio('audio/swimming.mp3');
 
 
     constructor() {
@@ -43,25 +44,30 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.isSwimmingRight())
-                this.swimRight();
-            if (this.isSwimmingLeft())
-                this.swimLeft();
-            if (this.isSwimmingUp())
-                this.swimUp();
-            if (this.isSwimmingDown())
-                this.swimDown();
-            this.swimDownDefault(5 / fps);
+            this.swimming_sound.pause();
+            this.setSwimTranslation();
         }, 1000 / fps);
-
         setInterval(() => {
             if (this.isSwimming()) {
-                let i = this.currentImage % this.IMAGES_SWIM.length;
-                let path = this.IMAGES_SWIM[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_SWIM);
             }
         }, 200);
+    }
+
+    setSwimTranslation() {
+        if (this.isSwimmingRight())
+            this.swimRight();
+        if (this.isSwimmingLeft())
+            this.swimLeft();
+        if (this.isSwimmingUp())
+            this.swimUp();
+        if (this.isSwimmingDown())
+            this.swimDown();
+        if (!this.isSwimming() && this.isInDownBorder())
+            this.swimDownDefault(2 / fps);
+        else
+            this.playSwimmingSound();
+        this.world.camera_x = -this.x + 100;
     }
 
     isSwimming() {
@@ -69,19 +75,35 @@ class Character extends MovableObject {
     }
 
     isSwimmingRight() {
-        return this.world.keyboard.RIGHT;
+        return this.world.keyboard.RIGHT && this.isInRightBorder();
     }
 
     isSwimmingLeft() {
-        return this.world.keyboard.LEFT;
+        return this.world.keyboard.LEFT && this.isInLeftBorder();
     }
 
     isSwimmingUp() {
-        return this.world.keyboard.UP;
+        return this.world.keyboard.UP && this.isInTopBorder();
     }
 
     isSwimmingDown() {
-        return this.world.keyboard.DOWN;
+        return this.world.keyboard.DOWN && this.isInDownBorder();
+    }
+
+    isInRightBorder() {
+        return this.x < 2250;
+    }
+
+    isInLeftBorder() {
+        return this.x > -618;
+    }
+
+    isInTopBorder() {
+        return this.y > -65;
+    }
+
+    isInDownBorder() {
+        return this.y < 340;
     }
 
     swimRight() {
@@ -95,7 +117,6 @@ class Character extends MovableObject {
     }
 
     swimUp() {
-        console.log('Swimming up');
         this.y -= this.speed;
         // this.upDirection = true;
     }
@@ -108,5 +129,7 @@ class Character extends MovableObject {
         this.y += speed;
     }
 
-
+    playSwimmingSound() {
+        this.swimming_sound.play();
+    }
 }

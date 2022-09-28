@@ -2,20 +2,10 @@ class World {
     ctx;
     canvas;
     keyboard;
-
+    camera_x = 0;
     character = new Character();
-    enemies = [
-        new Jellyfish(),
-        new Jellyfish(),
-        new Jellyfish(),
-    ];
-    lights = [new Light()];
-    backgroundObjects = [
-        new BackgroundObject('img/3. Background/Legacy/Layers/5. Water/D1.png'),
-        new BackgroundObject('img/3. Background/Legacy/Layers/4.Fondo 2/D1.png'),
-        new BackgroundObject('img/3. Background/Legacy/Layers/3.Fondo 1/D1.png'),
-        new BackgroundObject('img/3. Background/Legacy/Layers/2. Floor/D1.png')
-    ];
+    level = level1;
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,8 +17,10 @@ class World {
 
     draw() {
         this.clearPriorFrame();
+        this.ctx.translate(this.camera_x, 0);
         this.addToMap();
         this.drawNewFrame();
+        this.ctx.translate(-this.camera_x, 0);
     }
 
     setWorld() {
@@ -40,10 +32,10 @@ class World {
     }
 
     addToMap() {
-        this.addObjectsToMap(this.backgroundObjects);
-        this.addObjectsToMap(this.lights);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.lights);
         this.addObjectToMap(this.character);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.enemies);
     }
 
     addObjectsToMap(obj) {
