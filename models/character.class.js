@@ -5,6 +5,8 @@ class Character extends MovableObject {
     width = 815 / 6;
     world;
     speed = 3;
+    speedY = 0.1 / fps;
+    acceleration = 0.001;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -55,18 +57,13 @@ class Character extends MovableObject {
     }
 
     setSwimTranslation() {
-        if (this.isSwimmingRight())
-            this.swimRight();
-        if (this.isSwimmingLeft())
-            this.swimLeft();
-        if (this.isSwimmingUp())
-            this.swimUp();
-        if (this.isSwimmingDown())
-            this.swimDown();
-        if (!this.isSwimming() && this.isInDownBorder())
-            this.swimDownDefault(2 / fps);
-        else
-            this.playSwimmingSound();
+        // if (!this.isSwimming() && this.isInDownBorder())
+        //     this.applyGravity();
+        // else
+        if (this.isSwimming())
+            this.swim();
+        else if (this.isInDownBorder())
+            this.applyGravity();
         this.world.camera_x = -this.x + 100;
     }
 
@@ -106,30 +103,59 @@ class Character extends MovableObject {
         return this.y < 340;
     }
 
+    swim() {
+        this.playSwimmingSound();
+        this.resetGravity();
+        if (this.isSwimmingRight())
+            this.swimRight();
+        if (this.isSwimmingLeft())
+            this.swimLeft();
+        if (this.isSwimmingUp())
+            this.swimUp();
+        if (this.isSwimmingDown())
+            this.swimDown();
+    }
+
     swimRight() {
         this.x += this.speed;
         this.leftDirection = false;
+        this.resetGravity();
     }
 
     swimLeft() {
         this.x -= this.speed;
         this.leftDirection = true;
+        this.resetGravity();
     }
 
     swimUp() {
         this.y -= this.speed;
+        this.resetGravity();
         // this.upDirection = true;
     }
 
     swimDown() {
+        this.resetGravity();
         this.y += this.speed;
     }
 
-    swimDownDefault(speed) {
-        this.y += speed;
-    }
+    // swimDownDefault(speed) {
+    //     this.y += speed;
+    // }
 
     playSwimmingSound() {
         this.swimming_sound.play();
+    }
+
+    applyGravity() {
+        this.y += this.speedY;
+        this.speedY += this.acceleration;
+        if (!this.isInDownBorder())
+            this.resetGravity();
+    }
+
+    resetGravity() {
+        this.speedY = 0.1 / fps;
+        this.acceleration = 0.001;
     }
 }

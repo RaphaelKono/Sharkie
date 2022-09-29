@@ -7,6 +7,7 @@ class MovableObject {
     imageCache = [];
     currentImage = 0;
     speed;
+    speedY;
     leftDirection = false;
     // upDirection = false;
 
