@@ -7,6 +7,8 @@ class Character extends MovableObject {
     speed = 3;
     speedY = 0.1 / fps;
     acceleration = 0.001;
+    wentIdle;
+    requiredSleepTime = 5000;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -35,6 +37,42 @@ class Character extends MovableObject {
         'img/1.Sharkie/3.Swim/5.png',
         'img/1.Sharkie/3.Swim/6.png'
     ];
+    IMAGES_BUBBLE_ATTACK = [
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
+    ];
+    IMAGES_FIN_SLAP = [
+        'img/1.Sharkie/4.Attack/Fin slap/1.png',
+        'img/1.Sharkie/4.Attack/Fin slap/2.png',
+        'img/1.Sharkie/4.Attack/Fin slap/3.png',
+        'img/1.Sharkie/4.Attack/Fin slap/4.png',
+        'img/1.Sharkie/4.Attack/Fin slap/5.png',
+        'img/1.Sharkie/4.Attack/Fin slap/6.png',
+        'img/1.Sharkie/4.Attack/Fin slap/7.png',
+        'img/1.Sharkie/4.Attack/Fin slap/8.png'
+    ];
+    IMAGES_SLEEP = [
+        'img/1.Sharkie/2.Long_IDLE/I1.png',
+        'img/1.Sharkie/2.Long_IDLE/I2.png',
+        'img/1.Sharkie/2.Long_IDLE/I3.png',
+        'img/1.Sharkie/2.Long_IDLE/I4.png',
+        'img/1.Sharkie/2.Long_IDLE/I5.png',
+        'img/1.Sharkie/2.Long_IDLE/I6.png',
+        'img/1.Sharkie/2.Long_IDLE/I7.png',
+        'img/1.Sharkie/2.Long_IDLE/I8.png',
+        'img/1.Sharkie/2.Long_IDLE/I9.png',
+        'img/1.Sharkie/2.Long_IDLE/I10.png',
+        'img/1.Sharkie/2.Long_IDLE/I11.png',
+        'img/1.Sharkie/2.Long_IDLE/I12.png',
+        'img/1.Sharkie/2.Long_IDLE/I13.png',
+        'img/1.Sharkie/2.Long_IDLE/I14.png'
+    ];
     swimming_sound = new Audio('audio/swimming.mp3');
 
 
@@ -50,19 +88,26 @@ class Character extends MovableObject {
             this.setSwimTranslation();
         }, 1000 / fps);
         setInterval(() => {
-            if (this.isSwimming()) {
-                this.playAnimation(this.IMAGES_SWIM);
+            switch (true) {
+                case this.isSwimming():
+                    this.playAnimation(this.IMAGES_SWIM);
+                    this.wentIdle = null;
+                    break;
+                case this.isRestingOver5Seconds():
+                    this.playAnimation(this.IMAGES_SLEEP);
+                    break;
+                case !this.isSwimming():
+                    this.playAnimation(this.IMAGES_IDLE);
+                    this.wentIdle = Date.now();
+                    break;
             }
         }, 200);
     }
 
     setSwimTranslation() {
-        // if (!this.isSwimming() && this.isInDownBorder())
-        //     this.applyGravity();
-        // else
         if (this.isSwimming())
             this.swim();
-        else if (this.isInDownBorder())
+        else if (this.isAboveGround())
             this.applyGravity();
         this.world.camera_x = -this.x + 100;
     }
@@ -84,7 +129,7 @@ class Character extends MovableObject {
     }
 
     isSwimmingDown() {
-        return this.world.keyboard.DOWN && this.isInDownBorder();
+        return this.world.keyboard.DOWN && this.isAboveGround();
     }
 
     isInRightBorder() {
@@ -99,8 +144,12 @@ class Character extends MovableObject {
         return this.y > -65;
     }
 
-    isInDownBorder() {
+    isAboveGround() {
         return this.y < 340;
+    }
+
+    isRestingOver5Seconds() {
+        return !this.isSwimming && (this.wentIdle + this.requiredSleepTime >= Date.now())
     }
 
     swim() {
@@ -139,9 +188,6 @@ class Character extends MovableObject {
         this.y += this.speed;
     }
 
-    // swimDownDefault(speed) {
-    //     this.y += speed;
-    // }
 
     playSwimmingSound() {
         this.swimming_sound.play();
@@ -150,7 +196,7 @@ class Character extends MovableObject {
     applyGravity() {
         this.y += this.speedY;
         this.speedY += this.acceleration;
-        if (!this.isInDownBorder())
+        if (!this.isAboveGround())
             this.resetGravity();
     }
 
