@@ -9,6 +9,9 @@ class Character extends MovableObject {
     acceleration = 0.001;
     wentIdle;
     requiredSleepTime = 5000;
+    currentSleepImage = 0;
+    longSleep = false;
+    timerIsOn = false;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -73,12 +76,21 @@ class Character extends MovableObject {
         'img/1.Sharkie/2.Long_IDLE/I13.png',
         'img/1.Sharkie/2.Long_IDLE/I14.png'
     ];
+    IMAGES_LONG_SLEEP = [
+        'img/1.Sharkie/2.Long_IDLE/I11.png',
+        'img/1.Sharkie/2.Long_IDLE/I12.png',
+        'img/1.Sharkie/2.Long_IDLE/I13.png',
+        'img/1.Sharkie/2.Long_IDLE/I14.png'
+    ];
     swimming_sound = new Audio('audio/swimming.mp3');
 
 
     constructor() {
         super().loadImage('img/1.Sharkie/3.Swim/1.png');
         this.loadImages(this.IMAGES_SWIM);
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
+        this.loadImages(this.IMAGES_LONG_SLEEP);
         this.animate();
     }
 
@@ -88,28 +100,37 @@ class Character extends MovableObject {
             this.setSwimTranslation();
         }, 1000 / fps);
         setInterval(() => {
-            switch (true) {
-                case this.isSwimming():
-                    this.playAnimation(this.IMAGES_SWIM);
-                    this.wentIdle = null;
-                    break;
-                case this.isRestingOver5Seconds():
-                    this.playAnimation(this.IMAGES_SLEEP);
-                    break;
-                case !this.isSwimming():
-                    this.playAnimation(this.IMAGES_IDLE);
-                    this.wentIdle = Date.now();
-                    break;
-            }
+            this.setImageAnimation();
         }, 200);
     }
 
     setSwimTranslation() {
         if (this.isSwimming())
             this.swim();
-        else if (this.isAboveGround())
+        else if (this.isAboveGround() && this.isLongIdle())
             this.applyGravity();
         this.world.camera_x = -this.x + 100;
+    }
+
+    setImageAnimation() {
+        switch (true) {
+            case this.isSwimming():
+                this.playAnimation(this.IMAGES_SWIM);
+                this.resetIdleAndSleepParameters();
+                break;
+            case this.isLongIdle():
+                if (this.fellAsleep())
+                    this.playFallAsleepAnimation(this.IMAGES_SLEEP);
+                else
+                    this.playAnimation(this.IMAGES_LONG_SLEEP);
+                break;
+            case !this.isSwimming():
+                this.playAnimation(this.IMAGES_IDLE);
+                if (this.timerIsOn == false) {
+                    this.setTimer();
+                }
+                break;
+        }
     }
 
     isSwimming() {
@@ -145,11 +166,15 @@ class Character extends MovableObject {
     }
 
     isAboveGround() {
-        return this.y < 340;
+        return this.y < 320;
     }
 
-    isRestingOver5Seconds() {
-        return !this.isSwimming && (this.wentIdle + this.requiredSleepTime >= Date.now())
+    isLongIdle() {
+        return (this.wentIdle + this.requiredSleepTime < Date.now());
+    }
+
+    fellAsleep() {
+        return this.currentSleepImage < 14 && this.longSleep == false;
     }
 
     swim() {
@@ -203,5 +228,27 @@ class Character extends MovableObject {
     resetGravity() {
         this.speedY = 0.1 / fps;
         this.acceleration = 0.001;
+    }
+
+    playFallAsleepAnimation(imgs) {
+        let i = this.currentSleepImage;
+        let path = imgs[i];
+        this.img = this.imageCache[path];
+        this.currentSleepImage++;
+        if (this.currentSleepImage == 13) {
+            this.longSleep = true;
+        }
+    }
+
+    resetIdleAndSleepParameters() {
+        this.wentIdle = Date.now();
+        this.timerIsOn = false;
+        this.longSleep = false;
+        this.currentSleepImage = 0;
+    }
+
+    setTimer() {
+        this.wentIdle = Date.now();
+        this.timerIsOn = true;
     }
 }
