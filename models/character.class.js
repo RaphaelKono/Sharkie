@@ -12,6 +12,7 @@ class Character extends MovableObject {
     currentSleepImage = 0;
     longSleep = false;
     timerIsOn = false;
+    offsetY = 75;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -119,7 +120,7 @@ class Character extends MovableObject {
                 this.resetIdleAndSleepParameters();
                 break;
             case this.isLongIdle():
-                if (this.fellAsleep())
+                if (this.isFallingAsleep())
                     this.playFallAsleepAnimation(this.IMAGES_SLEEP);
                 else
                     this.playAnimation(this.IMAGES_LONG_SLEEP);
@@ -173,7 +174,7 @@ class Character extends MovableObject {
         return (this.wentIdle + this.requiredSleepTime < Date.now());
     }
 
-    fellAsleep() {
+    isFallingAsleep() {
         return this.currentSleepImage < 14 && this.longSleep == false;
     }
 
@@ -235,7 +236,7 @@ class Character extends MovableObject {
         let path = imgs[i];
         this.img = this.imageCache[path];
         this.currentSleepImage++;
-        if (this.currentSleepImage == 13) {
+        if (this.isAtLastElement(imgs)) {
             this.longSleep = true;
         }
     }
@@ -250,5 +251,9 @@ class Character extends MovableObject {
     setTimer() {
         this.wentIdle = Date.now();
         this.timerIsOn = true;
+    }
+
+    isAtLastElement(imgs) {
+        return this.currentSleepImage == (imgs.length - 1);
     }
 }
