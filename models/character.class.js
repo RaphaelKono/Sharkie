@@ -12,7 +12,10 @@ class Character extends MovableObject {
     currentSleepImage = 0;
     longSleep = false;
     timerIsOn = false;
-    offsetY = 75;
+    offsetTop = 80;
+    offsetBottom = 120;
+    offsetRight = 55;
+    offsetLeft = 28;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',

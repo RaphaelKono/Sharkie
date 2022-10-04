@@ -1,8 +1,12 @@
 class Jellyfish extends MovableObject {
     x = 680 - Math.random() * 180;
     y = Math.random() * 480 - 30;
-    height = 300 / 6;
-    width = 211 / 6;
+    height = 300 / 5;
+    width = 211 / 5;
+    offsetTop = 7;
+    offsetBottom = 15;
+    offsetRight = 2;
+    offsetLeft = 0;
     IMAGES_SWIM = [
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',
@@ -10,6 +14,7 @@ class Jellyfish extends MovableObject {
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png'
     ];
     speed = (Math.random() * 60) / fps;
+
 
     constructor() {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');

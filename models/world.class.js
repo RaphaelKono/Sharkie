@@ -91,9 +91,28 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    console.log('Collision with' + enemy);
+                    this.addDamage(enemy);
+                    console.log('Collision with ', enemy, ' Energy is ', this.character.health);
                 }
             })
         }, 200);
+    }
+
+    addDamage(enemy) {
+        switch (true) {
+            case this instanceof Character:
+
+                break;
+            case enemy instanceof Jellyfish:
+                this.character.health -= 5;
+                this.character.x -= 10;
+                enemy.x += 100;
+                break;
+            case enemy instanceof Endboss:
+                this.character.health -= 20;
+                break;
+            default:
+                break;
+        }
     }
 }
