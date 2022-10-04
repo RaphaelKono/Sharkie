@@ -9,13 +9,14 @@ class Character extends MovableObject {
     acceleration = 0.001;
     wentIdle;
     requiredSleepTime = 5000;
-    currentSleepImage = 0;
+    currentImage = 0;
     longSleep = false;
     timerIsOn = false;
     offsetTop = 80;
     offsetBottom = 120;
     offsetRight = 55;
     offsetLeft = 28;
+    isShocked = false;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -86,6 +87,25 @@ class Character extends MovableObject {
         'img/1.Sharkie/2.Long_IDLE/I13.png',
         'img/1.Sharkie/2.Long_IDLE/I14.png'
     ];
+    IMAGES_ELECTRIC_SHOCK = [
+        'img/1.Sharkie/5.Hurt/2.Electric shock/1.png',
+        'img/1.Sharkie/5.Hurt/2.Electric shock/2.png',
+        'img/1.Sharkie/5.Hurt/2.Electric shock/3.png'
+    ];
+
+    IMAGES_DEAD_BY_ELECTRO_SHOCK = [
+        'img/1.Sharkie/6.dead/2.Electro_shock/1.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/2.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/3.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/4.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/5.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/6.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/7.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/8.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/9.png',
+        'img/1.Sharkie/6.dead/2.Electro_shock/10.png'
+    ]
+
     swimming_sound = new Audio('audio/swimming.mp3');
 
 
@@ -95,6 +115,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEP);
         this.loadImages(this.IMAGES_LONG_SLEEP);
+        this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
+        this.loadImages(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
         this.animate();
     }
 
@@ -118,15 +140,21 @@ class Character extends MovableObject {
 
     setImageAnimation() {
         switch (true) {
+            case this.isDead():
+                if (this.hadDied) {
+                    this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
+                }
+                break;
+            case this.isShocked:
+                this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
+                this.resetIdleAndSleepParameters();
+                break;
             case this.isSwimming():
                 this.playAnimation(this.IMAGES_SWIM);
                 this.resetIdleAndSleepParameters();
                 break;
             case this.isLongIdle():
-                if (this.isFallingAsleep())
-                    this.playFallAsleepAnimation(this.IMAGES_SLEEP);
-                else
-                    this.playAnimation(this.IMAGES_LONG_SLEEP);
+                this.dozeOffAndSleep();
                 break;
             case !this.isSwimming():
                 this.playAnimation(this.IMAGES_IDLE);
@@ -137,8 +165,21 @@ class Character extends MovableObject {
         }
     }
 
+    swim() {
+        this.playSwimmingSound();
+        this.resetGravity();
+        if (this.isSwimmingRight())
+            this.swimRight();
+        if (this.isSwimmingLeft())
+            this.swimLeft();
+        if (this.isSwimmingUp())
+            this.swimUp();
+        if (this.isSwimmingDown())
+            this.swimDown();
+    }
+
     isSwimming() {
-        return this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown();
+        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.isDead();
     }
 
     isSwimmingRight() {
@@ -178,42 +219,25 @@ class Character extends MovableObject {
     }
 
     isFallingAsleep() {
-        return this.currentSleepImage < 14 && this.longSleep == false;
-    }
-
-    swim() {
-        this.playSwimmingSound();
-        this.resetGravity();
-        if (this.isSwimmingRight())
-            this.swimRight();
-        if (this.isSwimmingLeft())
-            this.swimLeft();
-        if (this.isSwimmingUp())
-            this.swimUp();
-        if (this.isSwimmingDown())
-            this.swimDown();
+        return this.currentImage < 14 && this.longSleep == false;
     }
 
     swimRight() {
         this.x += this.speed;
         this.leftDirection = false;
-        this.resetGravity();
     }
 
     swimLeft() {
         this.x -= this.speed;
         this.leftDirection = true;
-        this.resetGravity();
     }
 
     swimUp() {
         this.y -= this.speed;
-        this.resetGravity();
         // this.upDirection = true;
     }
 
     swimDown() {
-        this.resetGravity();
         this.y += this.speed;
     }
 
@@ -234,21 +258,11 @@ class Character extends MovableObject {
         this.acceleration = 0.001;
     }
 
-    playFallAsleepAnimation(imgs) {
-        let i = this.currentSleepImage;
-        let path = imgs[i];
-        this.img = this.imageCache[path];
-        this.currentSleepImage++;
-        if (this.isAtLastElement(imgs)) {
-            this.longSleep = true;
-        }
-    }
-
     resetIdleAndSleepParameters() {
         this.wentIdle = Date.now();
         this.timerIsOn = false;
         this.longSleep = false;
-        this.currentSleepImage = 0;
+        this.offsetTop = 80;
     }
 
     setTimer() {
@@ -256,7 +270,14 @@ class Character extends MovableObject {
         this.timerIsOn = true;
     }
 
-    isAtLastElement(imgs) {
-        return this.currentSleepImage == (imgs.length - 1);
+    dozeOffAndSleep() {
+        if (this.isFallingAsleep())
+            this.playAnimationOnce(this.IMAGES_SLEEP);
+        else {
+            this.playAnimation(this.IMAGES_LONG_SLEEP);
+            if (this.health < 100) {
+                this.health += 0.05;
+            }
+        }
     }
 }

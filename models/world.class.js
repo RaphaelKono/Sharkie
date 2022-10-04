@@ -90,7 +90,7 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
+                if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.isDead()) {
                     this.addDamage(enemy);
                     console.log('Collision with ', enemy, ' Energy is ', this.character.health);
                 }
@@ -104,14 +104,16 @@ class World {
 
                 break;
             case enemy instanceof Jellyfish:
-                this.character.health -= 5;
-                this.character.x -= 10;
-                enemy.x += 100;
+                this.character.hit(5);
+                this.character.isShocked = true;
+                if (this.character.health <= 0) {
+                    this.character.hadDied = true;
+                }
+                // this.character.playAnimationOnce(this.character.IMAGES_ELECTRIC_SHOCK);
+                // this.character.resetIdleAndSleepParameters();
                 break;
             case enemy instanceof Endboss:
-                this.character.health -= 20;
-                break;
-            default:
+                this.character.hit(20);
                 break;
         }
     }
