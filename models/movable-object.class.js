@@ -7,7 +7,6 @@ class MovableObject extends DrawableObject {
     offsetBottom = 0;
     offsetRight = 0;
     offsetLeft = 0;
-    health = 100;
     lastHit = 0;
     hadDied = false;
     // upDirection = false;
@@ -53,17 +52,6 @@ class MovableObject extends DrawableObject {
 
     isAtLastElement(arr_length) {
         return this.currentImage == (arr_length - 1);
-    }
-
-    drawRect(ctx) {
-        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '1';
-            ctx.strokeStyle = 'red';
-            ctx.rect(this.x + this.offsetLeft, this.y + this.offsetTop, this.width - this.offsetRight, this.height - this.offsetBottom);
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
     }
 
     isColliding(obj) {

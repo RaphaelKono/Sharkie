@@ -5,6 +5,7 @@ class World {
     camera_x = 0;
     character = new Character();
     level = level1;
+    statusBar = new StatusBar();
 
 
     constructor(canvas, keyboard) {
@@ -37,6 +38,11 @@ class World {
         this.addObjectsToMap(this.level.lights);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.ctx.translate(-this.camera_x, 0);
+        // Space for fixed Objects:
+        this.addObjectToMap(this.statusBar);
+        // space end
+        this.ctx.translate(this.camera_x, 0);
     }
 
     addObjectsToMap(obj) {
@@ -92,9 +98,9 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth()) {
                     this.addDamage(enemy);
-                    console.log('Collision with ', enemy, ' Energy is ', this.character.health);
                 }
             })
+            this.statusBar.setPercentage(this.character.health);
         }, 200);
     }
 
@@ -104,7 +110,7 @@ class World {
 
                 break;
             case enemy instanceof Jellyfish:
-                this.character.hit(5);
+                this.character.hit(20);
                 this.character.isShocked = true;
                 if (this.character.health <= 0) {
                     this.character.hadDied = true;
@@ -113,7 +119,7 @@ class World {
                 // this.character.resetIdleAndSleepParameters();
                 break;
             case enemy instanceof Endboss:
-                this.character.hit(20);
+                this.character.hit(40);
                 break;
         }
     }
