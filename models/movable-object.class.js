@@ -1,10 +1,4 @@
-class MovableObject {
-    x;
-    y;
-    height;
-    width;
-    img;
-    imageCache = [];
+class MovableObject extends DrawableObject {
     currentLoopImage = 0;
     speed;
     speedY;
@@ -18,18 +12,6 @@ class MovableObject {
     hadDied = false;
     // upDirection = false;
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
 
     moveRight() {
         console.log('Moving right');
@@ -62,7 +44,7 @@ class MovableObject {
             this.longSleep = true;
             this.currentImage = 0;
             this.isShocked = false;
-            if (this.isDead()) {
+            if (this.hasNoHealth()) {
                 this.hadDied = false;
                 this.currentImage = 9;
             }
@@ -71,10 +53,6 @@ class MovableObject {
 
     isAtLastElement(arr_length) {
         return this.currentImage == (arr_length - 1);
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     drawRect(ctx) {
@@ -101,13 +79,13 @@ class MovableObject {
         this.lastHit = Date.now();
     }
 
-    isDead() {
+    hasNoHealth() {
         return this.health <= 0;
     }
 
     isHurt() {
         let timePassed = Date.now() - this.lastHit;
         timePassed = timePassed / 1000;
-        return timePassed < 2;
+        return timePassed < 1;
     }
 }

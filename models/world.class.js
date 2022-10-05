@@ -90,7 +90,7 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.isDead()) {
+                if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth()) {
                     this.addDamage(enemy);
                     console.log('Collision with ', enemy, ' Energy is ', this.character.health);
                 }

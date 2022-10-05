@@ -121,16 +121,12 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            this.swimming_sound.pause();
-            this.setSwimTranslation();
-        }, 1000 / fps);
-        setInterval(() => {
-            this.setImageAnimation();
-        }, 200);
+        setInterval(() => this.setSwimTranslation(), 1000 / fps);
+        setInterval(() => this.setImageAnimation(), 200);
     }
 
     setSwimTranslation() {
+        this.swimming_sound.pause();
         if (this.isSwimming())
             this.swim();
         else if (this.isAboveGround() && this.isLongIdle())
@@ -140,10 +136,9 @@ class Character extends MovableObject {
 
     setImageAnimation() {
         switch (true) {
-            case this.isDead():
-                if (this.hadDied) {
+            case this.hasNoHealth():
+                if (this.hadDied)
                     this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
-                }
                 break;
             case this.isShocked:
                 this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
@@ -179,7 +174,7 @@ class Character extends MovableObject {
     }
 
     isSwimming() {
-        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.isDead();
+        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.hasNoHealth();
     }
 
     isSwimmingRight() {
