@@ -30,28 +30,40 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(imgs) {
-        if (this.currentImage > 2 && this.isShocked == true && !this.hadDied) {
-            this.currentImage = 0;
+        this.resetForShockedAnimation();
+        this.setCurrentImage(imgs);
+        if (this.isFallingAsleep())
+            this.offsetTop += 1.4;
+        if (this.isAtLastElement(imgs.length)) {
+            this.setParametersDoStopLoop();
         }
+    }
+
+    // There is a bug when Sharkie falls asleep (and it not asleep) and gets shocked that currentImage is bigger than the array of the electro shock animation
+    resetForShockedAnimation() {
+        if (this.currentImage > 2 && this.isShocked == true && !this.hadDied)
+            this.currentImage = 0;
+    }
+
+    setCurrentImage(imgs) {
         let i = this.currentImage;
         let path = imgs[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-        if (this.isFallingAsleep())
-            this.offsetTop += 1.4;
-        if (this.isAtLastElement(imgs.length)) {
-            this.longSleep = true;
-            this.currentImage = 0;
-            this.isShocked = false;
-            if (this.hasNoHealth()) {
-                this.hadDied = false;
-                this.currentImage = 9;
-            }
-        }
     }
 
     isAtLastElement(arr_length) {
         return this.currentImage == (arr_length - 1);
+    }
+
+    setParametersDoStopLoop() {
+        this.longSleep = true;
+        this.currentImage = 0;
+        this.isShocked = false;
+        if (this.hasNoHealth()) {
+            this.hadDied = false;
+            this.currentImage = 9;
+        }
     }
 
     isColliding(obj) {

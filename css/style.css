@@ -5,16 +5,14 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('../img/backgroundimage.jpg');
-    background-position: center;
     font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
     color: rgb(240, 231, 197);
+    overflow-y: hidden;
 }
 
 canvas {
+    z-index: 10000;
     background-color: black;
-    border: 16px solid transparent;
-    border-image: url('../img/border.png') 2.333% round;
     display: block;
 }
 
@@ -22,6 +20,54 @@ h1 {
     font-size: 3.5rem;
     letter-spacing: 3px;
     text-shadow: 4px 2px 2px rgb(240, 231, 197, 0.4);
+    padding-bottom: 50px;
+}
+
+.bodyimage {
+    z-index: -100;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.bodyimage img {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 0% 100%;
+}
+
+.frame {
+    z-index: -50;
+    position: relative;
+}
+
+.frame img {
+    z-index: -50;
+    position: absolute;
+    top: -162px;
+    left: -109px;
+    height: 760px;
+    width: 910px;
+}
+
+@media (max-height: 900px) {
+    body {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 900px),
+(max-height: 750px) {
+    .frame img {
+        display: none;
+    }
+    h1 {
+        padding-bottom: unset;
+    }
 }
 
 @media only screen and (max-width: 752px) {
