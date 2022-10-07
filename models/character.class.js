@@ -10,13 +10,14 @@ class Character extends MovableObject {
     wentIdle;
     requiredSleepTime = 5000;
     currentImage = 0;
-    longSleep = false;
-    timerIsOn = false;
     offsetTop = 80;
     offsetBottom = 120;
     offsetRight = 55;
     offsetLeft = 28;
     isShocked = false;
+    isCreatingBubbleBool = false;
+    longSleep = false;
+    timerIsOn = false;
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -54,6 +55,16 @@ class Character extends MovableObject {
         'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
         'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
         'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
+    ];
+    IMAGES_BUBBLE_ATTACK_POISON = [
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/1.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/2.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/3.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/4.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/5.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/6.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
     ];
     IMAGES_FIN_SLAP = [
         'img/1.Sharkie/4.Attack/Fin slap/1.png',
@@ -117,6 +128,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_SLEEP);
         this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
         this.loadImages(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
+        this.loadImages(this.IMAGES_BUBBLE_ATTACK);
         this.animate();
     }
 
@@ -142,6 +154,10 @@ class Character extends MovableObject {
                 break;
             case this.isShocked:
                 this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
+                this.resetIdleAndSleepParameters();
+                break;
+            case this.isCreatingBubble():
+                this.playAnimationOnce(this.IMAGES_BUBBLE_ATTACK);
                 this.resetIdleAndSleepParameters();
                 break;
             case this.isSwimming():
@@ -205,16 +221,16 @@ class Character extends MovableObject {
         return this.y > -65;
     }
 
-    isAboveGround() {
-        return this.y < 320;
-    }
-
     isLongIdle() {
         return (this.wentIdle + this.requiredSleepTime < Date.now());
     }
 
     isFallingAsleep() {
         return this.currentImage < 14 && this.longSleep == false;
+    }
+
+    isCreatingBubble() {
+        return this.world.keyboard.SPACE;
     }
 
     swimRight() {
@@ -239,18 +255,6 @@ class Character extends MovableObject {
 
     playSwimmingSound() {
         this.swimming_sound.play();
-    }
-
-    applyGravity() {
-        this.y += this.speedY;
-        this.speedY += this.acceleration;
-        if (!this.isAboveGround())
-            this.resetGravity();
-    }
-
-    resetGravity() {
-        this.speedY = 0.1 / fps;
-        this.acceleration = 0.001;
     }
 
     resetIdleAndSleepParameters() {

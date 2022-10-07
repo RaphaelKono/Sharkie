@@ -11,6 +11,21 @@ class MovableObject extends DrawableObject {
     hadDied = false;
     // upDirection = false;
 
+    applyGravity() {
+        this.y += this.speedY;
+        this.speedY += this.acceleration;
+        if (!this.isAboveGround())
+            this.resetGravity();
+    }
+
+    isAboveGround() {
+        return this.y + this.offsetTop + this.height - this.offsetBottom < 450;
+    }
+
+    resetGravity() {
+        this.speedY = 0.1 / fps;
+        this.acceleration = 0.001;
+    }
 
     moveRight() {
         console.log('Moving right');
@@ -30,7 +45,7 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(imgs) {
-        this.resetForShockedAnimation();
+        this.resetForCorrectAnimation();
         this.setCurrentImage(imgs);
         if (this.isFallingAsleep())
             this.offsetTop += 1.4;
@@ -40,8 +55,8 @@ class MovableObject extends DrawableObject {
     }
 
     // There is a bug when Sharkie falls asleep (and it not asleep) and gets shocked that currentImage is bigger than the array of the electro shock animation
-    resetForShockedAnimation() {
-        if (this.currentImage > 2 && this.isShocked == true && !this.hadDied)
+    resetForCorrectAnimation() {
+        if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 7 && this.isCreatingBubbleBool == true) && !this.hadDied)
             this.currentImage = 0;
     }
 
@@ -60,6 +75,7 @@ class MovableObject extends DrawableObject {
         this.longSleep = true;
         this.currentImage = 0;
         this.isShocked = false;
+        this.isCreatingBubbleBool = false;
         if (this.hasNoHealth()) {
             this.hadDied = false;
             this.currentImage = 9;

@@ -6,6 +6,7 @@ class World {
     character = new Character();
     level = level1;
     statusBar = new StatusBar();
+    throwableObject = [new ThrowableObject()];
 
 
     constructor(canvas, keyboard) {
@@ -38,6 +39,7 @@ class World {
         this.addObjectsToMap(this.level.lights);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObject);
         this.ctx.translate(-this.camera_x, 0);
         // Space for fixed Objects:
         this.addObjectToMap(this.statusBar);
