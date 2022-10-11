@@ -6,7 +6,7 @@ class World {
     character = new Character();
     level = level1;
     statusBar = new StatusBar();
-    throwableObject = [new ThrowableObject()];
+    bubbles = [];
 
 
     constructor(canvas, keyboard) {
@@ -15,7 +15,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
     }
 
     draw() {
@@ -39,7 +39,7 @@ class World {
         this.addObjectsToMap(this.level.lights);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.throwableObject);
+        this.addObjectsToMap(this.bubbles);
         this.ctx.translate(-this.camera_x, 0);
         // Space for fixed Objects:
         this.addObjectToMap(this.statusBar);
@@ -95,15 +95,26 @@ class World {
         this.ctx.restore();
     }
 
-    checkCollisions() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth()) {
-                    this.addDamage(enemy);
-                }
-            })
-            this.statusBar.setPercentage(this.character.health);
-        }, 200);
+            this.checkCollisions();
+            this.checkBubbleAttack();
+        }, 1000 / 30);
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth()) {
+                this.addDamage(enemy);
+            }
+        })
+        this.statusBar.setPercentage(this.character.health);
+    }
+
+    checkBubbleAttack() {
+        if (this.keyboard.SPACE) {
+            this.character.isCreatingBubbleBool = true;
+        }
     }
 
     addDamage(enemy) {
@@ -117,8 +128,6 @@ class World {
                 if (this.character.health <= 0) {
                     this.character.hadDied = true;
                 }
-                // this.character.playAnimationOnce(this.character.IMAGES_ELECTRIC_SHOCK);
-                // this.character.resetIdleAndSleepParameters();
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);

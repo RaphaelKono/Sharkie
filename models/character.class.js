@@ -156,7 +156,7 @@ class Character extends MovableObject {
                 this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
                 this.resetIdleAndSleepParameters();
                 break;
-            case this.isCreatingBubble():
+            case this.isCreatingBubbleBool:
                 this.playAnimationOnce(this.IMAGES_BUBBLE_ATTACK);
                 this.resetIdleAndSleepParameters();
                 break;

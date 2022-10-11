@@ -75,11 +75,15 @@ class MovableObject extends DrawableObject {
         this.longSleep = true;
         this.currentImage = 0;
         this.isShocked = false;
-        this.isCreatingBubbleBool = false;
         if (this.hasNoHealth()) {
             this.hadDied = false;
             this.currentImage = 9;
         }
+        if (this.isCreatingBubbleBool) {
+            let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
+            this.world.bubbles.push(bubble);
+        }
+        this.isCreatingBubbleBool = false;
     }
 
     isColliding(obj) {
