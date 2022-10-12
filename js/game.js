@@ -2,6 +2,7 @@ let canvas;
 let world;
 let fps = 60;
 let keyboard = new Keyboard();
+let pause = false;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -17,3 +18,7 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
     keyEvents(false);
 });
+
+window.addEventListener('focusout', (event) => {
+    pause = true;
+})

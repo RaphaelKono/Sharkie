@@ -118,6 +118,7 @@ class Character extends MovableObject {
     ]
 
     swimming_sound = new Audio('audio/swimming.mp3');
+    electro_zap_sound = new Audio('audio/electro_zap.mp3');
 
 
     constructor() {

@@ -9,6 +9,8 @@ class ThrowableObject extends MovableObject {
 
     IMAGE_BUBBLE = ['img/1.Sharkie/4.Attack/Bubble trap/Bubble.png'];
 
+    bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
+
     constructor(x, y) {
         super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
         this.x = x;

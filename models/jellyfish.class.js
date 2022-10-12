@@ -15,6 +15,8 @@ class Jellyfish extends MovableObject {
     ];
     speed = (Math.random() * 60) / fps;
 
+    electro_zap_sound = new Audio('audio/electro_zap.mp3');
+
 
     constructor() {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');

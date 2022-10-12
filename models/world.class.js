@@ -8,6 +8,8 @@ class World {
     statusBar = new StatusBar();
     bubbles = [];
 
+    ambience_audio = new Audio('audio/ambience.mp3');
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -99,6 +101,11 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkBubbleAttack();
+            setTimeout(() => {
+                let ambience = this.ambience_audio;
+                ambience.volume = 0.4;
+                ambience.play();
+            }, 3000);
         }, 1000 / 30);
     }
 
@@ -123,11 +130,16 @@ class World {
 
                 break;
             case enemy instanceof Jellyfish:
+                enemy.electro_zap_sound.pause();
                 this.character.hit(20);
                 this.character.isShocked = true;
                 if (this.character.health <= 0) {
                     this.character.hadDied = true;
                 }
+                let shockSound = enemy.electro_zap_sound;
+                shockSound.volume = 0.5;
+                shockSound.currentTime = 0;
+                shockSound.play();
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);

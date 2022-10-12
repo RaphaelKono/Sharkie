@@ -79,18 +79,15 @@ class MovableObject extends DrawableObject {
             this.hadDied = false;
             this.currentImage = 9;
         }
-        if (this.isCreatingBubbleBool) {
-            let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
-            this.world.bubbles.push(bubble);
-        }
+        if (this.isCreatingBubbleBool)
+            this.bubbleCreationAtLastElement();
         this.isCreatingBubbleBool = false;
     }
 
     isColliding(obj) {
         return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeft && this.x + this.offsetLeft <= (obj.x + obj.offsetLeft + obj.width - obj.offsetRight) &&
             (this.y + this.offsetTop + this.height - this.offsetBottom) >= obj.y + obj.offsetTop &&
-            (this.y + this.offsetTop) <= (obj.y + obj.offsetTop + obj.height - obj.offsetBottom); // Optional &&
-        // obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+            (this.y + this.offsetTop) <= (obj.y + obj.offsetTop + obj.height - obj.offsetBottom);
     }
 
     hit(dmg) {
@@ -107,5 +104,12 @@ class MovableObject extends DrawableObject {
         let timePassed = Date.now() - this.lastHit;
         timePassed = timePassed / 1000;
         return timePassed < 1;
+    }
+
+    bubbleCreationAtLastElement() {
+        let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
+        this.world.bubbles.push(bubble);
+        bubble.bubble_create_sound.volume = 0.3;
+        bubble.bubble_create_sound.play();
     }
 }
