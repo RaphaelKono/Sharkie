@@ -9,6 +9,7 @@ class World {
     bubbles = [];
 
     ambience_audio = new Audio('audio/ambience.mp3');
+    level_music = new Audio('audio/levelMusic.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -102,9 +103,13 @@ class World {
             this.checkCollisions();
             this.checkBubbleAttack();
             setTimeout(() => {
+                let levelMusic = this.level_music;
                 let ambience = this.ambience_audio;
+                levelMusic.volume = 0.25;
+                levelMusic.muted = true;
                 ambience.volume = 0.4;
                 ambience.play();
+                levelMusic.play();
             }, 3000);
         }, 1000 / 30);
     }

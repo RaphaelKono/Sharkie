@@ -7,11 +7,17 @@ body {
     min-height: 100vh;
     font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
     color: rgb(240, 231, 197);
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 canvas {
-    z-index: 10000;
+    z-index: 0;
     background-color: black;
     display: block;
 }
@@ -24,7 +30,7 @@ h1 {
 }
 
 .bodyimage {
-    z-index: -100;
+    z-index: -2;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -41,17 +47,82 @@ h1 {
 }
 
 .frame {
-    z-index: -50;
+    z-index: -1;
     position: relative;
 }
 
-.frame img {
-    z-index: -50;
+.frame-img {
+    z-index: -1;
     position: absolute;
     top: -162px;
     left: -109px;
     height: 760px;
     width: 910px;
+}
+
+.canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    padding: 8px;
+}
+
+.top-panel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.top-panel-child {
+    display: flex;
+    gap: 30px;
+}
+
+.bottom-panel {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    border: unset;
+    background: unset;
+    object-fit: cover;
+    padding: 10px;
+}
+
+.btn img {
+    object-fit: cover;
+    height: 40px;
+    width: 40px;
+}
+
+.fin-slap {
+    object-fit: cover;
+}
+
+.fin-slap img {
+    object-fit: cover;
+    object-position: 0% 100%;
+    background-color: orange;
+    border-radius: 100%;
+    border-inline: outset;
+}
+
+.arrow-left {
+    transform: rotate(180deg);
+}
+
+.arrow-up {
+    transform: rotate(-90deg);
+}
+
+.arrow-down {
+    transform: rotate(90deg);
 }
 
 @media (max-height: 900px) {
@@ -62,7 +133,7 @@ h1 {
 
 @media (max-width: 900px),
 (max-height: 750px) {
-    .frame img {
+    .frame-img {
         display: none;
     }
     h1 {
@@ -79,6 +150,10 @@ h1 {
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
+    }
+    .btn img {
+        height: 6vw;
+        width: 6vw;
     }
 }
 
@@ -112,5 +187,18 @@ h1 {
     }
     .bodyimage img {
         display: none;
+    }
+}
+
+@media (max-width: 340px) {
+    .btn {
+        border: unset;
+        background: unset;
+        object-fit: cover;
+        padding: unset;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
     }
 }
