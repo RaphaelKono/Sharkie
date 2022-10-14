@@ -155,24 +155,30 @@ class Keyboard {
             e.preventDefault();
             this.DOWN = false;
         });
-        document.getElementById('finSlap').addEventListener('touchstart', (e) => {
+        // document.getElementById('finSlap').addEventListener('touchstart', (e) => {
+        //     e.preventDefault();
+        //     this.STRG = true;
+        // });
+        // document.getElementById('finSlap').addEventListener('touchend', (e) => {
+        //     e.preventDefault();
+        //     this.STRG = false;
+        // });
+        // document.getElementById('bubble').addEventListener('touchstart', (e) => {
+        //     e.preventDefault();
+        //     this.SPACE = true;
+        // });
+        // document.getElementById('bubble').addEventListener('touchend', (e) => {
+        //     e.preventDefault();
+        //     this.SPACE = false;
+        // });
+        document.getElementById('fullscreen').addEventListener('click', (e) => {
             e.preventDefault();
-            this.STRG = true;
+            this.toggleFullScreen();
         });
-        document.getElementById('finSlap').addEventListener('touchend', (e) => {
+        document.getElementById('speaker').addEventListener('click', (e) => {
             e.preventDefault();
-            this.STRG = false;
-        });
-        document.getElementById('bubble').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.SPACE = true;
-        });
-        document.getElementById('bubble').addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.SPACE = false;
-        });
-        document.getElementById('fullscreen').addEventListener('onclick', (e) => {
-            e.preventDefault();
+            soundIsOn = !soundIsOn;
+            document.getElementById('speaker').classList.toggle('toggleSpeaker');
         });
         document.getElementById('speaker').addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -180,21 +186,14 @@ class Keyboard {
             document.getElementById('speaker').classList.toggle('toggleSpeaker');
         });
 
+        document.getElementById('swipe').addEventListener('touchstart', e => {
+            this.touchstartX = e.changedTouches[0].screenX;
+        });
 
-        if (!this.LEFT || !this.RIGHT || !this.UP || !this.DOWN || !this.SPACE) {
-            document.addEventListener('touchstart', e => {
-                this.touchstartX = e.changedTouches[0].screenX;
-            });
-
-            document.addEventListener('touchend', e => {
-                this.touchendX = e.changedTouches[0].screenX;
-                this.checkDirection();
-            });
-        }
-
-
-        // document.addEventListener('touchstart', this.handleTouchStart, false);
-        // document.addEventListener('touchmove', this.handleTouchMove, false);
+        document.getElementById('swipe').addEventListener('touchend', e => {
+            this.touchendX = e.changedTouches[0].screenX;
+            this.checkDirection();
+        });
     }
 
     checkDirection() {
@@ -209,44 +208,25 @@ class Keyboard {
         }, 500);
     }
 
-
-    // getTouches(evt) {
-    //     return evt.touches || // browser API
-    //         evt.originalEvent.touches; // jQuery
-    // }
-
-    // handleTouchStart(evt) {
-    //     const firstTouch = this.getTouches(evt)[0];
-    //     this.xDown = firstTouch.clientX;
-    //     this.yDown = firstTouch.clientY;
-    // };
-
-    // handleTouchMove(evt) {
-    //     if (!this.xDown || !this.yDown) {
-    //         return;
-    //     }
-
-    //     let xUp = evt.touches[0].clientX;
-    //     let yUp = evt.touches[0].clientY;
-
-    //     let xDiff = this.xDown - xUp;
-    //     let yDiff = this.yDown - yUp;
-
-    //     if (Math.abs(xDiff) > Math.abs(yDiff)) { /*most significant*/
-    //         if (xDiff > 0) {
-    //             /* right swipe */
-    //         } else {
-    //             this.SPACE = true;
-    //         }
-    //     } else {
-    //         if (yDiff > 0) {
-    //             /* down swipe */
-    //         } else {
-    //             /* up swipe */
-    //         }
-    //     }
-    //     /* reset values */
-    //     this.xDown = null;
-    //     this.yDown = null;
-    // };
+    toggleFullScreen() {
+        let element = document.getElementById('canvasFrameID');
+        if (!document.fullscreenElement && // alternative standard method
+            !element.mozFullScreenElement && !element.webkitFullscreenElement) { // current working methods
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+    }
 }

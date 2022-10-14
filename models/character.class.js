@@ -119,6 +119,7 @@ class Character extends MovableObject {
 
     swimming_sound = new Audio('audio/swimming.mp3');
     electro_zap_sound = new Audio('audio/electro_zap.mp3');
+    sleeping_sound = new Audio('audio/snoring.mp3');
 
 
     constructor() {
@@ -167,6 +168,11 @@ class Character extends MovableObject {
                 break;
             case this.isLongIdle():
                 this.dozeOffAndSleep();
+                this.sleeping_sound.volume = 0.6;
+                if (soundIsOn)
+                    this.sleeping_sound.play();
+                else
+                    this.sleeping_sound.pause();
                 break;
             case !this.isSwimming():
                 this.playAnimation(this.IMAGES_IDLE);
@@ -264,6 +270,7 @@ class Character extends MovableObject {
         this.timerIsOn = false;
         this.longSleep = false;
         this.offsetTop = 80;
+        this.sleeping_sound.pause();
     }
 
     setTimer() {

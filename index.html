@@ -32,19 +32,20 @@
 <body onload="init()">
     <div class="bodyimage"><img src="img/background.jpg"></div>
     <h1>Sharkie</h1>
-    <div class="frame-container">
+    <div id="canvasFrameID" class="frame-container">
         <div class="frame">
-            <img class="frame-img" src="img/test-removebg.png">
+            <img id="frameImg" class="frame-img" src="img/test-removebg.png">
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
         <div class="canvas-container">
             <div class="top-panel">
                 <div class="top-panel-child">
                     <button id="speaker" class="btn toggleSpeaker"><img src="img/speaker-64.png"></button>
-                    <button id="fullscreen" class="btn"><img src="img/fullscreen-12-64.png"></button>
+                    <button id="fullscreen" class="btn"><img class="fullscreen-img" src="img/fullscreen-12-64.png"></button>
                 </div>
             </div>
-            <div class="bottom-panel">
+            <div id="swipe" class="swipe-panel d-none"></div>
+            <div id="bottomPanel" class="bottom-panel d-none">
                 <div class="panel-child">
                     <button id="arrowLeft" class="btn"><img class="arrow-left" src="img/arrow-28-64.png"></button>
                     <button id="arrowRight" class="btn"><img src="img/arrow-28-64.png"></button>
@@ -53,8 +54,8 @@
                 <div class="panel-child">
                     <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
                     <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
-                    <button id="finSlap" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Fin slap/5.png"></button>
-                    <button id="bubble" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Bubble trap/Bubble.png"></button>
+                    <!-- <button id="finSlap" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Fin slap/5.png"></button>
+                    <button id="bubble" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Bubble trap/Bubble.png"></button> -->
                 </div>
             </div>
         </div>
