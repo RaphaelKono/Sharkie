@@ -110,6 +110,8 @@ class MovableObject extends DrawableObject {
         let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
         this.world.bubbles.push(bubble);
         bubble.bubble_create_sound.volume = 0.3;
-        bubble.bubble_create_sound.play();
+        bubble.bubble_create_sound.currentTime = 0;
+        if (soundIsOn)
+            bubble.bubble_create_sound.play();
     }
 }

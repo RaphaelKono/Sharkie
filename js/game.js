@@ -2,6 +2,7 @@ let canvas;
 let world;
 let fps = 60;
 let keyboard;
+let soundIsOn = false;
 
 
 function init() {

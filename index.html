@@ -32,13 +32,15 @@
 <body onload="init()">
     <div class="bodyimage"><img src="img/background.jpg"></div>
     <h1>Sharkie</h1>
-    <div class="frame">
-        <img class="frame-img" src="img/test-removebg.png">
-        <canvas id="canvas" width="720" height="480"></canvas>
+    <div class="frame-container">
+        <div class="frame">
+            <img class="frame-img" src="img/test-removebg.png">
+            <canvas id="canvas" width="720" height="480"></canvas>
+        </div>
         <div class="canvas-container">
             <div class="top-panel">
                 <div class="top-panel-child">
-                    <button id="speaker" class="btn"><img src="img/speaker-64.png"></button>
+                    <button id="speaker" class="btn toggleSpeaker"><img src="img/speaker-64.png"></button>
                     <button id="fullscreen" class="btn"><img src="img/fullscreen-12-64.png"></button>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                     <button id="arrowLeft" class="btn"><img class="arrow-left" src="img/arrow-28-64.png"></button>
                     <button id="arrowRight" class="btn"><img src="img/arrow-28-64.png"></button>
                 </div>
-                <div class="panel-child"><button id="speaker" class="btn fin-slap"><img src="img/4. Marcadores/Posión/Dark - Right.png"></button></div>
+                <div class="panel-child"><button id="activatePoison" class="btn fin-slap"><img src="img/4. Marcadores/Posión/Dark - Right.png"></button></div>
                 <div class="panel-child">
                     <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
                     <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
@@ -56,7 +58,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Attributions -->

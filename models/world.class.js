@@ -102,15 +102,17 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkBubbleAttack();
-            setTimeout(() => {
-                let levelMusic = this.level_music;
-                let ambience = this.ambience_audio;
-                levelMusic.volume = 0.25;
-                levelMusic.muted = true;
-                ambience.volume = 0.4;
+            let levelMusic = this.level_music;
+            let ambience = this.ambience_audio;
+            levelMusic.volume = 0.25;
+            ambience.volume = 0.4;
+            if (soundIsOn) {
                 ambience.play();
                 levelMusic.play();
-            }, 3000);
+            } else {
+                ambience.pause();
+                levelMusic.pause();
+            }
         }, 1000 / 30);
     }
 
@@ -144,7 +146,8 @@ class World {
                 let shockSound = enemy.electro_zap_sound;
                 shockSound.volume = 0.5;
                 shockSound.currentTime = 0;
-                shockSound.play();
+                if (soundIsOn)
+                    shockSound.play();
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);

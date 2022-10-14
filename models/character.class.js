@@ -255,7 +255,8 @@ class Character extends MovableObject {
 
 
     playSwimmingSound() {
-        this.swimming_sound.play();
+        if (soundIsOn)
+            this.swimming_sound.play();
     }
 
     resetIdleAndSleepParameters() {
