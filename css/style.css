@@ -165,6 +165,7 @@ h1 {
 .toggleFullscreen {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 @media (max-height: 900px) {

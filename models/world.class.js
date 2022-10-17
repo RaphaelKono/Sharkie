@@ -8,9 +8,6 @@ class World {
     statusBar = new StatusBar();
     bubbles = [];
 
-    ambience_audio = new Audio('audio/ambience.mp3');
-    level_music = new Audio('audio/levelMusic.mp3');
-
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -102,17 +99,6 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkBubbleAttack();
-            let levelMusic = this.level_music;
-            let ambience = this.ambience_audio;
-            levelMusic.volume = 0.25;
-            ambience.volume = 0.4;
-            if (soundIsOn) {
-                ambience.play();
-                levelMusic.play();
-            } else {
-                ambience.pause();
-                levelMusic.pause();
-            }
         }, 1000 / 30);
     }
 

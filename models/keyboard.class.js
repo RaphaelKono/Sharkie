@@ -11,6 +11,7 @@ class Keyboard {
     constructor() {
         this.bindKeyPressEvents();
         this.bindBtnPressEvents();
+        this.swipeEvents();
     }
 
     bindKeyPressEvents() {
@@ -123,6 +124,22 @@ class Keyboard {
     }
 
     bindBtnPressEvents() {
+        this.btnLeft();
+        this.btnRight();
+        this.btnUp();
+        this.btnDown();
+        this.btnFullscreen();
+        // document.getElementById('bubble').addEventListener('touchstart', (e) => {
+        //     e.preventDefault();
+        //     this.SPACE = true;
+        // });
+        // document.getElementById('bubble').addEventListener('touchend', (e) => {
+        //     e.preventDefault();
+        //     this.SPACE = false;
+        // });
+    }
+
+    btnLeft() {
         document.getElementById('arrowLeft').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.LEFT = true;
@@ -131,6 +148,9 @@ class Keyboard {
             e.preventDefault();
             this.LEFT = false;
         });
+    }
+
+    btnRight() {
         document.getElementById('arrowRight').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.RIGHT = true;
@@ -139,6 +159,9 @@ class Keyboard {
             e.preventDefault();
             this.RIGHT = false;
         });
+    }
+
+    btnUp() {
         document.getElementById('arrowUp').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.UP = true;
@@ -147,6 +170,9 @@ class Keyboard {
             e.preventDefault();
             this.UP = false;
         });
+    }
+
+    btnDown() {
         document.getElementById('arrowDown').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.DOWN = true;
@@ -154,6 +180,31 @@ class Keyboard {
         document.getElementById('arrowDown').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.DOWN = false;
+        });
+    }
+
+    btnFullscreen() {
+        document.getElementById('fullscreen').addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            this.toggleFullScreen();
+        });
+        document.getElementById('fullscreen').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.toggleFullScreen();
+        });
+    }
+
+
+
+
+    swipeEvents() {
+        document.getElementById('swipe').addEventListener('touchstart', e => {
+            this.touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('swipe').addEventListener('touchend', e => {
+            this.touchendX = e.changedTouches[0].screenX;
+            this.checkDirection();
         });
         // document.getElementById('finSlap').addEventListener('touchstart', (e) => {
         //     e.preventDefault();
@@ -163,37 +214,6 @@ class Keyboard {
         //     e.preventDefault();
         //     this.STRG = false;
         // });
-        // document.getElementById('bubble').addEventListener('touchstart', (e) => {
-        //     e.preventDefault();
-        //     this.SPACE = true;
-        // });
-        // document.getElementById('bubble').addEventListener('touchend', (e) => {
-        //     e.preventDefault();
-        //     this.SPACE = false;
-        // });
-        document.getElementById('fullscreen').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleFullScreen();
-        });
-        document.getElementById('speaker').addEventListener('click', (e) => {
-            e.preventDefault();
-            soundIsOn = !soundIsOn;
-            document.getElementById('speaker').classList.toggle('toggleSpeaker');
-        });
-        document.getElementById('speaker').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            soundIsOn = !soundIsOn;
-            document.getElementById('speaker').classList.toggle('toggleSpeaker');
-        });
-
-        document.getElementById('swipe').addEventListener('touchstart', e => {
-            this.touchstartX = e.changedTouches[0].screenX;
-        });
-
-        document.getElementById('swipe').addEventListener('touchend', e => {
-            this.touchendX = e.changedTouches[0].screenX;
-            this.checkDirection();
-        });
     }
 
     checkDirection() {

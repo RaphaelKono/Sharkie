@@ -14,8 +14,8 @@ class StatusBar extends DrawableObject {
         'img/4. Marcadores/orange/100_  copia.png',
     ];
 
-    constructor(path, x) {
-        super().loadImage(path, x);
+    constructor() {
+        super().loadImage('img/4. Marcadores/orange/100_  copia.png');
         this.loadImages(this.IMAGES_HEALTH_BAR);
         this.setPercentage(100);
     }
