@@ -128,7 +128,6 @@ class Keyboard {
         this.btnRight();
         this.btnUp();
         this.btnDown();
-        this.btnFullscreen();
         // document.getElementById('bubble').addEventListener('touchstart', (e) => {
         //     e.preventDefault();
         //     this.SPACE = true;
@@ -183,19 +182,6 @@ class Keyboard {
         });
     }
 
-    btnFullscreen() {
-        document.getElementById('fullscreen').addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            this.toggleFullScreen();
-        });
-        document.getElementById('fullscreen').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.toggleFullScreen();
-        });
-    }
-
-
-
 
     swipeEvents() {
         document.getElementById('swipe').addEventListener('touchstart', e => {
@@ -223,30 +209,6 @@ class Keyboard {
         if (this.touchendX > this.touchstartX) {
             this.SPACE = true;
         }
-        setTimeout(() => {
-            this.SPACE = false;
-        }, 500);
-    }
-
-    toggleFullScreen() {
-        let element = document.getElementById('canvasFrameID');
-        if (!document.fullscreenElement && // alternative standard method
-            !element.mozFullScreenElement && !element.webkitFullscreenElement) { // current working methods
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
-        } else {
-            if (document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-            }
-        }
+        setTimeout(() => this.SPACE = false, 500);
     }
 }

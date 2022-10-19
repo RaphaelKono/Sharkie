@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
+    <script src="js/game.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -25,11 +26,10 @@
     <script src="models/endboss.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="js/keyEvents.js"></script>
-    <script src="js/game.js"></script>
     <script src="levels/level1.js"></script>
 </head>
 
-<body onload="init()">
+<body id="body" onload="init()">
     <div class="bodyimage"><img src="img/background.jpg"></div>
     <h1>Sharkie</h1>
     <div id="canvasFrameID" class="frame-container">
@@ -37,13 +37,14 @@
             <img id="frameImg" class="frame-img" src="img/test-removebg.png">
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
-        <div id="canvasContainer" class="canvas-container">
+        <div id="canvasContainer" class="canvas-container startscreen">
             <div class="top-panel">
                 <div class="top-panel-child">
-                    <button id="speaker" class="btn toggleSpeaker"><img src="img/speaker-64.png"></button>
+                    <button id="speaker" class="btn toggleSpeaker"><img class="fullscreen-img" src="img/speaker-64.png"></button>
                     <button id="fullscreen" class="btn"><img class="fullscreen-img" src="img/fullscreen-12-64.png"></button>
                 </div>
             </div>
+            <div id="midPanel" class="mid-panel"><button onclick="startGame()" id="startGame"><img src="img/6.Botones/Start/1.png"></button></div>
             <div id="swipe" class="swipe-panel d-none"></div>
             <div id="bottomPanel" class="bottom-panel d-none">
                 <div class="panel-child">
@@ -54,13 +55,14 @@
                 <div class="panel-child">
                     <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
                     <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
-                    <!-- <button id="finSlap" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Fin slap/5.png"></button>
-                    <button id="bubble" class="btn fin-slap"><img src="img/1.Sharkie/4.Attack/Bubble trap/Bubble.png"></button> -->
                 </div>
             </div>
         </div>
     </div>
-
+    <div id="rotation" class="d-none">
+        <img class="rotate-device" src="img/phone-42-128.png">
+        <h2>Please rotate device</h2>
+    </div>
     <!-- Attributions -->
 
     <!-- <a href="https://www.freepik.com/free-vector/ocean-sea-underwater-background-empty-bottom_7058927.htm#query=under%20water%20cartoon&position=10&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
