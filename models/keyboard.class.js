@@ -128,6 +128,8 @@ class Keyboard {
         this.btnRight();
         this.btnUp();
         this.btnDown();
+        // this.btnFullscreen();
+        // this.btnSpeaker();
         // document.getElementById('bubble').addEventListener('touchstart', (e) => {
         //     e.preventDefault();
         //     this.SPACE = true;
@@ -182,6 +184,28 @@ class Keyboard {
         });
     }
 
+    // btnFullscreen() {
+    //     document.getElementById('fullscreen').addEventListener('mousedown', (e) => {
+    //         e.preventDefault();
+    //         this.toggleFullScreen();
+    //     });
+    //     document.getElementById('fullscreen').addEventListener('touchend', (e) => {
+    //         e.preventDefault();
+    //         this.toggleFullScreen();
+    //     });
+    // }
+
+    // btnSpeaker() {
+    //     document.getElementById('speaker').addEventListener('mousedown', (e) => {
+    //         e.preventDefault();
+    //         this.toggleSound()
+    //     });
+    //     document.getElementById('speaker').addEventListener('touchend', (e) => {
+    //         e.preventDefault();
+    //         this.toggleSound();
+    //     });
+    // }
+
 
     swipeEvents() {
         document.getElementById('swipe').addEventListener('touchstart', e => {
@@ -211,4 +235,80 @@ class Keyboard {
         }
         setTimeout(() => this.SPACE = false, 500);
     }
+
+
+
+
+    // toggleFullScreen() {
+    //     let element = document.getElementById('canvasFrameID');
+    //     if (this.isNotOnFullscreen(element)) { // current working methods
+    //         this.openFullscreen(element);
+    //     } else {
+    //         this.closeFullscreen();
+    //     }
+    // }
+
+    // openFullscreen(element) {
+    //     if (element.requestFullscreen) {
+    //         element.requestFullscreen();
+    //     } else if (element.mozRequestFullScreen) {
+    //         element.mozRequestFullScreen();
+    //     } else if (element.webkitRequestFullscreen) {
+    //         element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    //     }
+    // }
+
+    // closeFullscreen() {
+    //     if (document.cancelFullScreen) {
+    //         document.cancelFullScreen();
+    //     } else if (document.mozCancelFullScreen) {
+    //         document.mozCancelFullScreen();
+    //     } else if (document.webkitCancelFullScreen) {
+    //         document.webkitCancelFullScreen();
+    //     }
+    // }
+
+    // isNotOnFullscreen(element) {
+    //     return !document.fullscreenElement && !element.mozFullScreenElement && !element.webkitFullscreenElement;
+    // }
+
+
+    // btnSpeaker() {
+    //     document.getElementById('speaker').addEventListener('mousedown', (e) => {
+    //         e.preventDefault();
+    //         this.toggleSound()
+    //     });
+    //     document.getElementById('speaker').addEventListener('touchend', (e) => {
+    //         e.preventDefault();
+    //         this.toggleSound();
+    //     });
+    // }
+
+    // toggleSound() {
+    //     soundIsOn = !soundIsOn;
+    //     if (soundIsOn) {
+    //         this.playBackground();
+    //     } else {
+    //         world.level_music.pause();
+    //         world.ambience_audio.pause();
+    //     }
+    //     document.getElementById('speaker').classList.toggle('toggleSpeaker');
+    // }
+
+    // /**
+    //  * I need to double check since otherwise it is toggling wrong.
+    //  */
+    // playBackground() {
+    //     world.ambience_audio.loop = true;
+    //     world.ambience_audio.volume = 0.4;
+    //     world.level_music.loop = true;
+    //     world.level_music.volume = 0.25;
+    //     if (soundIsOn) {
+    //         world.ambience_audio.play();
+    //         world.level_music.play();
+    //     } else {
+    //         world.level_music.pause();
+    //         world.ambience_audio.pause();
+    //     }
+    // }
 }

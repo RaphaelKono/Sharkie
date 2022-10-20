@@ -120,6 +120,7 @@ class Character extends MovableObject {
     swimming_sound = new Audio('audio/swimming.mp3');
     electro_zap_sound = new Audio('audio/electro_zap.mp3');
     sleeping_sound = new Audio('audio/snoring.mp3');
+    bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
 
 
     constructor() {
@@ -140,7 +141,6 @@ class Character extends MovableObject {
     }
 
     setSwimTranslation() {
-        this.swimming_sound.pause();
         if (this.isSwimming())
             this.swim();
         else if (this.isAboveGround() && this.isLongIdle())
@@ -155,6 +155,12 @@ class Character extends MovableObject {
                     this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
                 break;
             case this.isShocked:
+                let shockSound = this.electro_zap_sound;
+                shockSound.volume = 0.1;
+                // shockSound.currentTime = 0;
+                if (soundIsOn)
+                    shockSound.play();
+
                 this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
                 this.resetIdleAndSleepParameters();
                 break;
@@ -179,6 +185,7 @@ class Character extends MovableObject {
                 if (this.timerIsOn == false) {
                     this.setTimer();
                 }
+                this.swimming_sound.pause();
                 break;
         }
     }

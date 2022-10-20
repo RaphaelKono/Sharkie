@@ -11,6 +11,8 @@ class MovableObject extends DrawableObject {
     hadDied = false;
     // upDirection = false;
 
+    // bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
+
     applyGravity() {
         this.y += this.speedY;
         this.speedY += this.acceleration;
@@ -109,9 +111,9 @@ class MovableObject extends DrawableObject {
     bubbleCreationAtLastElement() {
         let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
         this.world.bubbles.push(bubble);
-        bubble.bubble_create_sound.volume = 0.3;
-        bubble.bubble_create_sound.currentTime = 0;
-        if (soundIsOn)
-            bubble.bubble_create_sound.play();
+        // this.bubble_create_sound.volume = 0.3;
+        // // this.bubble_create_sound.currentTime = 0;
+        // if (soundIsOn)
+        //     this.bubble_create_sound.play();
     }
 }

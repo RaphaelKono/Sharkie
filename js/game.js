@@ -5,10 +5,10 @@ let keyboard;
 let soundIsOn = false;
 let ambience_audio = new Audio('audio/ambience.mp3');
 ambience_audio.loop = true;
-ambience_audio.volume = 0.4;
+ambience_audio.volume = 0.05;
 let level_music = new Audio('audio/levelMusic.mp3');
 level_music.loop = true;
-level_music.volume = 0.25;
+level_music.volume = 0.05;
 
 function init() {
     initListeners();
@@ -18,6 +18,8 @@ function startGame() {
     canvas = document.getElementById('canvas');
     document.getElementById('canvasContainer').classList.remove('startscreen');
     document.getElementById('midPanel').classList.add('d-none');
+    document.getElementById('speaker').classList.remove('d-none');
+    document.getElementById('fullscreen').classList.remove('d-none');
     keyboard = new Keyboard();
     world = new World(canvas, keyboard);
     checkMobile();
@@ -36,6 +38,7 @@ function checkMobile() {
 function initListeners() {
     btnSpeaker();
     btnFullscreen();
+    // btnStartGame();
 }
 
 function btnFullscreen() {
@@ -96,7 +99,7 @@ window.addEventListener('fullscreenchange', (e) => {
 function btnSpeaker() {
     document.getElementById('speaker').addEventListener('mousedown', (e) => {
         e.preventDefault();
-        toggleSound()
+        toggleSound();
     });
     document.getElementById('speaker').addEventListener('touchend', (e) => {
         e.preventDefault();
@@ -130,4 +133,15 @@ function playBackground() {
 
 function isOnMobile() {
     return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+function btnStartGame() {
+    document.getElementById('startGame').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startGame();
+    });
+    document.getElementById('startGame').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        startGame();
+    });
 }

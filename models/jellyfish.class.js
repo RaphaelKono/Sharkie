@@ -15,7 +15,7 @@ class Jellyfish extends MovableObject {
     ];
     speed = (Math.random() * 60) / fps;
 
-    electro_zap_sound = new Audio('audio/electro_zap.mp3');
+    // electro_zap_sound = new Audio('audio/electro_zap.mp3');
 
 
     constructor() {
