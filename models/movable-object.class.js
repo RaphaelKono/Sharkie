@@ -2,6 +2,7 @@ class MovableObject extends DrawableObject {
     currentLoopImage = 0;
     speed;
     speedY;
+    acceleration;
     leftDirection = false;
     offsetTop = 0;
     offsetBottom = 0;
@@ -109,11 +110,19 @@ class MovableObject extends DrawableObject {
     }
 
     bubbleCreationAtLastElement() {
-        let bubble = new ThrowableObject(this.x + this.width + this.offsetLeft - this.offsetRight, this.y + this.height / 2 + 5);
+        let bubble = new ThrowableObject(this.bubbleX(), this.bubbleY());
         this.world.bubbles.push(bubble);
+        bubbleId++;
         // this.bubble_create_sound.volume = 0.3;
         // // this.bubble_create_sound.currentTime = 0;
         // if (soundIsOn)
         //     this.bubble_create_sound.play();
+    }
+
+    bubbleX() {
+        return this.x + this.width + this.offsetLeft - this.offsetRight;
+    }
+    bubbleY() {
+        return this.y + this.height / 2 + 5;
     }
 }

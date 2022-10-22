@@ -9,7 +9,7 @@ class ThrowableObject extends MovableObject {
 
     IMAGE_BUBBLE = ['img/1.Sharkie/4.Attack/Bubble trap/Bubble.png'];
 
-    // bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
+    // bubble_create_sound = new Audio('audio/bubbleCreated.mp3'); For some reason it is necessary for iPhone to have the audio-object in character.class.js
 
     constructor(x, y) {
         super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');

@@ -103,11 +103,27 @@ class World {
     }
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth()) {
-                this.addDamage(enemy);
+        this.level.enemies.forEach((enemy, i) => {
+            if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive) {
+                this.addDamageToCharacter(enemy);
             }
-        })
+            if (enemy.y + enemy.height * 3 / 4 <= 0) {
+                this.level.enemies.splice(i, 1);
+            }
+            this.bubbles.forEach((bubble, j) => {
+                if (enemy.isColliding(bubble)) {
+                    this.addDamageToEnemy(enemy);
+                    this.bubbles.splice(j, 1);
+                }
+            });
+        });
+        this.bubbles.forEach((bubble, k) => {
+            if (bubble.y + bubble.height * 3 / 4 <= 0) {
+                this.bubbles.splice(k, 1);
+            }
+        });
+
+
         this.statusBar.setPercentage(this.character.health);
     }
 
@@ -117,10 +133,9 @@ class World {
         }
     }
 
-    addDamage(enemy) {
+    addDamageToCharacter(enemy) {
         switch (true) {
             case this instanceof Character:
-
                 break;
             case enemy instanceof Jellyfish:
                 this.character.electro_zap_sound.currentTime = 0;
@@ -137,6 +152,17 @@ class World {
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);
+                break;
+        }
+    }
+
+    addDamageToEnemy(enemy) {
+        switch (true) {
+            case enemy instanceof Jellyfish:
+                enemy.isAlive = false;
+                break;
+
+            default:
                 break;
         }
     }
