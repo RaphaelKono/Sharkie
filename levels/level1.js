@@ -6,6 +6,7 @@ const level1 = new LevelObject(
         new YellowJellyfish(),
         new GreenJellyfish(),
         new PinkJellyfish(),
+        new Pufferfish(),
         new Endboss()
     ], [
         new Light('img/3. Background/Layers/1. Light/2.png', -720),

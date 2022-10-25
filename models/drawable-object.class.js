@@ -25,7 +25,7 @@ class DrawableObject {
     }
 
     drawRect(ctx) {
-        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss || this instanceof Pufferfish) {
             ctx.beginPath();
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'red';
