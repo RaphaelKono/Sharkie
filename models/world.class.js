@@ -135,20 +135,13 @@ class World {
 
     addDamageToCharacter(enemy) {
         switch (true) {
-            case this instanceof Character:
-                break;
             case enemy instanceof Jellyfish:
                 this.character.electro_zap_sound.currentTime = 0;
-                this.character.hit(20);
+                this.character.hit(enemy.attack);
                 this.character.isShocked = true;
                 if (this.character.health <= 0) {
                     this.character.hadDied = true;
                 }
-                // let shockSound = enemy.electro_zap_sound;
-                // shockSound.volume = 0.1;
-                // shockSound.currentTime = 0;
-                // if (soundIsOn)
-                //     shockSound.play();
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);

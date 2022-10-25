@@ -9,7 +9,6 @@ ambience_audio.volume = 0.05;
 let level_music = new Audio('audio/levelMusic.mp3');
 level_music.loop = true;
 level_music.volume = 0.05;
-let bubbleId = 0;
 
 function init() {
     initListeners();

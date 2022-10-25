@@ -12,7 +12,6 @@ class MovableObject extends DrawableObject {
     hadDied = false;
     // upDirection = false;
 
-    // bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
 
     applyGravity() {
         this.y += this.speedY;
@@ -57,7 +56,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // There is a bug when Sharkie falls asleep (and it not asleep) and gets shocked that currentImage is bigger than the array of the electro shock animation
+    // There is a bug when Sharkie gets shocked while being in the once animated falling-asleep animation. It becomes possible that currentImage is bigger than the array of the electro shock animation.
     resetForCorrectAnimation() {
         if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 7 && this.isCreatingBubbleBool == true) && !this.hadDied)
             this.currentImage = 0;
@@ -77,14 +76,15 @@ class MovableObject extends DrawableObject {
     setParametersDoStopLoop() {
         this.longSleep = true;
         this.currentImage = 0;
+        if (this.isCreatingBubbleBool && !this.isShocked)
+            this.bubbleCreationAtLastElement();
+        this.isCreatingBubbleBool = false;
         this.isShocked = false;
         if (this.hasNoHealth()) {
             this.hadDied = false;
             this.currentImage = 9;
         }
-        if (this.isCreatingBubbleBool)
-            this.bubbleCreationAtLastElement();
-        this.isCreatingBubbleBool = false;
+
     }
 
     isColliding(obj) {
@@ -112,11 +112,6 @@ class MovableObject extends DrawableObject {
     bubbleCreationAtLastElement() {
         let bubble = new ThrowableObject(this.bubbleX(), this.bubbleY());
         this.world.bubbles.push(bubble);
-        bubbleId++;
-        // this.bubble_create_sound.volume = 0.3;
-        // // this.bubble_create_sound.currentTime = 0;
-        // if (soundIsOn)
-        //     this.bubble_create_sound.play();
     }
 
     bubbleX() {
