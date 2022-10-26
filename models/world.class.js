@@ -103,28 +103,62 @@ class World {
     }
 
     checkCollisions() {
+        this.checkEnemiesCollision();
+        this.checkBubblesOutOfMap();
+
+        this.statusBar.setPercentage(this.character.health);
+    }
+
+    checkEnemiesCollision() {
         this.level.enemies.forEach((enemy, i) => {
-            if (this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive) {
+            if ((enemy instanceof Pufferfish) && this.character.isNearby(enemy))
+                this.pufferfishBlowUp(enemy);
+            if (this.isCollisionValid(enemy))
                 this.addDamageToCharacter(enemy);
-            }
-            if (enemy.y + enemy.height * 3 / 4 <= 0) {
+            if (this.isEnemyOutOfMap(enemy)) {
                 this.level.enemies.splice(i, 1);
             }
-            this.bubbles.forEach((bubble, j) => {
-                if (enemy.isColliding(bubble)) {
-                    this.addDamageToEnemy(enemy);
-                    this.bubbles.splice(j, 1);
-                }
-            });
+            this.checkEnemyCollisionWithBubble(enemy);
         });
+    }
+
+    checkBubblesOutOfMap() {
         this.bubbles.forEach((bubble, k) => {
             if (bubble.y + bubble.height * 3 / 4 <= 0) {
                 this.bubbles.splice(k, 1);
             }
         });
+    }
 
+    isCollisionValid(enemy) {
+        return this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive;
+    }
 
-        this.statusBar.setPercentage(this.character.health);
+    isEnemyOutOfMap(enemy) {
+        return enemy.y + enemy.height * 3 / 4 <= 0 || enemy.x <= -720;
+    }
+
+    pufferfishBlowUp(enemy) {
+        if (!enemy.isBlowingUp && !enemy.isBlownUp) {
+            enemy.isBlowingUp = true;
+            enemy.offsetTopNearby = 0;
+            enemy.offsetBottomNearby = 0;
+            enemy.offsetRightNearby = 10;
+            enemy.offsetLeftNearby = 0;
+            enemy.offsetTop = 0;
+            enemy.offsetBottom = 0;
+            enemy.offsetRight = 10;
+            enemy.offsetLeft = 0;
+        }
+    }
+
+    checkEnemyCollisionWithBubble(enemy) {
+        this.bubbles.forEach((bubble, j) => {
+            if (enemy.isColliding(bubble)) {
+                this.addDamageToEnemy(enemy);
+                this.bubbles.splice(j, 1);
+            }
+        });
     }
 
     checkBubbleAttack() {
@@ -140,15 +174,22 @@ class World {
                 this.character.hit(enemy.attack);
                 this.character.isShocked = true;
                 if (this.character.health <= 0) {
-                    this.character.hadDied = true;
+                    this.character.DeadByShock = true;
                 }
                 break;
             case enemy instanceof Pufferfish:
-                enemy.isBlowingUp = true;
-                // enemy.isBlownUp = true;
+                this.character.hit(enemy.attack);
+                this.character.isPoisoned = true;
+                if (this.character.health <= 0) {
+                    this.character.DeadByPoison = true;
+                }
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);
+                this.character.isPoisoned = true;
+                if (this.character.health <= 0) {
+                    this.character.DeadByPoison = true;
+                }
                 break;
         }
     }

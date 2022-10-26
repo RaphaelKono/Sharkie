@@ -9,7 +9,8 @@ class MovableObject extends DrawableObject {
     offsetRight = 0;
     offsetLeft = 0;
     lastHit = 0;
-    hadDied = false;
+    DeadByPoison = false;
+    DeadByShock = false;
     // upDirection = false;
 
 
@@ -47,32 +48,18 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(imgs) {
-        if (this instanceof Character) {
-            this.resetForCorrectAnimation();
-            this.setCurrentImage(imgs);
-            if (this.isFallingAsleep())
-                this.offsetTop += 1.4;
-            if (this.isAtLastElement(imgs.length)) {
-                this.setParametersDoStopLoop();
-            }
-        }
-
-        if (this instanceof Pufferfish) {
-            this.singleAnimationOfPufferfish(imgs);
-        }
-    }
-
-    singleAnimationOfPufferfish(imgs) {
+        this.resetForCorrectAnimation();
         this.setCurrentImage(imgs);
+        if (this.isFallingAsleep())
+            this.offsetTop += 1.4;
         if (this.isAtLastElement(imgs.length)) {
-            this.isBlownUp = true;
-            this.isBlowingUp = false;
+            this.setParametersDoStopLoop(imgs.length);
         }
     }
 
     // There is a bug when Sharkie gets shocked while being in the once animated falling-asleep animation. It becomes possible that currentImage is bigger than the array of the electro shock animation.
     resetForCorrectAnimation() {
-        if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 7 && this.isCreatingBubbleBool == true) && !this.hadDied)
+        if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 5 && this.isPoisoned || this.currentImage > 7 && this.isCreatingBubbleBool == true) && !this.DeadByShock && !this.DeadByPoison)
             this.currentImage = 0;
     }
 
@@ -84,27 +71,34 @@ class MovableObject extends DrawableObject {
     }
 
     isAtLastElement(arr_length) {
-        return this.currentImage == (arr_length - 1);
+        return this.currentImage == (arr_length);
     }
 
-    setParametersDoStopLoop() {
+    setParametersDoStopLoop(IMG_length) {
         this.longSleep = true;
         this.currentImage = 0;
         if (this.isCreatingBubbleBool && !this.isShocked)
             this.bubbleCreationAtLastElement();
         this.isCreatingBubbleBool = false;
         this.isShocked = false;
+        this.isPoisoned = false;
         if (this.hasNoHealth()) {
-            this.hadDied = false;
-            this.currentImage = 9;
+            this.DeadByShock = false;
+            this.DeadByPoison = false;
+            this.currentImage = IMG_length;
         }
-
     }
 
     isColliding(obj) {
         return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeft && this.x + this.offsetLeft <= (obj.x + obj.offsetLeft + obj.width - obj.offsetRight) &&
             (this.y + this.offsetTop + this.height - this.offsetBottom) >= obj.y + obj.offsetTop &&
             (this.y + this.offsetTop) <= (obj.y + obj.offsetTop + obj.height - obj.offsetBottom);
+    }
+
+    isNearby(obj) {
+        return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeftNearby && this.x + this.offsetLeft <= (obj.x + obj.offsetLeftNearby + obj.width - obj.offsetRightNearby) &&
+            (this.y + this.offsetTop + this.height - this.offsetBottom) >= obj.y + obj.offsetTopNearby &&
+            (this.y + this.offsetTop) <= (obj.y + obj.offsetTopNearby + obj.height - obj.offsetBottomNearby);
     }
 
     hit(dmg) {
@@ -119,7 +113,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = Date.now() - this.lastHit;
-        timePassed = timePassed / 1000;
+        timePassed = timePassed / 1100;
         return timePassed < 1;
     }
 

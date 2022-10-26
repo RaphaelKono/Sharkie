@@ -14,10 +14,13 @@ class Character extends MovableObject {
     offsetBottom = 120;
     offsetRight = 55;
     offsetLeft = 28;
+
     isShocked = false;
     isCreatingBubbleBool = false;
     longSleep = false;
     timerIsOn = false;
+    isPoisoned = false;
+
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
         'img/1.Sharkie/1.IDLE/2.png',
@@ -115,7 +118,30 @@ class Character extends MovableObject {
         'img/1.Sharkie/6.dead/2.Electro_shock/8.png',
         'img/1.Sharkie/6.dead/2.Electro_shock/9.png',
         'img/1.Sharkie/6.dead/2.Electro_shock/10.png'
-    ]
+    ];
+
+    IMAGES_POISONED = [
+        'img/1.Sharkie/5.Hurt/1.Poisoned/1.png',
+        'img/1.Sharkie/5.Hurt/1.Poisoned/2.png',
+        'img/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+        'img/1.Sharkie/5.Hurt/1.Poisoned/4.png',
+        'img/1.Sharkie/5.Hurt/1.Poisoned/5.png'
+    ];
+
+    IMAGES_DEAD_BY_POISON = [
+        'img/1.Sharkie/6.dead/1.Poisoned/1.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/2.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/3.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/4.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/5.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/6.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/7.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/8.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/9.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/10.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/11.png',
+        'img/1.Sharkie/6.dead/1.Poisoned/12.png'
+    ];
 
     swimming_sound = new Audio('audio/swimming.mp3');
     electro_zap_sound = new Audio('audio/electro_zap.mp3');
@@ -132,6 +158,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
         this.loadImages(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
         this.loadImages(this.IMAGES_BUBBLE_ATTACK);
+        this.loadImages(this.IMAGES_POISONED);
+        this.loadImages(this.IMAGES_DEAD_BY_POISON);
         this.animate();
     }
 
@@ -145,22 +173,29 @@ class Character extends MovableObject {
             this.swim();
         else if (this.isAboveGround() && this.isLongIdle())
             this.applyGravity();
+        else if (this.hasNoHealth())
+            this.applyGravity();
         this.world.camera_x = -this.x + 100;
     }
 
     setImageAnimation() {
         switch (true) {
             case this.hasNoHealth():
-                if (this.hadDied)
+                if (this.DeadByShock)
                     this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
+                if (this.DeadByPoison) {
+                    this.playAnimationOnce(this.IMAGES_DEAD_BY_POISON);
+                }
+                break;
+            case this.isPoisoned:
+                this.playAnimationOnce(this.IMAGES_POISONED);
+                this.resetIdleAndSleepParameters();
                 break;
             case this.isShocked:
                 let shockSound = this.electro_zap_sound;
                 shockSound.volume = 0.1;
-                // shockSound.currentTime = 0;
                 if (soundIsOn)
                     shockSound.play();
-
                 this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
                 this.resetIdleAndSleepParameters();
                 break;
@@ -182,7 +217,7 @@ class Character extends MovableObject {
                 break;
             case !this.isSwimming():
                 this.playAnimation(this.IMAGES_IDLE);
-                if (this.timerIsOn == false) {
+                if (this.timerIsOn == false && !this.hasNoHealth()) {
                     this.setTimer();
                 }
                 this.swimming_sound.pause();
@@ -236,7 +271,7 @@ class Character extends MovableObject {
     }
 
     isLongIdle() {
-        return (this.wentIdle + this.requiredSleepTime < Date.now());
+        return (this.wentIdle + this.requiredSleepTime < Date.now() && !this.hasNoHealth());
     }
 
     isFallingAsleep() {

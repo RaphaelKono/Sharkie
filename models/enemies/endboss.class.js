@@ -7,6 +7,7 @@ class Endboss extends MovableObject {
     offsetBottom = 200;
     offsetRight = 40;
     offsetLeft = 15;
+    isAlive = true;
     IMAGES_SWIM = [
         'img/2.Enemy/3 Final Enemy/2.floating/1.png',
         'img/2.Enemy/3 Final Enemy/2.floating/2.png',
