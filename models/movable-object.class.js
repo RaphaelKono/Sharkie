@@ -47,12 +47,26 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(imgs) {
-        this.resetForCorrectAnimation();
+        if (this instanceof Character) {
+            this.resetForCorrectAnimation();
+            this.setCurrentImage(imgs);
+            if (this.isFallingAsleep())
+                this.offsetTop += 1.4;
+            if (this.isAtLastElement(imgs.length)) {
+                this.setParametersDoStopLoop();
+            }
+        }
+
+        if (this instanceof Pufferfish) {
+            this.singleAnimationOfPufferfish(imgs);
+        }
+    }
+
+    singleAnimationOfPufferfish(imgs) {
         this.setCurrentImage(imgs);
-        if (this.isFallingAsleep())
-            this.offsetTop += 1.4;
         if (this.isAtLastElement(imgs.length)) {
-            this.setParametersDoStopLoop();
+            this.isBlownUp = true;
+            this.isBlowingUp = false;
         }
     }
 

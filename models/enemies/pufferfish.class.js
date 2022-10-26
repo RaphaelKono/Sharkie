@@ -3,15 +3,18 @@ class Pufferfish extends MovableObject {
     y = Math.random() * (420 - 30);
     height = 198 / 4;
     width = 241 / 4;
-    offsetTop = 3;
-    offsetBottom = 15;
-    offsetRight = 7;
-    offsetLeft = 0;
+    offsetTop = -100;
+    offsetBottom = -200;
+    offsetRight = -300;
+    offsetLeft = -150;
     isAlive = true;
     speedY = -1;
     acceleration = -0.01;
     speed = (Math.random() * 60) / fps;
     attack = 20;
+    isBlownUp = false;
+    isBlowingUp = false;
+    currentImage = 0;
 
     IMAGES_SWIM = [
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png',
@@ -63,6 +66,16 @@ class Pufferfish extends MovableObject {
         switch (true) {
             case !this.isAlive:
                 this.playAnimation(this.IMAGES_DEAD);
+                break;
+            case this.isBlowingUp:
+                this.playAnimationOnce(this.IMAGES_TRANSITION);
+                break;
+            case this.isBlownUp:
+                this.playAnimation(this.IMAGES_BUBBLESWIM);
+                this.offsetTop = 0;
+                this.offsetBottom = 0;
+                this.offsetRight = 10;
+                this.offsetLeft = 0;
                 break;
             case this.isAlive:
                 this.playAnimation(this.IMAGES_SWIM);

@@ -143,6 +143,10 @@ class World {
                     this.character.hadDied = true;
                 }
                 break;
+            case enemy instanceof Pufferfish:
+                enemy.isBlowingUp = true;
+                // enemy.isBlownUp = true;
+                break;
             case enemy instanceof Endboss:
                 this.character.hit(40);
                 break;
