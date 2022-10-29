@@ -99,6 +99,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkBubbleAttack();
+            this.checkFinSlap();
         }, 1000 / 30);
     }
 
@@ -113,9 +114,16 @@ class World {
         this.level.enemies.forEach((enemy, i) => {
             if ((enemy instanceof Pufferfish) && this.character.isNearby(enemy))
                 this.pufferfishBlowUp(enemy);
-            if (this.isCollisionValid(enemy))
+            if (this.isCollisionValid(enemy)) {
                 this.addDamageToCharacter(enemy);
+                if (this.character.isSlapping && enemy instanceof Pufferfish) {
+                    this.addDamageToEnemy(enemy);
+                }
+            }
             if (this.isEnemyOutOfMap(enemy)) {
+                if (enemy instanceof Pufferfish && !enemy.isAlive) {
+                    this.dropLoot();
+                }
                 this.level.enemies.splice(i, 1);
             }
             this.checkEnemyCollisionWithBubble(enemy);
@@ -135,7 +143,7 @@ class World {
     }
 
     isEnemyOutOfMap(enemy) {
-        return enemy.y + enemy.height * 3 / 4 <= 0 || enemy.x <= -720;
+        return enemy.y + enemy.height * 3 / 4 <= 0 || enemy.x <= -720 || !enemy.isAboveGround();
     }
 
     pufferfishBlowUp(enemy) {
@@ -154,7 +162,7 @@ class World {
 
     checkEnemyCollisionWithBubble(enemy) {
         this.bubbles.forEach((bubble, j) => {
-            if (enemy.isColliding(bubble)) {
+            if (enemy.isColliding(bubble) && enemy instanceof Jellyfish) {
                 this.addDamageToEnemy(enemy);
                 this.bubbles.splice(j, 1);
             }
@@ -163,7 +171,22 @@ class World {
 
     checkBubbleAttack() {
         if (this.keyboard.SPACE) {
+            if (this.character.isSlapping) {
+                this.character.isSlapping = false;
+                this.character.currentImage = 0;
+            }
             this.character.isCreatingBubbleBool = true;
+        }
+    }
+
+    checkFinSlap() {
+        if (this.keyboard.SHIFT && !this.character.isShocked && !this.character.isPoisoned) {
+            if (this.character.isCreatingBubbleBool) {
+                this.character.isCreatingBubbleBool = false;
+                this.character.currentImage = 0;
+            }
+            this.character.isSlapping = true;
+            this.character.isCreatingBubbleBool = false;
         }
     }
 
@@ -176,17 +199,21 @@ class World {
                 if (this.character.health <= 0) {
                     this.character.DeadByShock = true;
                 }
+                this.character.isSlapping = false;
                 break;
             case enemy instanceof Pufferfish:
-                this.character.hit(enemy.attack);
-                this.character.isPoisoned = true;
-                if (this.character.health <= 0) {
-                    this.character.DeadByPoison = true;
+                if (!this.character.isSlapping) {
+                    this.character.hit(enemy.attack);
+                    this.character.isPoisoned = true;
+                    if (this.character.health <= 0) {
+                        this.character.DeadByPoison = true;
+                    }
                 }
                 break;
             case enemy instanceof Endboss:
                 this.character.hit(40);
                 this.character.isPoisoned = true;
+                this.character.isSlapping = false;
                 if (this.character.health <= 0) {
                     this.character.DeadByPoison = true;
                 }
@@ -199,9 +226,15 @@ class World {
             case enemy instanceof Jellyfish:
                 enemy.isAlive = false;
                 break;
-
+            case enemy instanceof Pufferfish:
+                enemy.isAlive = false;
+                break;
             default:
                 break;
         }
+    }
+
+    dropLoot() {
+        console.log('dropped poison');
     }
 }

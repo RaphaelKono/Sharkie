@@ -20,6 +20,7 @@ class Character extends MovableObject {
     longSleep = false;
     timerIsOn = false;
     isPoisoned = false;
+    isSlapping = false;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -160,8 +161,10 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_BUBBLE_ATTACK);
         this.loadImages(this.IMAGES_POISONED);
         this.loadImages(this.IMAGES_DEAD_BY_POISON);
+        this.loadImages(this.IMAGES_FIN_SLAP);
         this.animate();
     }
+
 
     animate() {
         setInterval(() => this.setSwimTranslation(), 1000 / fps);
@@ -186,6 +189,10 @@ class Character extends MovableObject {
                 if (this.DeadByPoison) {
                     this.playAnimationOnce(this.IMAGES_DEAD_BY_POISON);
                 }
+                break;
+            case this.isSlapping:
+                this.playAnimationOnce(this.IMAGES_FIN_SLAP);
+                this.resetIdleAndSleepParameters();
                 break;
             case this.isPoisoned:
                 this.playAnimationOnce(this.IMAGES_POISONED);

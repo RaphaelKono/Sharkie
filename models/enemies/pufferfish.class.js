@@ -12,8 +12,7 @@ class Pufferfish extends MovableObject {
     offsetRightNearby = -300;
     offsetLeftNearby = -150;
     isAlive = true;
-    speedY = -1;
-    acceleration = -0.01;
+    speedY = 3;
     speed = (Math.random() * 60) / fps;
     attack = 20;
     isBlownUp = false;
@@ -69,7 +68,7 @@ class Pufferfish extends MovableObject {
     setPufferfishAnimation() {
         switch (true) {
             case !this.isAlive:
-                this.playAnimation(this.IMAGES_DEAD);
+                this.singleAnimationOfPufferfish(this.IMAGES_DEAD);
                 break;
             case this.isBlowingUp:
                 this.singleAnimationOfPufferfish(this.IMAGES_TRANSITION);
@@ -84,10 +83,16 @@ class Pufferfish extends MovableObject {
     }
 
     singleAnimationOfPufferfish(imgs) {
+        if (this.currentImage >= imgs.length) {
+            this.currentImage = 0;
+        }
         this.setCurrentImage(imgs);
         if (this.isAtLastElement(imgs.length)) {
             this.isBlownUp = true;
             this.isBlowingUp = false;
+            if (!this.isAlive) {
+                this.currentImage = 2;
+            }
         }
     }
 
@@ -95,7 +100,14 @@ class Pufferfish extends MovableObject {
         if (this.isAlive) {
             this.x -= this.speed;
         } else {
-            this.applyGravity();
+            this.deathSlap();
+        }
+    }
+
+    deathSlap() {
+        if (this.isAboveGround()) {
+            this.y += this.speedY;
+            this.x -= 3;
         }
     }
 }

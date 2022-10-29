@@ -48,18 +48,20 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(imgs) {
-        this.resetForCorrectAnimation();
+        this.resetForCorrectAnimation(imgs.length);
         this.setCurrentImage(imgs);
         if (this.isFallingAsleep())
             this.offsetTop += 1.4;
+        if (this.DeadByPoison)
+            this.offsetTop -= 4;
         if (this.isAtLastElement(imgs.length)) {
             this.setParametersDoStopLoop(imgs.length);
         }
     }
 
     // There is a bug when Sharkie gets shocked while being in the once animated falling-asleep animation. It becomes possible that currentImage is bigger than the array of the electro shock animation.
-    resetForCorrectAnimation() {
-        if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 5 && this.isPoisoned || this.currentImage > 7 && this.isCreatingBubbleBool == true) && !this.DeadByShock && !this.DeadByPoison)
+    resetForCorrectAnimation(arr_length) {
+        if ((this.currentImage > 2 && this.isShocked == true || this.currentImage > 5 && this.isPoisoned || this.currentImage > 7 && this.isCreatingBubbleBool == true || this.currentImage >= arr_length) && !this.DeadByShock && !this.DeadByPoison)
             this.currentImage = 0;
     }
 
@@ -77,11 +79,12 @@ class MovableObject extends DrawableObject {
     setParametersDoStopLoop(IMG_length) {
         this.longSleep = true;
         this.currentImage = 0;
-        if (this.isCreatingBubbleBool && !this.isShocked)
+        if (this.isCreatingBubbleBool && !this.isShocked && !this.isPoisoned)
             this.bubbleCreationAtLastElement();
         this.isCreatingBubbleBool = false;
         this.isShocked = false;
         this.isPoisoned = false;
+        this.isSlapping = false;
         if (this.hasNoHealth()) {
             this.DeadByShock = false;
             this.DeadByPoison = false;

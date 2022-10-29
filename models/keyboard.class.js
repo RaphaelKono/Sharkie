@@ -4,7 +4,7 @@ class Keyboard {
     UP = false;
     DOWN = false;
     SPACE = false;
-    STRG = false;
+    SHIFT = false;
     touchstartX = 0;
     touchendX = 0;
 
@@ -30,6 +30,7 @@ class Keyboard {
         this.eventUp(bool, key);
         this.eventDown(bool, key);
         this.eventSpace(bool, key);
+        this.eventSHIFT(bool, key)
     }
 
     eventRight(bool, key) {
@@ -55,6 +56,12 @@ class Keyboard {
     eventSpace(bool, key) {
         if (this.eventIsSpace(key))
             this.SPACE = bool;
+    }
+
+    eventSHIFT(bool, key) {
+        if (this.eventIsSHIFT(key)) {
+            this.SHIFT = bool;
+        }
     }
 
 
@@ -121,6 +128,10 @@ class Keyboard {
 
     keyCodeIsSpace(key) {
         return key == 32;
+    }
+
+    eventIsSHIFT(key) {
+        return key == 16;
     }
 
     bindBtnPressEvents() {
@@ -211,24 +222,22 @@ class Keyboard {
         document.getElementById('swipe').addEventListener('touchstart', e => {
             this.touchstartX = e.changedTouches[0].screenX;
         });
-
         document.getElementById('swipe').addEventListener('touchend', e => {
             this.touchendX = e.changedTouches[0].screenX;
             this.checkDirection();
         });
-        // document.getElementById('finSlap').addEventListener('touchstart', (e) => {
-        //     e.preventDefault();
-        //     this.STRG = true;
-        // });
-        // document.getElementById('finSlap').addEventListener('touchend', (e) => {
-        //     e.preventDefault();
-        //     this.STRG = false;
-        // });
+        document.getElementById('swipe').addEventListener('touchstart', e => {
+            this.touchstartX = e.changedTouches[0].screenX;
+        });
+        document.getElementById('swipe').addEventListener('touchend', e => {
+            this.touchendX = e.changedTouches[0].screenX;
+            this.checkDirection();
+        });
     }
 
     checkDirection() {
         if (this.touchendX < this.touchstartX) {
-            this.SPACE = true;
+            this.SHIFT = true;
         }
         if (this.touchendX > this.touchstartX) {
             this.SPACE = true;
