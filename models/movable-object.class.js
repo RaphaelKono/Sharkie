@@ -1,14 +1,15 @@
 class MovableObject extends DrawableObject {
-    currentLoopImage = 0;
     speed;
     speedY;
     acceleration;
-    leftDirection = false;
     offsetTop = 0;
     offsetBottom = 0;
     offsetRight = 0;
     offsetLeft = 0;
     lastHit = 0;
+    health = 100;
+
+    leftDirection = false;
     DeadByPoison = false;
     DeadByShock = false;
     // upDirection = false;
@@ -38,13 +39,6 @@ class MovableObject extends DrawableObject {
         setInterval(() => {
             this.x -= this.speed;
         }, 1000 / fps);
-    }
-
-    playAnimation(imgs) {
-        let i = this.currentLoopImage % imgs.length;
-        let path = imgs[i];
-        this.img = this.imageCache[path];
-        this.currentLoopImage++;
     }
 
     playAnimationOnce(imgs) {
@@ -92,11 +86,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isColliding(obj) {
-        return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeft && this.x + this.offsetLeft <= (obj.x + obj.offsetLeft + obj.width - obj.offsetRight) &&
-            (this.y + this.offsetTop + this.height - this.offsetBottom) >= obj.y + obj.offsetTop &&
-            (this.y + this.offsetTop) <= (obj.y + obj.offsetTop + obj.height - obj.offsetBottom);
-    }
 
     isNearby(obj) {
         return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeftNearby && this.x + this.offsetLeft <= (obj.x + obj.offsetLeftNearby + obj.width - obj.offsetRightNearby) &&

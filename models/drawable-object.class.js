@@ -5,7 +5,7 @@ class DrawableObject {
     y;
     height;
     width;
-    health = 100;
+    currentLoopImage = 0;
 
     loadImage(path) {
         this.img = new Image();
@@ -33,5 +33,18 @@ class DrawableObject {
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
+    }
+
+    playAnimation(imgs) {
+        let i = this.currentLoopImage % imgs.length;
+        let path = imgs[i];
+        this.img = this.imageCache[path];
+        this.currentLoopImage++;
+    }
+
+    isColliding(obj) {
+        return (this.x + this.offsetLeft + this.width - this.offsetRight) >= obj.x + obj.offsetLeft && this.x + this.offsetLeft <= (obj.x + obj.offsetLeft + obj.width - obj.offsetRight) &&
+            (this.y + this.offsetTop + this.height - this.offsetBottom) >= obj.y + obj.offsetTop &&
+            (this.y + this.offsetTop) <= (obj.y + obj.offsetTop + obj.height - obj.offsetBottom);
     }
 }

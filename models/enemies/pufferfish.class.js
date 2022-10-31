@@ -107,7 +107,7 @@ class Pufferfish extends MovableObject {
     deathSlap() {
         if (this.isAboveGround()) {
             this.y += this.speedY;
-            this.x -= 3;
+            this.x -= 2;
         }
     }
 }

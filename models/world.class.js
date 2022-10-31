@@ -7,6 +7,7 @@ class World {
     level = level1;
     statusBar = new StatusBar();
     bubbles = [];
+    poisons = [];
 
 
     constructor(canvas, keyboard) {
@@ -40,6 +41,7 @@ class World {
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.bubbles);
+        this.addObjectsToMap(this.poisons);
         this.ctx.translate(-this.camera_x, 0);
         // Space for fixed Objects:
         this.addObjectToMap(this.statusBar);
@@ -122,7 +124,7 @@ class World {
             }
             if (this.isEnemyOutOfMap(enemy)) {
                 if (enemy instanceof Pufferfish && !enemy.isAlive) {
-                    this.dropLoot();
+                    this.dropLoot(enemy.x, enemy.y);
                 }
                 this.level.enemies.splice(i, 1);
             }
@@ -162,8 +164,10 @@ class World {
 
     checkEnemyCollisionWithBubble(enemy) {
         this.bubbles.forEach((bubble, j) => {
-            if (enemy.isColliding(bubble) && enemy instanceof Jellyfish) {
-                this.addDamageToEnemy(enemy);
+            if (enemy.isColliding(bubble)) {
+                if (enemy instanceof Jellyfish) {
+                    this.addDamageToEnemy(enemy);
+                }
                 this.bubbles.splice(j, 1);
             }
         });
@@ -206,6 +210,8 @@ class World {
                     this.character.hit(enemy.attack);
                     this.character.isPoisoned = true;
                     if (this.character.health <= 0) {
+                        this.character.speedY = -0.1 / fps;
+                        this.character.acceleration = -0.001;
                         this.character.DeadByPoison = true;
                     }
                 }
@@ -215,6 +221,8 @@ class World {
                 this.character.isPoisoned = true;
                 this.character.isSlapping = false;
                 if (this.character.health <= 0) {
+                    this.character.speedY = -0.1 / fps;
+                    this.character.acceleration = -0.001;
                     this.character.DeadByPoison = true;
                 }
                 break;
@@ -234,7 +242,9 @@ class World {
         }
     }
 
-    dropLoot() {
+    dropLoot(xPos, yPos) {
+        let poison = new Poison(xPos, yPos);
+        this.poisons.push(poison);
         console.log('dropped poison');
     }
 }

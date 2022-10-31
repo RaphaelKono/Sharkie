@@ -176,8 +176,9 @@ class Character extends MovableObject {
             this.swim();
         else if (this.isAboveGround() && this.isLongIdle())
             this.applyGravity();
-        else if (this.hasNoHealth())
+        else if (this.hasNoHealth()) {
             this.applyGravity();
+        }
         this.world.camera_x = -this.x + 100;
     }
 
