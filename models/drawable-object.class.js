@@ -7,6 +7,11 @@ class DrawableObject {
     width;
     currentLoopImage = 0;
 
+    offsetTop = 0;
+    offsetLeft = 0;
+    offsetRight = 0;
+    offsetBottom = 0;
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -25,7 +30,7 @@ class DrawableObject {
     }
 
     drawRect(ctx) {
-        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss || this instanceof Pufferfish) {
+        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss || this instanceof Pufferfish || this instanceof CollectibleObject) {
             ctx.beginPath();
             ctx.lineWidth = '1';
             ctx.strokeStyle = 'red';

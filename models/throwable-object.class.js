@@ -12,18 +12,30 @@ class ThrowableObject extends MovableObject {
     // bubble_create_sound = new Audio('audio/bubbleCreated.mp3'); For some reason it is necessary for iPhone to have the audio-object in character.class.js
 
     constructor(x, y) {
-        super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
+        if (!world.character.poisonIsActivated)
+            super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
+        else
+            super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
+        this.setProperties(x, y);
+        this.setBubbleSound();
+        this.bubble();
+    }
+
+    setProperties(x, y) {
         this.x = x;
         this.y = y;
         if (world.character.leftDirection) {
             this.speed = -3.5;
             this.x = x - 100;
         }
-        world.character.bubble_create_sound.volume = 0.3;
-        world.character.bubble_create_sound.currentTime = 0;
-        if (soundIsOn)
+    }
+
+    setBubbleSound() {
+        if (soundIsOn) {
+            world.character.bubble_create_sound.volume = 0.3;
+            world.character.bubble_create_sound.currentTime = 0;
             world.character.bubble_create_sound.play();
-        this.bubble();
+        }
     }
 
     bubble() {

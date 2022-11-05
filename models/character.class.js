@@ -21,6 +21,7 @@ class Character extends MovableObject {
     timerIsOn = false;
     isPoisoned = false;
     isSlapping = false;
+    poisonIsActivated = false;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -148,6 +149,12 @@ class Character extends MovableObject {
     electro_zap_sound = new Audio('audio/electro_zap.mp3');
     sleeping_sound = new Audio('audio/snoring.mp3');
     bubble_create_sound = new Audio('audio/bubbleCreated.mp3');
+    bubble_hit_sound = new Audio('audio/bubbleHits.mp3');
+    ouch_sound = new Audio('audio/ouch.mp3');
+    slap_sound = new Audio('audio/finSlap.mp3');
+    collectPoison_sound = new Audio('audio/collectPoison.mp3');
+    activate_poison_sound = new Audio('audio/activatePoison.mp3');
+    endboss_damage_sound = new Audio('audio/endbossDmg.mp3');
 
 
     constructor() {
@@ -159,6 +166,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_ELECTRIC_SHOCK);
         this.loadImages(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
         this.loadImages(this.IMAGES_BUBBLE_ATTACK);
+        this.loadImages(this.IMAGES_BUBBLE_ATTACK_POISON);
         this.loadImages(this.IMAGES_POISONED);
         this.loadImages(this.IMAGES_DEAD_BY_POISON);
         this.loadImages(this.IMAGES_FIN_SLAP);
@@ -168,7 +176,8 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => this.setSwimTranslation(), 1000 / fps);
-        setInterval(() => this.setImageAnimation(), 200);
+        setInterval(() => this.setImageAnimation(), 150);
+        setInterval(() => this.setAttackAnimation(), 100);
     }
 
     setSwimTranslation() {
@@ -185,50 +194,49 @@ class Character extends MovableObject {
     setImageAnimation() {
         switch (true) {
             case this.hasNoHealth():
-                if (this.DeadByShock)
-                    this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
-                if (this.DeadByPoison) {
-                    this.playAnimationOnce(this.IMAGES_DEAD_BY_POISON);
-                }
+                this.noHealthAnimation();
                 break;
             case this.isSlapping:
-                this.playAnimationOnce(this.IMAGES_FIN_SLAP);
-                this.resetIdleAndSleepParameters();
                 break;
             case this.isPoisoned:
-                this.playAnimationOnce(this.IMAGES_POISONED);
-                this.resetIdleAndSleepParameters();
+                this.poisonedAnimation();
                 break;
             case this.isShocked:
-                let shockSound = this.electro_zap_sound;
-                shockSound.volume = 0.1;
-                if (soundIsOn)
-                    shockSound.play();
-                this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
-                this.resetIdleAndSleepParameters();
+                this.shockedAnimation();
                 break;
             case this.isCreatingBubbleBool:
-                this.playAnimationOnce(this.IMAGES_BUBBLE_ATTACK);
-                this.resetIdleAndSleepParameters();
                 break;
             case this.isSwimming():
-                this.playAnimation(this.IMAGES_SWIM);
-                this.resetIdleAndSleepParameters();
+                this.swimAnimation();
                 break;
             case this.isLongIdle():
-                this.dozeOffAndSleep();
-                this.sleeping_sound.volume = 0.6;
-                if (soundIsOn)
-                    this.sleeping_sound.play();
-                else
-                    this.sleeping_sound.pause();
+                this.sleepAnimation();
                 break;
             case !this.isSwimming():
-                this.playAnimation(this.IMAGES_IDLE);
-                if (this.timerIsOn == false && !this.hasNoHealth()) {
-                    this.setTimer();
-                }
-                this.swimming_sound.pause();
+                this.idleAnimation();
+                break;
+        }
+    }
+
+    setAttackAnimation() {
+        switch (true) {
+            case this.hasNoHealth():
+                break;
+            case this.isSlapping:
+                this.slappingAnimation();
+                break;
+            case this.isPoisoned:
+                break;
+            case this.isShocked:
+                break;
+            case this.isCreatingBubbleBool:
+                this.bubbleAnimation();
+                break;
+            case this.isSwimming():
+                break;
+            case this.isLongIdle():
+                break;
+            case !this.isSwimming():
                 break;
         }
     }
@@ -313,6 +321,63 @@ class Character extends MovableObject {
     playSwimmingSound() {
         if (soundIsOn)
             this.swimming_sound.play();
+    }
+
+    noHealthAnimation() {
+        if (this.DeadByShock)
+            this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
+        if (this.DeadByPoison) {
+            this.playAnimationOnce(this.IMAGES_DEAD_BY_POISON);
+        }
+    }
+
+    slappingAnimation() {
+        this.playAnimationOnce(this.IMAGES_FIN_SLAP);
+        this.resetIdleAndSleepParameters();
+    }
+
+    poisonedAnimation() {
+        this.playAnimationOnce(this.IMAGES_POISONED);
+        this.resetIdleAndSleepParameters();
+    }
+
+    shockedAnimation() {
+        let shockSound = this.electro_zap_sound;
+        shockSound.volume = 0.1;
+        if (soundIsOn)
+            shockSound.play();
+        this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
+        this.resetIdleAndSleepParameters();
+    }
+
+    bubbleAnimation() {
+        if (!this.poisonIsActivated)
+            this.playAnimationOnce(this.IMAGES_BUBBLE_ATTACK);
+        else
+            this.playAnimationOnce(this.IMAGES_BUBBLE_ATTACK_POISON);
+        this.resetIdleAndSleepParameters();
+    }
+
+    swimAnimation() {
+        this.playAnimation(this.IMAGES_SWIM);
+        this.resetIdleAndSleepParameters();
+    }
+
+    sleepAnimation() {
+        this.dozeOffAndSleep();
+        this.sleeping_sound.volume = 0.6;
+        if (soundIsOn)
+            this.sleeping_sound.play();
+        else
+            this.sleeping_sound.pause();
+    }
+
+    idleAnimation() {
+        this.playAnimation(this.IMAGES_IDLE);
+        if (this.timerIsOn == false && !this.hasNoHealth()) {
+            this.setTimer();
+        }
+        this.swimming_sound.pause();
     }
 
     resetIdleAndSleepParameters() {

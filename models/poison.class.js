@@ -1,7 +1,8 @@
 class Poison extends CollectibleObject {
     width = 178 / 4;
     height = 243 / 4;
-    IMAGES = [
+
+    IMAGES_LOOT = [
         'img/4. Marcadores/Posión/Animada/1.png',
         'img/4. Marcadores/Posión/Animada/2.png',
         'img/4. Marcadores/Posión/Animada/3.png',
@@ -12,17 +13,28 @@ class Poison extends CollectibleObject {
         'img/4. Marcadores/Posión/Animada/8.png'
     ];
 
-    constructor(x, y) {
-        super().loadImage('img/4. Marcadores/Posión/Animada/1.png');
-        this.loadImages(this.IMAGES);
-        this.x = x;
-        this.y = y;
-        this.animate();
+    IMAGES_LEVEL = [
+        'img/4. Marcadores/Posión/Dark - Right.png'
+    ];
+
+
+    constructor(x, y, isDropLoot) {
+        if (isDropLoot) {
+            super().loadImage('img/4. Marcadores/Posión/Animada/1.png');
+            this.loadImages(this.IMAGES_LOOT);
+            this.x = x;
+            this.y = y;
+            this.animate();
+        } else {
+            super().loadImage('img/4. Marcadores/Posión/Dark - Right.png');
+            this.x = x;
+            this.y = y;
+        }
     }
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES);
-        }, 200);
+            this.playAnimation(this.IMAGES_LOOT);
+        }, 150);
     }
 }

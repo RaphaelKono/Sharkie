@@ -35,5 +35,10 @@ const level1 = new LevelObject(
         new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', 719 * 3),
         new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', 719 * 3),
         new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', 719 * 3)
+    ], [
+        new Poison(-100, 403, false),
+        new Poison(100, 403, false),
+        new Poison(50, 403, false),
+        new Poison(300, 403, false)
     ]
 );

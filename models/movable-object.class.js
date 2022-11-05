@@ -2,11 +2,6 @@ class MovableObject extends DrawableObject {
     speed;
     speedY;
     acceleration;
-    offsetTop = 0;
-    offsetBottom = 0;
-    offsetRight = 0;
-    offsetLeft = 0;
-    lastHit = 0;
     health = 100;
 
     leftDirection = false;
@@ -48,6 +43,10 @@ class MovableObject extends DrawableObject {
             this.offsetTop += 1.4;
         if (this.DeadByPoison)
             this.offsetTop -= 4;
+        if (this.isSlapping && this.currentImage == imgs.length - 3 && soundIsOn) {
+            this.slap_sound.volume = 0.2;
+            this.slap_sound.play();
+        }
         if (this.isAtLastElement(imgs.length)) {
             this.setParametersDoStopLoop(imgs.length);
         }

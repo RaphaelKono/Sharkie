@@ -5,9 +5,10 @@ class World {
     camera_x = 0;
     character = new Character();
     level = level1;
-    statusBar = new StatusBar();
+    healthBar = new HealthBar();
+    poisonBar = new PoisonBar();
     bubbles = [];
-    poisons = [];
+    poisonImprovement = new PoisonInPoisonBar();
 
 
     constructor(canvas, keyboard) {
@@ -41,10 +42,12 @@ class World {
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.bubbles);
-        this.addObjectsToMap(this.poisons);
+        this.addObjectsToMap(this.level.poisons);
         this.ctx.translate(-this.camera_x, 0);
         // Space for fixed Objects:
-        this.addObjectToMap(this.statusBar);
+        this.addObjectToMap(this.healthBar);
+        this.addObjectToMap(this.poisonBar);
+        this.addObjectToMap(this.poisonImprovement);
         // space end
         this.ctx.translate(this.camera_x, 0);
     }
@@ -102,32 +105,25 @@ class World {
             this.checkCollisions();
             this.checkBubbleAttack();
             this.checkFinSlap();
+            this.checkPoisonBubbleActivation();
         }, 1000 / 30);
     }
 
     checkCollisions() {
-        this.checkEnemiesCollision();
+        this.checkEnemiesCollisions();
         this.checkBubblesOutOfMap();
-
-        this.statusBar.setPercentage(this.character.health);
+        this.checkPoisonCollision();
+        this.healthBar.setPercentage(this.character.health, this.healthBar.IMAGES_HEALTH_BAR);
     }
 
-    checkEnemiesCollision() {
+    checkEnemiesCollisions() {
         this.level.enemies.forEach((enemy, i) => {
-            if ((enemy instanceof Pufferfish) && this.character.isNearby(enemy))
+            if (this.isCharacterCloseToPufferfish(enemy))
                 this.pufferfishBlowUp(enemy);
-            if (this.isCollisionValid(enemy)) {
-                this.addDamageToCharacter(enemy);
-                if (this.character.isSlapping && enemy instanceof Pufferfish) {
-                    this.addDamageToEnemy(enemy);
-                }
-            }
-            if (this.isEnemyOutOfMap(enemy)) {
-                if (enemy instanceof Pufferfish && !enemy.isAlive) {
-                    this.dropLoot(enemy.x, enemy.y);
-                }
-                this.level.enemies.splice(i, 1);
-            }
+            if (this.isCollisionValid(enemy))
+                this.enemyCollision(enemy);
+            if (this.isEnemyOutOfMap(enemy))
+                this.removeEnemy(enemy, i);
             this.checkEnemyCollisionWithBubble(enemy);
         });
     }
@@ -140,8 +136,34 @@ class World {
         });
     }
 
+    checkPoisonCollision() {
+        this.level.poisons.forEach((poison, k) => {
+            if (this.character.isColliding(poison)) {
+                console.log('collected Poison');
+                this.poisonBar.collectedPoisons++;
+                this.character.collectPoison_sound.play();
+                this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
+                this.level.poisons.splice(k, 1);
+            }
+        });
+    }
+
     isCollisionValid(enemy) {
         return this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive;
+    }
+
+    enemyCollision(enemy) {
+        this.addDamageToCharacter(enemy);
+        if (this.isCharacterSlappingPufferfish(enemy)) {
+            this.addDamageToEnemy(enemy);
+        }
+    }
+
+    removeEnemy(enemy, i) {
+        if (enemy instanceof Pufferfish && !enemy.isAlive) {
+            this.dropLoot(enemy.x, enemy.y);
+        }
+        this.level.enemies.splice(i, 1);
     }
 
     isEnemyOutOfMap(enemy) {
@@ -168,6 +190,8 @@ class World {
                 if (enemy instanceof Jellyfish) {
                     this.addDamageToEnemy(enemy);
                 }
+                if (enemy instanceof Endboss && this.poisonBar.isPoisonous && !enemy.isHurt() && enemy.isAlive)
+                    this.addDamageToEnemy(enemy);
                 this.bubbles.splice(j, 1);
             }
         });
@@ -194,57 +218,118 @@ class World {
         }
     }
 
-    addDamageToCharacter(enemy) {
-        switch (true) {
-            case enemy instanceof Jellyfish:
-                this.character.electro_zap_sound.currentTime = 0;
-                this.character.hit(enemy.attack);
-                this.character.isShocked = true;
-                if (this.character.health <= 0) {
-                    this.character.DeadByShock = true;
-                }
-                this.character.isSlapping = false;
-                break;
-            case enemy instanceof Pufferfish:
-                if (!this.character.isSlapping) {
-                    this.character.hit(enemy.attack);
-                    this.character.isPoisoned = true;
-                    if (this.character.health <= 0) {
-                        this.character.speedY = -0.1 / fps;
-                        this.character.acceleration = -0.001;
-                        this.character.DeadByPoison = true;
-                    }
-                }
-                break;
-            case enemy instanceof Endboss:
-                this.character.hit(40);
-                this.character.isPoisoned = true;
-                this.character.isSlapping = false;
-                if (this.character.health <= 0) {
-                    this.character.speedY = -0.1 / fps;
-                    this.character.acceleration = -0.001;
-                    this.character.DeadByPoison = true;
-                }
-                break;
+    checkPoisonBubbleActivation() {
+        if (this.keyboard.ENTER && this.poisonBar.percentage >= 100 && !this.isPoisonActivationCooldown()) {
+            this.togglePoison();
         }
+    }
+
+    togglePoison() {
+        this.character.poisonIsActivated = !this.character.poisonIsActivated;
+        if (this.character.poisonIsActivated)
+            this.activatePoison();
+        else
+            this.deactivatePoison();
+        this.poisonActivationCooldown = Date.now();
+    }
+
+    activatePoison() {
+        this.character.activate_poison_sound.play();
+        this.poisonBar.isPoisonous = true;
+        this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
+    }
+
+    deactivatePoison() {
+        this.character.collectPoison_sound.play();
+        this.poisonBar.isPoisonous = false;
+        this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
+    }
+
+
+    isPoisonActivationCooldown() {
+        let timePassed = Date.now() - this.poisonActivationCooldown;
+        timePassed = timePassed / 1000;
+        return timePassed < 3.5;
+    }
+
+    addDamageToCharacter(enemy) {
+        if (enemy instanceof Jellyfish)
+            this.jellyfishDMGToCharacter(enemy.attack);
+        else if (enemy instanceof Pufferfish)
+            this.pufferfishDMGToCharacter(enemy.attack);
+        else if (enemy instanceof Endboss)
+            this.endbossDMGToCharacter(enemy.attack);
     }
 
     addDamageToEnemy(enemy) {
         switch (true) {
             case enemy instanceof Jellyfish:
+                this.character.bubble_hit_sound.volume = 0.2;
+                if (soundIsOn) {
+                    this.character.bubble_hit_sound.play();
+                }
                 enemy.isAlive = false;
                 break;
             case enemy instanceof Pufferfish:
                 enemy.isAlive = false;
                 break;
-            default:
+            case enemy instanceof Endboss:
+                enemy.hit(20);
+                if (enemy.health <= 0) {
+                    enemy.isAlive = false;
+                }
+                this.character.endboss_damage_sound.play();
                 break;
         }
     }
 
     dropLoot(xPos, yPos) {
-        let poison = new Poison(xPos, yPos);
-        this.poisons.push(poison);
-        console.log('dropped poison');
+        let poison = new Poison(xPos, yPos, true);
+        this.level.poisons.push(poison);
+    }
+
+    isCharacterCloseToPufferfish(enemy) {
+        return (enemy instanceof Pufferfish) && this.character.isNearby(enemy);
+    }
+
+    isCharacterSlappingPufferfish(enemy) {
+        return this.character.isSlapping && enemy instanceof Pufferfish && this.character.currentImage == 5;
+    }
+
+    jellyfishDMGToCharacter(enemyATT) {
+        this.character.electro_zap_sound.currentTime = 0;
+        this.character.hit(enemyATT);
+        this.character.isShocked = true;
+        if (this.character.health <= 0) {
+            this.character.DeadByShock = true;
+        }
+        this.character.isSlapping = false;
+    }
+
+    pufferfishDMGToCharacter(enemyATT) {
+        if (!this.character.isSlapping) {
+            this.character.hit(enemyATT);
+            this.character.isPoisoned = true;
+            if (soundIsOn)
+                this.character.ouch_sound.play();
+            this.checkCharacterHealth();
+        }
+    }
+
+    endbossDMGToCharacter(enemyATT) {
+        this.character.hit(enemyATT);
+        this.character.isPoisoned = true;
+        if (soundIsOn)
+            this.character.ouch_sound.play();
+        this.character.isSlapping = false;
+        this.checkCharacterHealth();
+    }
+
+    checkCharacterHealth() {
+        if (this.character.health <= 0) {
+            this.character.speedY = -0.1 / fps;
+            this.character.acceleration = -0.001;
+            this.character.DeadByPoison = true;
+        }
     }
 }
