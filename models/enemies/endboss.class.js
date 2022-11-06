@@ -52,18 +52,22 @@ class Endboss extends MovableObject {
 
     animate() {
         setInterval(() => {
-            switch (true) {
-                case this.hasNoHealth():
-                    this.playDeadAnimation(this.IMAGES_DEAD);
-                    break;
-                case this.isHurt():
-                    this.playAnimation(this.IMAGES_HURT);
-                    break;
-                case !this.isHurt():
-                    this.playAnimation(this.IMAGES_SWIM);
-                    break;
-            }
+            this.setAnimation();
         }, 200);
+    }
+
+    setAnimation() {
+        switch (true) {
+            case this.hasNoHealth():
+                this.playDeadAnimation(this.IMAGES_DEAD);
+                break;
+            case this.isHurt():
+                this.playAnimation(this.IMAGES_HURT);
+                break;
+            case !this.isHurt():
+                this.playAnimation(this.IMAGES_SWIM);
+                break;
+        }
     }
 
     playDeadAnimation(imgs) {

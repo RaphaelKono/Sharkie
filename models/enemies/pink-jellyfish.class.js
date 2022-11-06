@@ -1,4 +1,6 @@
 class PinkJellyfish extends Jellyfish {
+    height = 300 / 4.6;
+    width = 211 / 4.6;
     IMAGES_SWIM = [
         'img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png',
         'img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 2.png',

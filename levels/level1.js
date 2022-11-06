@@ -40,5 +40,11 @@ const level1 = new LevelObject(
         new Poison(100, 403, false),
         new Poison(50, 403, false),
         new Poison(300, 403, false)
+    ], [
+        new Coin(-100, 100),
+        new Coin(-50, 150),
+        new Coin(0, 200),
+        new Coin(50, 150),
+        new Coin(100, 200)
     ]
 );

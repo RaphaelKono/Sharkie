@@ -7,6 +7,7 @@ class World {
     level = level1;
     healthBar = new HealthBar();
     poisonBar = new PoisonBar();
+    coinBar = new CoinBar();
     bubbles = [];
     poisonImprovement = new PoisonInPoisonBar();
 
@@ -43,19 +44,25 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.bubbles);
         this.addObjectsToMap(this.level.poisons);
-        this.ctx.translate(-this.camera_x, 0);
-        // Space for fixed Objects:
-        this.addObjectToMap(this.healthBar);
-        this.addObjectToMap(this.poisonBar);
-        this.addObjectToMap(this.poisonImprovement);
-        // space end
-        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.coins);
+        this.addFixedObjects();
     }
 
     addObjectsToMap(obj) {
         obj.forEach(o => {
             this.addObjectToMap(o);
         });
+    }
+
+    addFixedObjects() {
+        this.ctx.translate(-this.camera_x, 0);
+        // Space for fixed Objects:
+        this.addObjectToMap(this.healthBar);
+        this.addObjectToMap(this.poisonBar);
+        this.addObjectToMap(this.poisonImprovement);
+        this.addObjectToMap(this.coinBar);
+        // space end
+        this.ctx.translate(this.camera_x, 0);
     }
 
     addObjectToMap(mo) {
@@ -112,7 +119,7 @@ class World {
     checkCollisions() {
         this.checkEnemiesCollisions();
         this.checkBubblesOutOfMap();
-        this.checkPoisonCollision();
+        this.checkCollectibleObjectCollision();
         this.healthBar.setPercentage(this.character.health, this.healthBar.IMAGES_HEALTH_BAR);
     }
 
@@ -136,14 +143,34 @@ class World {
         });
     }
 
+    checkCollectibleObjectCollision() {
+        this.checkPoisonCollision();
+        this.checkCoinCollision();
+    }
+
     checkPoisonCollision() {
         this.level.poisons.forEach((poison, k) => {
             if (this.character.isColliding(poison)) {
-                console.log('collected Poison');
                 this.poisonBar.collectedPoisons++;
-                this.character.collectPoison_sound.play();
-                this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
+                if (soundIsOn)
+                    this.character.collectPoison_sound.play();
+                if (this.poisonBar.isPoisonous)
+                    this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
+                else
+                    this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
                 this.level.poisons.splice(k, 1);
+            }
+        });
+    }
+
+    checkCoinCollision() {
+        this.level.coins.forEach((coin, k) => {
+            if (this.character.isColliding(coin)) {
+                this.coinBar.collectedCoins++;
+                if (soundIsOn)
+                    this.character.collectCoin_sound.play();
+                this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
+                this.level.coins.splice(k, 1);
             }
         });
     }
@@ -219,7 +246,7 @@ class World {
     }
 
     checkPoisonBubbleActivation() {
-        if (this.keyboard.ENTER && this.poisonBar.percentage >= 100 && !this.isPoisonActivationCooldown()) {
+        if (this.keyboard.ENTER && this.coinBar.percentage >= 100 && !this.isPoisonActivationCooldown()) {
             this.togglePoison();
         }
     }
@@ -234,13 +261,15 @@ class World {
     }
 
     activatePoison() {
-        this.character.activate_poison_sound.play();
+        if (soundIsOn)
+            this.character.activate_poison_sound.play();
         this.poisonBar.isPoisonous = true;
         this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
     }
 
     deactivatePoison() {
-        this.character.collectPoison_sound.play();
+        if (soundIsOn)
+            this.character.collectPoison_sound.play();
         this.poisonBar.isPoisonous = false;
         this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
     }

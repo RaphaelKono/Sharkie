@@ -153,6 +153,7 @@ class Character extends MovableObject {
     ouch_sound = new Audio('audio/ouch.mp3');
     slap_sound = new Audio('audio/finSlap.mp3');
     collectPoison_sound = new Audio('audio/collectPoison.mp3');
+    collectCoin_sound = new Audio('audio/collectCoin.mp3');
     activate_poison_sound = new Audio('audio/activatePoison.mp3');
     endboss_damage_sound = new Audio('audio/endbossDmg.mp3');
 

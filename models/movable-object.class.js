@@ -109,6 +109,10 @@ class MovableObject extends DrawableObject {
     }
 
     bubbleCreationAtLastElement() {
+        // Sharkie shall not create poisonous bubbles when no poison is collected. Bubble-creation then interrupted.
+        if (world.poisonBar.isPoisonous && world.poisonBar.percentage <= 0) {
+            return;
+        }
         let bubble = new ThrowableObject(this.bubbleX(), this.bubbleY());
         this.world.bubbles.push(bubble);
     }

@@ -14,8 +14,11 @@ class ThrowableObject extends MovableObject {
     constructor(x, y) {
         if (!world.character.poisonIsActivated)
             super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
-        else
+        else {
             super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
+            world.poisonBar.collectedPoisons--;
+            world.poisonBar.setPercentage((world.poisonBar.collectedPoisons / world.poisonBar.maxPoisons) * 100, world.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
+        }
         this.setProperties(x, y);
         this.setBubbleSound();
         this.bubble();
