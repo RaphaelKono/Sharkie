@@ -9,6 +9,7 @@ ambience_audio.volume = 0.05;
 let level_music = new Audio('audio/levelMusic.mp3');
 level_music.loop = true;
 level_music.volume = 0.05;
+let intervalIds = [];
 
 function init() {
     initListeners();
@@ -16,7 +17,7 @@ function init() {
 
 function startGame() {
     canvas = document.getElementById('canvas');
-    document.getElementById('canvasContainer').classList.remove('startscreen');
+    document.getElementById('canvasContainerStart').classList.remove('startscreen');
     document.getElementById('midPanel').classList.add('d-none');
     document.getElementById('speaker').classList.remove('d-none');
     document.getElementById('fullscreen').classList.remove('d-none');

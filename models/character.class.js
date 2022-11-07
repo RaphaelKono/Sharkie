@@ -243,7 +243,7 @@ class Character extends MovableObject {
     }
 
     swim() {
-        this.playSwimmingSound();
+        this.playAudio(this.swimming_sound);
         this.resetGravity();
         if (this.isSwimmingRight())
             this.swimRight();
@@ -318,12 +318,6 @@ class Character extends MovableObject {
         this.y += this.speed;
     }
 
-
-    playSwimmingSound() {
-        if (soundIsOn)
-            this.swimming_sound.play();
-    }
-
     noHealthAnimation() {
         if (this.DeadByShock)
             this.playAnimationOnce(this.IMAGES_DEAD_BY_ELECTRO_SHOCK);
@@ -345,8 +339,7 @@ class Character extends MovableObject {
     shockedAnimation() {
         let shockSound = this.electro_zap_sound;
         shockSound.volume = 0.1;
-        if (soundIsOn)
-            shockSound.play();
+        this.playAudio(shockSound);
         this.playAnimationOnce(this.IMAGES_ELECTRIC_SHOCK);
         this.resetIdleAndSleepParameters();
     }
@@ -367,10 +360,7 @@ class Character extends MovableObject {
     sleepAnimation() {
         this.dozeOffAndSleep();
         this.sleeping_sound.volume = 0.6;
-        if (soundIsOn)
-            this.sleeping_sound.play();
-        else
-            this.sleeping_sound.pause();
+        this.playAudio(this.sleeping_sound);
     }
 
     idleAnimation() {
@@ -403,5 +393,12 @@ class Character extends MovableObject {
                 this.health += 0.05;
             }
         }
+    }
+
+    playAudio(audio_obj) {
+        if (soundIsOn)
+            audio_obj.play();
+        else
+            audio_obj.pause();
     }
 }

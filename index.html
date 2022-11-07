@@ -55,7 +55,7 @@
             <img id="frameImg" class="frame-img" src="img/test-removebg.png">
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
-        <div id="canvasContainer" class="canvas-container startscreen">
+        <div id="canvasContainerStart" class="canvas-container startscreen">
             <div class="top-panel">
                 <div class="top-panel-child">
                     <button id="speaker" class="btn toggleSpeaker"><img class="fullscreen-img" src="img/speaker-64.png"></button>
@@ -74,6 +74,11 @@
                     <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
                     <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
                 </div>
+            </div>
+        </div>
+        <div id="canvasContainerEnd" class="canvas-container startscreen d-none">
+            <div id="midPanel" class="mid-panel">
+                <button onclick="startGame()" id="startGame"><img src="img/6.Botones/Start/1.png"></button>
             </div>
         </div>
     </div>

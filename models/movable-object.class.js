@@ -43,9 +43,9 @@ class MovableObject extends DrawableObject {
             this.offsetTop += 1.4;
         if (this.DeadByPoison)
             this.offsetTop -= 4;
-        if (this.isSlapping && this.currentImage == imgs.length - 3 && soundIsOn) {
+        if (this.isSlapping && this.currentImage == imgs.length - 3) {
             this.slap_sound.volume = 0.2;
-            this.slap_sound.play();
+            this.playAudio(this.slap_sound);
         }
         if (this.isAtLastElement(imgs.length)) {
             this.setParametersDoStopLoop(imgs.length);

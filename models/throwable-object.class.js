@@ -34,11 +34,9 @@ class ThrowableObject extends MovableObject {
     }
 
     setBubbleSound() {
-        if (soundIsOn) {
-            world.character.bubble_create_sound.volume = 0.3;
-            world.character.bubble_create_sound.currentTime = 0;
-            world.character.bubble_create_sound.play();
-        }
+        world.character.bubble_create_sound.volume = 0.3;
+        world.character.bubble_create_sound.currentTime = 0;
+        world.character.playAudio(world.character.bubble_create_sound);
     }
 
     bubble() {

@@ -113,6 +113,7 @@ class World {
             this.checkBubbleAttack();
             this.checkFinSlap();
             this.checkPoisonBubbleActivation();
+            this.checkGameOver();
         }, 1000 / 30);
     }
 
@@ -152,8 +153,7 @@ class World {
         this.level.poisons.forEach((poison, k) => {
             if (this.character.isColliding(poison)) {
                 this.poisonBar.collectedPoisons++;
-                if (soundIsOn)
-                    this.character.collectPoison_sound.play();
+                this.character.playAudio(this.character.collectPoison_sound);
                 if (this.poisonBar.isPoisonous)
                     this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
                 else
@@ -167,8 +167,7 @@ class World {
         this.level.coins.forEach((coin, k) => {
             if (this.character.isColliding(coin)) {
                 this.coinBar.collectedCoins++;
-                if (soundIsOn)
-                    this.character.collectCoin_sound.play();
+                this.character.playAudio(this.character.collectPoison_sound);
                 this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
                 this.level.coins.splice(k, 1);
             }
@@ -261,15 +260,13 @@ class World {
     }
 
     activatePoison() {
-        if (soundIsOn)
-            this.character.activate_poison_sound.play();
+        this.character.playAudio(this.character.activate_poison_sound);
         this.poisonBar.isPoisonous = true;
         this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
     }
 
     deactivatePoison() {
-        if (soundIsOn)
-            this.character.collectPoison_sound.play();
+        this.character.playAudio(this.character.collectPoison_sound);
         this.poisonBar.isPoisonous = false;
         this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
     }
@@ -294,9 +291,7 @@ class World {
         switch (true) {
             case enemy instanceof Jellyfish:
                 this.character.bubble_hit_sound.volume = 0.2;
-                if (soundIsOn) {
-                    this.character.bubble_hit_sound.play();
-                }
+                this.character.playAudio(this.character.bubble_hit_sound);
                 enemy.isAlive = false;
                 break;
             case enemy instanceof Pufferfish:
@@ -307,7 +302,7 @@ class World {
                 if (enemy.health <= 0) {
                     enemy.isAlive = false;
                 }
-                this.character.endboss_damage_sound.play();
+                this.character.playAudio(this.character.endboss_damage_sound);
                 break;
         }
     }
@@ -339,8 +334,7 @@ class World {
         if (!this.character.isSlapping) {
             this.character.hit(enemyATT);
             this.character.isPoisoned = true;
-            if (soundIsOn)
-                this.character.ouch_sound.play();
+            this.character.playAudio(this.character.ouch_sound);
             this.checkCharacterHealth();
         }
     }
@@ -348,8 +342,7 @@ class World {
     endbossDMGToCharacter(enemyATT) {
         this.character.hit(enemyATT);
         this.character.isPoisoned = true;
-        if (soundIsOn)
-            this.character.ouch_sound.play();
+        this.character.playAudio(this.character.ouch_sound);
         this.character.isSlapping = false;
         this.checkCharacterHealth();
     }
@@ -360,5 +353,17 @@ class World {
             this.character.acceleration = -0.001;
             this.character.DeadByPoison = true;
         }
+    }
+
+    checkGameOver() {
+        if (this.character.hasNoHealth()) {
+            setTimeout(() => {
+                this.stopGame();
+            }, 2000);
+        }
+    }
+
+    stopGame() {
+
     }
 }
