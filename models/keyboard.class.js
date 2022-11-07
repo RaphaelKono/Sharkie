@@ -201,10 +201,11 @@ class Keyboard {
     activatePoison() {
         document.getElementById('activatePoison').addEventListener('touchstart', (e) => {
             e.preventDefault();
-            this.ENTER = !this.ENTER;
+            this.ENTER = true;
         });
         document.getElementById('activatePoison').addEventListener('touchend', (e) => {
             e.preventDefault();
+            this.ENTER = false;
         });
     }
 
@@ -233,6 +234,9 @@ class Keyboard {
         if (this.touchendX > this.touchstartX) {
             this.SPACE = true;
         }
-        setTimeout(() => this.SPACE = false, 500);
+        setTimeout(() => {
+            this.SPACE = false;
+            this.SHIFT = false;
+        }, 500);
     }
 }
