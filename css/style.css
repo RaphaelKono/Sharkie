@@ -82,6 +82,20 @@ h1 {
     background-size: 120%;
 }
 
+.win-screen {
+    background: url('../img/6.Botones/Tittles/You win/Mesa de trabajo 1.png') no-repeat center center;
+    background-size: 120%;
+    backdrop-filter: blur(8px);
+    background-color: rgb(0, 0, 0, 0.3);
+}
+
+.lose-screen {
+    background: url('../img/6.Botones/Tittles/Game Over/Recurso 13.png') no-repeat center 30%;
+    background-size: 80%;
+    backdrop-filter: blur(8px);
+    background-color: rgb(0, 0, 0, 0.3);
+}
+
 .please-rotate-screen {
     display: none;
     flex-direction: column;

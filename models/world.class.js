@@ -117,7 +117,6 @@ class World {
         self.checkBubbleAttack();
         self.checkFinSlap();
         self.checkPoisonBubbleActivation();
-        self.checkGameOver();
     }
 
     checkCollisions() {
@@ -154,27 +153,33 @@ class World {
 
     checkPoisonCollision() {
         this.level.poisons.forEach((poison, k) => {
-            if (this.character.isColliding(poison)) {
-                this.poisonBar.collectedPoisons++;
-                this.character.playAudio(this.character.collectPoison_sound);
-                if (this.poisonBar.isPoisonous)
-                    this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
-                else
-                    this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
-                this.level.poisons.splice(k, 1);
-            }
+            if (this.character.isColliding(poison))
+                this.collectPoison(k);
         });
+    }
+
+    collectPoison(k) {
+        this.poisonBar.collectedPoisons++;
+        this.character.playAudio(this.character.collectPoison_sound);
+        if (this.poisonBar.isPoisonous)
+            this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
+        else
+            this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR);
+        this.level.poisons.splice(k, 1);
     }
 
     checkCoinCollision() {
         this.level.coins.forEach((coin, k) => {
-            if (this.character.isColliding(coin)) {
-                this.coinBar.collectedCoins++;
-                this.character.playAudio(this.character.collectPoison_sound);
-                this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
-                this.level.coins.splice(k, 1);
-            }
+            if (this.character.isColliding(coin))
+                this.collectCoin(k);
         });
+    }
+
+    collectCoin(k) {
+        this.coinBar.collectedCoins++;
+        this.character.playAudio(this.character.collectPoison_sound);
+        this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
+        this.level.coins.splice(k, 1);
     }
 
     isCollisionValid(enemy) {
@@ -229,22 +234,30 @@ class World {
     checkBubbleAttack() {
         if (this.keyboard.SPACE) {
             if (this.character.isSlapping) {
-                this.character.isSlapping = false;
-                this.character.currentImage = 0;
+                this.stopSlapping();
             }
             this.character.isCreatingBubbleBool = true;
         }
     }
 
+    stopSlapping() {
+        this.character.isSlapping = false;
+        this.character.currentImage = 0;
+    }
+
     checkFinSlap() {
         if (this.keyboard.SHIFT && !this.character.isShocked && !this.character.isPoisoned) {
             if (this.character.isCreatingBubbleBool) {
-                this.character.isCreatingBubbleBool = false;
-                this.character.currentImage = 0;
+                this.stopBubbling();
             }
             this.character.isSlapping = true;
             this.character.isCreatingBubbleBool = false;
         }
+    }
+
+    stopBubbling() {
+        this.character.isCreatingBubbleBool = false;
+        this.character.currentImage = 0;
     }
 
     checkPoisonBubbleActivation() {
@@ -293,21 +306,30 @@ class World {
     addDamageToEnemy(enemy) {
         switch (true) {
             case enemy instanceof Jellyfish:
-                this.character.bubble_hit_sound.volume = 0.2;
-                this.character.playAudio(this.character.bubble_hit_sound);
-                enemy.isAlive = false;
+                this.hitJellyfish(enemy);
                 break;
             case enemy instanceof Pufferfish:
                 enemy.isAlive = false;
                 break;
             case enemy instanceof Endboss:
-                enemy.hit(20);
-                if (enemy.health <= 0) {
-                    enemy.isAlive = false;
-                }
-                this.character.playAudio(this.character.endboss_damage_sound);
+                this.hitEndboss(enemy);
                 break;
         }
+    }
+
+    hitJellyfish(enemy) {
+        this.character.bubble_hit_sound.volume = 0.2;
+        this.character.playAudio(this.character.bubble_hit_sound);
+        enemy.isAlive = false;
+    }
+
+    hitEndboss(enemy) {
+        enemy.hit(20);
+        if (enemy.health <= 0) {
+            enemy.isAlive = false;
+            this.winGame(enemy)
+        }
+        this.character.playAudio(this.character.endboss_damage_sound);
     }
 
     dropLoot(xPos, yPos) {
@@ -329,6 +351,7 @@ class World {
         this.character.isShocked = true;
         if (this.character.health <= 0) {
             this.character.DeadByShock = true;
+            this.loseGame();
         }
         this.character.isSlapping = false;
     }
@@ -355,18 +378,27 @@ class World {
             this.character.speedY = -0.1 / fps;
             this.character.acceleration = -0.001;
             this.character.DeadByPoison = true;
+            this.loseGame();
         }
     }
 
-    checkGameOver() {
-        if (this.character.hasNoHealth()) {
-            setTimeout(() => {
-                this.stopGame();
-            }, 2000);
-        }
+    winGame() {
+        setTimeout(() => {
+            ambience_audio.pause();
+            level_music.pause();
+            this.character.playAudio(this.character.win_sound);
+            document.getElementById('canvasContainerStart').classList.add('win-screen');
+            intervalIds.forEach(clearInterval);
+        }, 3000);
     }
 
-    stopGame() {
-
+    loseGame() {
+        setTimeout(() => {
+            ambience_audio.pause();
+            level_music.pause();
+            this.character.playAudio(this.character.lose_sound);
+            document.getElementById('canvasContainerStart').classList.add('lose-screen');
+            intervalIds.forEach(clearInterval);
+        }, 3000);
     }
 }
