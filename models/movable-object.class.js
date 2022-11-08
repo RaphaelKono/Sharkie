@@ -31,9 +31,12 @@ class MovableObject extends DrawableObject {
     }
 
     moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / fps);
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, this.setXPos), 1000 / fps);
+    }
+
+    setXPos(self) {
+        self.x -= self.speed;
     }
 
     playAnimationOnce(imgs) {

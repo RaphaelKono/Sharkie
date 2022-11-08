@@ -108,13 +108,16 @@ class World {
     }
 
     run() {
-        setInterval(() => {
-            this.checkCollisions();
-            this.checkBubbleAttack();
-            this.checkFinSlap();
-            this.checkPoisonBubbleActivation();
-            this.checkGameOver();
-        }, 1000 / 30);
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, this.updateWorld), 1000 / 30);
+    }
+
+    updateWorld(self) {
+        self.checkCollisions();
+        self.checkBubbleAttack();
+        self.checkFinSlap();
+        self.checkPoisonBubbleActivation();
+        self.checkGameOver();
     }
 
     checkCollisions() {

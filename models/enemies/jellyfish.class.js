@@ -15,27 +15,28 @@ class Jellyfish extends MovableObject {
 
 
     animate() {
-        setInterval(() => this.setJellyfishAnimation(), 200);
-        setInterval(() => this.setJellyfishTranslation(), 1000 / fps);
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, this.setJellyfishAnimation), 200);
+        setCustomInterval(() => setNewPausableFn(self, this.setJellyfishTranslation), 1000 / fps);
     }
 
-    setJellyfishAnimation() {
+    setJellyfishAnimation(self, ) {
         switch (true) {
-            case !this.isAlive:
-                this.playAnimation(this.IMAGES_TRAP);
+            case !self.isAlive:
+                self.playAnimation(self.IMAGES_TRAP);
                 break;
-            case this.isAlive:
-                this.playAnimation(this.IMAGES_SWIM);
+            case self.isAlive:
+                self.playAnimation(self.IMAGES_SWIM);
                 break;
         }
 
     }
 
-    setJellyfishTranslation() {
-        if (this.isAlive) {
-            this.x -= this.speed;
+    setJellyfishTranslation(self) {
+        if (self.isAlive) {
+            self.x -= self.speed;
         } else {
-            this.applyGravity();
+            self.applyGravity();
         }
     }
 }

@@ -40,9 +40,12 @@ class ThrowableObject extends MovableObject {
     }
 
     bubble() {
-        setInterval(() => {
-            this.x += this.speed;
-            this.applyGravity();
-        }, 1000 / fps)
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, this.setBubbleTranslation), 1000 / fps)
+    }
+
+    setBubbleTranslation(self) {
+        self.x += self.speed;
+        self.applyGravity();
     }
 }

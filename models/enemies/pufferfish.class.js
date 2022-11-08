@@ -61,23 +61,24 @@ class Pufferfish extends MovableObject {
     }
 
     animate() {
-        setInterval(() => this.setPufferfishAnimation(), 200);
-        setInterval(() => this.setPufferfishTranslation(), 1000 / fps);
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, this.setPufferfishAnimation), 200);
+        setCustomInterval(() => setNewPausableFn(self, this.setPufferfishTranslation), 1000 / fps);
     }
 
-    setPufferfishAnimation() {
+    setPufferfishAnimation(self) {
         switch (true) {
-            case !this.isAlive:
-                this.singleAnimationOfPufferfish(this.IMAGES_DEAD);
+            case !self.isAlive:
+                self.singleAnimationOfPufferfish(self.IMAGES_DEAD);
                 break;
-            case this.isBlowingUp:
-                this.singleAnimationOfPufferfish(this.IMAGES_TRANSITION);
+            case self.isBlowingUp:
+                self.singleAnimationOfPufferfish(self.IMAGES_TRANSITION);
                 break;
-            case this.isBlownUp:
-                this.playAnimation(this.IMAGES_BUBBLESWIM);
+            case self.isBlownUp:
+                self.playAnimation(self.IMAGES_BUBBLESWIM);
                 break;
-            case this.isAlive:
-                this.playAnimation(this.IMAGES_SWIM);
+            case self.isAlive:
+                self.playAnimation(self.IMAGES_SWIM);
                 break;
         }
     }
@@ -96,11 +97,11 @@ class Pufferfish extends MovableObject {
         }
     }
 
-    setPufferfishTranslation() {
-        if (this.isAlive) {
-            this.x -= this.speed;
+    setPufferfishTranslation(self) {
+        if (self.isAlive) {
+            self.x -= self.speed;
         } else {
-            this.deathSlap();
+            self.deathSlap();
         }
     }
 

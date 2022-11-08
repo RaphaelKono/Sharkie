@@ -2,6 +2,7 @@ let canvas;
 let world;
 let fps = 60;
 let keyboard;
+let intervalIds = [];
 let soundIsOn = false;
 let ambience_audio = new Audio('audio/ambience.mp3');
 ambience_audio.loop = true;
@@ -9,7 +10,8 @@ ambience_audio.volume = 0.05;
 let level_music = new Audio('audio/levelMusic.mp3');
 level_music.loop = true;
 level_music.volume = 0.05;
-let intervalIds = [];
+gameIsPaused = false;
+
 
 function init() {
     initListeners();
@@ -33,13 +35,41 @@ function checkMobile() {
         document.getElementById('bottomPanel').classList.remove('d-none');
         document.getElementById('rotation').classList.remove('d-none');
         document.getElementById('rotation').classList.add('please-rotate-screen');
+        pauseGame();
+        checkScreenOrientation();
     }
+}
+
+function checkScreenOrientation() {
+    window.addEventListener('resize', () => {
+        pauseGame();
+    });
+}
+
+function pauseGame() {
+    if (window.innerWidth < window.innerHeight)
+        renderNonLandscape();
+    else
+        renderLandscape();
 }
 
 function initListeners() {
     btnSpeaker();
     btnFullscreen();
     // btnStartGame();
+}
+
+function renderNonLandscape() {
+    gameIsPaused = true;
+    document.getElementById('h1').classList.add('d-none');
+    if (!document.getElementById('canvasFrameID').className.includes('d-none'))
+        document.getElementById('canvasFrameID').classList.add('d-none');
+}
+
+function renderLandscape() {
+    gameIsPaused = false;
+    document.getElementById('h1').classList.remove('d-none');
+    document.getElementById('canvasFrameID').classList.remove('d-none');
 }
 
 function btnFullscreen() {
@@ -120,7 +150,7 @@ function toggleSound() {
 }
 
 /**
- * I need to double check since otherwise it is toggling wrong.
+ * I need to double check. Otherwise it is toggling wrong.
  */
 function playBackground() {
     if (soundIsOn) {
@@ -136,13 +166,23 @@ function isOnMobile() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
 
-function btnStartGame() {
-    document.getElementById('startGame').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startGame();
-    });
-    document.getElementById('startGame').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        startGame();
-    });
+// function btnStartGame() {
+//     document.getElementById('startGame').addEventListener('mousedown', (e) => {
+//         e.preventDefault();
+//         startGame();
+//     });
+//     document.getElementById('startGame').addEventListener('touchend', (e) => {
+//         e.preventDefault();
+//         startGame();
+//     });
+// }
+
+function setCustomInterval(fn, time) {
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
+}
+
+function setNewPausableFn(self, fn) {
+    if (!gameIsPaused)
+        fn(self);
 }

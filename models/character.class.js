@@ -176,68 +176,69 @@ class Character extends MovableObject {
 
 
     animate() {
-        setInterval(() => this.setSwimTranslation(), 1000 / fps);
-        setInterval(() => this.setImageAnimation(), 150);
-        setInterval(() => this.setAttackAnimation(), 100);
+        let self = this;
+        setCustomInterval(() => setNewPausableFn(self, self.setSwimTranslation), 1000 / fps);
+        setCustomInterval(() => setNewPausableFn(self, self.setImageAnimation), 150);
+        setCustomInterval(() => setNewPausableFn(self, self.setAttackAnimation), 100);
     }
 
-    setSwimTranslation() {
-        if (this.isSwimming())
-            this.swim();
-        else if (this.isAboveGround() && this.isLongIdle())
-            this.applyGravity();
-        else if (this.hasNoHealth()) {
-            this.applyGravity();
+    setSwimTranslation(self) {
+        if (self.isSwimming())
+            self.swim();
+        else if (self.isAboveGround() && self.isLongIdle())
+            self.applyGravity();
+        else if (self.hasNoHealth()) {
+            self.applyGravity();
         }
-        this.world.camera_x = -this.x + 100;
+        self.world.camera_x = -self.x + 100;
     }
 
-    setImageAnimation() {
+    setImageAnimation(self) {
         switch (true) {
-            case this.hasNoHealth():
-                this.noHealthAnimation();
+            case self.hasNoHealth():
+                self.noHealthAnimation();
                 break;
-            case this.isSlapping:
+            case self.isSlapping:
                 break;
-            case this.isPoisoned:
-                this.poisonedAnimation();
+            case self.isPoisoned:
+                self.poisonedAnimation();
                 break;
-            case this.isShocked:
-                this.shockedAnimation();
+            case self.isShocked:
+                self.shockedAnimation();
                 break;
-            case this.isCreatingBubbleBool:
+            case self.isCreatingBubbleBool:
                 break;
-            case this.isSwimming():
-                this.swimAnimation();
+            case self.isSwimming():
+                self.swimAnimation();
                 break;
-            case this.isLongIdle():
-                this.sleepAnimation();
+            case self.isLongIdle():
+                self.sleepAnimation();
                 break;
-            case !this.isSwimming():
-                this.idleAnimation();
+            case !self.isSwimming():
+                self.idleAnimation();
                 break;
         }
     }
 
-    setAttackAnimation() {
+    setAttackAnimation(self) {
         switch (true) {
-            case this.hasNoHealth():
+            case self.hasNoHealth():
                 break;
-            case this.isSlapping:
-                this.slappingAnimation();
+            case self.isSlapping:
+                self.slappingAnimation();
                 break;
-            case this.isPoisoned:
+            case self.isPoisoned:
                 break;
-            case this.isShocked:
+            case self.isShocked:
                 break;
-            case this.isCreatingBubbleBool:
-                this.bubbleAnimation();
+            case self.isCreatingBubbleBool:
+                self.bubbleAnimation();
                 break;
-            case this.isSwimming():
+            case self.isSwimming():
                 break;
-            case this.isLongIdle():
+            case self.isLongIdle():
                 break;
-            case !this.isSwimming():
+            case !self.isSwimming():
                 break;
         }
     }
