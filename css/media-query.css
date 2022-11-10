@@ -42,13 +42,13 @@
 
 @media (max-width: 640px),
 (max-height: 428px) {
-    #introscreen1 span {
+    #introscreen2 span {
         font-size: 20px;
     }
     .instr-panel {
         gap: 25px;
     }
-    .intro-1-span {
+    .intro-2-span {
         font-size: 20px;
         width: 100px;
     }
@@ -56,7 +56,7 @@
 
 @media (max-width: 540px),
 (max-height: 350px) {
-    #introscreen1 h2 {
+    #introscreen2 h2 {
         margin: 0px;
         margin-bottom: 10px;
     }
@@ -67,10 +67,10 @@
 
 @media (max-width: 450px),
 (max-height: 300px) {
-    #introscreen1 h2 {
+    #introscreen2 h2 {
         font-size: 1.5rem;
     }
-    #introscreen1 span {
+    #introscreen2 span {
         font-size: 1rem;
     }
     .instr-panel {
@@ -80,7 +80,7 @@
 
 @media (max-width: 380px),
 (max-height: 250px) {
-    #introscreen1 h2 {
+    #introscreen2 h2 {
         font-size: 1.2rem;
     }
     .key {
@@ -117,20 +117,20 @@
 
 @media(max-width: 330px),
 (max-height: 212px) {
-    #introscreen1 {
+    #introscreen2 {
         margin-left: 5px;
     }
-    #introscreen1 h2 {
+    #introscreen2 h2 {
         margin-top: -35px;
         font-size: 1rem;
     }
-    #introscreen1 span {
+    #introscreen2 span {
         font-size: .8rem;
     }
     .instr-panel {
         gap: 7px;
     }
-    .intro-1-span {
+    .intro-2-span {
         width: 50px;
     }
 }

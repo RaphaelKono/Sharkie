@@ -29,13 +29,21 @@ function startGame() {
 }
 
 function renderInstruction() {
+    document.getElementById('startBtnPanel').classList.add('d-none');
+    document.getElementById('introscreen1').classList.add('d-none');
+    document.getElementById('canvasContainer').classList.remove('justify-content-between');
+    // document.getElementById('canvasContainer').classList.add('intro-filter');
+    document.getElementById('introscreen2').classList.remove('d-none');
+}
+
+function renderIntro1() {
     if (isOnMobile()) {
         document.getElementById('rotation').classList.remove('d-none');
         document.getElementById('rotation').classList.add('please-rotate-screen');
     }
     document.getElementById('startBtnPanel').classList.add('d-none');
     document.getElementById('canvasContainer').classList.remove('justify-content-between');
-    document.getElementById('canvasContainer').classList.add('intro-filter');
+    // document.getElementById('canvasContainer').classList.add('intro-filter');
     document.getElementById('introscreen1').classList.remove('d-none');
 }
 
@@ -53,7 +61,7 @@ function renderStartScreenAgain() {
     document.getElementById('startBtnPanel').classList.remove('d-none');
     document.getElementById('canvasContainer').classList.add('justify-content-between');
     document.getElementById('canvasContainer').classList.remove('intro-filter');
-    document.getElementById('introscreen1').classList.add('d-none');
+    document.getElementById('introscreen2').classList.add('d-none');
 }
 
 function checkMobile() {

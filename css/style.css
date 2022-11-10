@@ -125,7 +125,7 @@ button {
     font-size: 40px;
     background-color: #531A82;
     border-radius: 20px;
-    border: 4px solid white;
+    border: 4px solid #f0e7c5;
     margin: 20px 0;
     height: 70%;
     width: 90%;
@@ -159,18 +159,18 @@ button {
 
 /* Intro1 screen */
 
-#introscreen1 {
+#introscreen2 {
     margin-left: 20px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-#introscreen1 button {
+#introscreen2 button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-#introscreen1 h2 {
+#introscreen2 h2 {
     font-size: 2rem;
 }
 
@@ -180,7 +180,7 @@ button {
     gap: 30px;
 }
 
-.introscreen1 span {
+.introscreen2 span {
     font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
     color: #f0e7c5;
 }

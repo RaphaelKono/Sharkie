@@ -84,14 +84,20 @@
             <!-- Startscreen -->
             <div id="startBtnPanel" class="startBtn-panel">
                 <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
-                <button onclick="renderInstruction()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
+                <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
             </div>
 
             <!-- Intros -->
             <div id="introscreen1" class="d-none">
+                <h2>Oh no...</h2>
+                <p>Looks like little Sharkie got lost to his group of sharks and needs to swim alone for a while.</p>
+                <p>Help him surviving in the dark ocean with shocking jellyfishes, poisonous pufferfishes and ...</p>
+                <button onclick="renderInstruction(false)" class="key back-key"><img src="img/next-64.png"></button>
+            </div>
+            <div id="introscreen2" class="d-none">
                 <h2>Instructions</h2>
                 <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-1-span">Move shark</span>
+                    <span class="intro-2-span">Move shark</span>
                     <div class="d-flex flex-column">
                         <div class="top-key d-flex justify-content-center"><button class="key key-size"><div class="d-flex justify-content-center align-items-center">W</div></button></div>
                         <div class="bottom-keys">
@@ -111,21 +117,18 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-1-span">Bubble-Attack</span>
+                    <span class="intro-2-span">Bubble-Attack</span>
                     <button class="key space-key"><div class="d-flex justify-content-center align-items-center">SPACE</div></button>
                     <span>Or</span>
                     <span>Swipe Right</span>
                 </div>
                 <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-1-span">Fin-Slap</span>
+                    <span class="intro-2-span">Fin-Slap</span>
                     <button class="key"><div class="d-flex justify-content-center align-items-center">Shift</div></button>
                     <span>Or</span>
                     <span>Swipe Left</span>
                 </div>
                 <button onclick="unrenderInstruction(false)" class="key back-key"><img src="img/undo-4-48.png"></button>
-            </div>
-            <div id="introscreen2" class="d-none">
-
             </div>
         </div>
     </div>
