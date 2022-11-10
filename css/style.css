@@ -7,7 +7,7 @@ body {
     align-items: center;
     min-height: 100vh;
     font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
-    color: rgb(240, 231, 197);
+    color: #f0e7c5;
     overflow-y: hidden;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -28,6 +28,11 @@ h1 {
     letter-spacing: 3px;
     text-shadow: 4px 2px 2px rgb(240, 231, 197, 0.4);
     padding-bottom: 50px;
+}
+
+button {
+    font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
+    color: #f0e7c5;
 }
 
 .bodyimage {
@@ -73,14 +78,66 @@ h1 {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between !important;
-    /* padding: 8px; */
 }
+
+
+/* Top panel */
+
+.top-panel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.top-panel-child {
+    display: flex;
+    gap: 30px;
+}
+
+.fullscreen-img {
+    border-radius: unset !important;
+    backdrop-filter: unset !important;
+}
+
+.toggleFullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Start screen */
 
 .startscreen {
     background: url('../img/3. Background/Mesa de trabajo 1.png') no-repeat center center;
     background-size: 120%;
 }
+
+.startBtn-panel {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    gap: 15px;
+}
+
+.choose-btn {
+    background-color: unset;
+    border: unset;
+    font-size: 40px;
+    background-color: #531A82;
+    border-radius: 20px;
+    border: 4px solid white;
+    margin: 20px 0;
+    height: 70%;
+    width: 90%;
+}
+
+.choose-btn:hover {
+    cursor: pointer;
+    filter: brightness(0.9);
+}
+
+
+/* Win screen */
 
 .win-screen {
     background: url('../img/6.Botones/Tittles/You win/Mesa de trabajo 1.png') no-repeat center center;
@@ -89,12 +146,84 @@ h1 {
     background-color: rgb(0, 0, 0, 0.3);
 }
 
+
+/* Lose screen */
+
 .lose-screen {
     background: url('../img/6.Botones/Tittles/Game Over/Recurso 13.png') no-repeat center 30%;
     background-size: 80%;
     backdrop-filter: blur(8px);
     background-color: rgb(0, 0, 0, 0.3);
 }
+
+
+/* Intro1 screen */
+
+#introscreen1 {
+    margin-left: 20px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#introscreen1 h2 {
+    font-size: 2rem;
+}
+
+.instr-panel {
+    font-size: 30px;
+    margin-bottom: 20px;
+    gap: 30px;
+}
+
+.introscreen1 span {
+    font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
+    color: #f0e7c5;
+}
+
+.intro-1-span {
+    font-size: 30px;
+    width: 200px;
+}
+
+.top-key {
+    margin-bottom: 4px;
+}
+
+.key {
+    border: unset;
+    border: 1px solid #f0e7c5;
+    border-radius: 4px;
+    background-color: #531A82;
+}
+
+.key-size {
+    height: 30px;
+    width: 30px;
+}
+
+.space-key {
+    width: 100px;
+}
+
+.key img {
+    display: block;
+    height: 20px;
+    width: 20px;
+}
+
+.back-key {
+    padding: 5px;
+    position: absolute;
+    bottom: 7.5px;
+    right: 7.5px;
+}
+
+.back-key:hover {
+    cursor: pointer;
+    filter: brightness(0.8);
+}
+
+
+/* Please rotate screen */
 
 .please-rotate-screen {
     display: none;
@@ -111,75 +240,21 @@ h1 {
     background-color: rgb(0, 0, 0, 0.3);
 }
 
-.top-panel {
+.rotate-device {
+    -webkit-animation: spin 3s ease-in-out infinite;
+    -moz-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+
+
+/* General CSS classes */
+
+.d-flex {
     display: flex;
-    justify-content: flex-end;
 }
 
-.top-panel-child {
-    display: flex;
-    gap: 30px;
-}
-
-.bottom-panel {
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn {
-    z-index: 100;
-    border: unset;
-    background: unset;
-    object-fit: cover;
-    padding: 10px 15px;
-}
-
-.btn img {
-    z-index: 100;
-    object-fit: cover;
-    height: 40px;
-    width: 40px;
-    border-radius: 100%;
-    backdrop-filter: blur(1px) brightness(0.8);
-}
-
-.fullscreen-img {
-    border-radius: unset !important;
-    backdrop-filter: unset !important;
-}
-
-.fin-slap {
-    object-fit: cover;
-}
-
-.fin-slap img {
-    object-fit: cover;
-    object-position: 0% 100%;
-    background-color: orange;
-    border-radius: 100%;
-    border-inline: outset;
-}
-
-.arrow-left {
-    transform: rotate(180deg);
-}
-
-.arrow-up {
-    transform: rotate(-90deg);
-}
-
-.arrow-down {
-    transform: rotate(90deg);
-}
-
-.toggleSpeaker {
-    filter: brightness(0.6);
-}
-
-.swipe-panel {
-    display: flex;
-    flex-grow: 1;
-    border: 2px solid red;
+.flex-column {
+    flex-direction: column;
 }
 
 .d-none {
@@ -194,215 +269,14 @@ h1 {
     height: 100vh !important;
 }
 
-.toggleFullscreen {
-    display: flex;
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
     align-items: center;
-    justify-content: center;
-}
-
-.mid-panel {
-    display: flex;
-    justify-content: center;
-}
-
-#startGame {
-    border: unset;
-    color: unset;
-    background-color: unset;
-}
-
-#startGame img {
-    height: 70%;
-    width: 90%;
-}
-
-#startGame:hover {
-    cursor: pointer;
-    filter: brightness(0.9);
-}
-
-.rotate-device {
-    -webkit-animation: spin 3s ease-in-out infinite;
-    -moz-animation: spin 3s linear infinite;
-    animation: spin 3s linear infinite;
-}
-
-#activatePoison img {
-    border: 2px solid rgb(240, 231, 197);
-    padding: 1px;
-}
-
-@-moz-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    20% {
-        -webkit-transform: rotate(90deg);
-    }
-    25% {
-        -webkit-transform: rotate(90deg);
-    }
-    45% {
-        -webkit-transform: rotate(0deg);
-    }
-    50% {
-        -webkit-transform: rotate(0deg);
-    }
-    70% {
-        -webkit-transform: rotate(-90deg);
-    }
-    75% {
-        -webkit-transform: rotate(-90deg);
-    }
-    90% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-    }
-}
-
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    20% {
-        -webkit-transform: rotate(90deg);
-    }
-    25% {
-        -webkit-transform: rotate(90deg);
-    }
-    45% {
-        -webkit-transform: rotate(0deg);
-    }
-    50% {
-        -webkit-transform: rotate(0deg);
-    }
-    70% {
-        -webkit-transform: rotate(-90deg);
-    }
-    75% {
-        -webkit-transform: rotate(-90deg);
-    }
-    90% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    20% {
-        -webkit-transform: rotate(90deg);
-    }
-    25% {
-        -webkit-transform: rotate(90deg);
-    }
-    45% {
-        -webkit-transform: rotate(0deg);
-    }
-    50% {
-        -webkit-transform: rotate(0deg);
-    }
-    70% {
-        -webkit-transform: rotate(-90deg);
-    }
-    75% {
-        -webkit-transform: rotate(-90deg);
-    }
-    90% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-    }
-}
-
-@media (max-height: 900px) {
-    body {
-        justify-content: flex-start;
-    }
-}
-
-@media (max-width: 900px),
-(max-height: 750px) {
-    .frame-img {
-        display: none;
-    }
-    h1 {
-        padding-bottom: unset;
-    }
-}
-
-@media only screen and (max-width: 752px) {
-    canvas {
-        border: unset;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
-    .btn img {
-        height: 6vw;
-        width: 6vw;
-    }
-}
-
-@media only screen and (max-height: 660px) {
-    h1 {
-        font-size: 2rem;
-        margin: 0 !important;
-        margin-bottom: 1rem !important;
-    }
-}
-
-@media only screen and (max-height: 570px) {
-    h1 {
-        display: none;
-    }
-}
-
-@media only screen and (max-height: 512px) {
-    canvas {
-        border: unset;
-    }
-}
-
-@media only screen and (max-height: 480px) {
-    canvas {
-        height: 100vh;
-    }
-    .bodyimage {
-        width: 100%;
-        background-color: black;
-    }
-    .bodyimage img {
-        display: none;
-    }
-}
-
-@media (max-width: 340px) {
-    .btn {
-        border: unset;
-        background: unset;
-        object-fit: cover;
-        padding: unset;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-}
-
-@media only screen and (max-width: 720px) and (orientation: portrait) {
-    .please-rotate-screen {
-        display: flex;
-        backdrop-filter: blur(4px);
-    }
 }

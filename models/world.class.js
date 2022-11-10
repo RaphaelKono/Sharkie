@@ -387,7 +387,7 @@ class World {
             ambience_audio.pause();
             level_music.pause();
             this.character.playAudio(this.character.win_sound);
-            document.getElementById('canvasContainerStart').classList.add('win-screen');
+            document.getElementById('canvasContainer').classList.add('win-screen');
             intervalIds.forEach(clearInterval);
         }, 3000);
     }
@@ -397,7 +397,7 @@ class World {
             ambience_audio.pause();
             level_music.pause();
             this.character.playAudio(this.character.lose_sound);
-            document.getElementById('canvasContainerStart').classList.add('lose-screen');
+            document.getElementById('canvasContainer').classList.add('lose-screen');
             intervalIds.forEach(clearInterval);
         }, 3000);
     }

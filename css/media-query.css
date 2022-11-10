@@ -1,0 +1,175 @@
+@media (max-width: 900px),
+(max-height: 750px) {
+    .frame-img {
+        display: none;
+    }
+    h1 {
+        padding-bottom: unset;
+    }
+}
+
+@media only screen and (max-width: 752px) {
+    canvas {
+        border: unset;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+    .btn img {
+        height: 6vw;
+        width: 6vw;
+    }
+    .choose-btn {
+        height: 70%;
+        width: 90%;
+        font-size: 30px;
+    }
+    .choose-btn span {
+        height: 70%;
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 720px) and (orientation: portrait) {
+    .please-rotate-screen {
+        display: flex;
+        backdrop-filter: blur(4px);
+    }
+}
+
+@media (max-width: 640px),
+(max-height: 428px) {
+    #introscreen1 span {
+        font-size: 20px;
+    }
+    .instr-panel {
+        gap: 25px;
+    }
+    .intro-1-span {
+        font-size: 20px;
+        width: 100px;
+    }
+}
+
+@media (max-width: 540px),
+(max-height: 350px) {
+    #introscreen1 h2 {
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+    .instr-panel {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 450px),
+(max-height: 300px) {
+    #introscreen1 h2 {
+        font-size: 1.5rem;
+    }
+    #introscreen1 span {
+        font-size: 1rem;
+    }
+    .instr-panel {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 380px),
+(max-height: 250px) {
+    #introscreen1 h2 {
+        font-size: 1.2rem;
+    }
+    .key {
+        font-size: 0.6rem;
+    }
+    .key-size {
+        height: 20px;
+        width: 20px;
+    }
+    .key img {
+        height: 10px;
+        width: 10px;
+    }
+    .top-key {
+        margin-bottom: -10px;
+    }
+}
+
+@media (max-width: 340px) {
+    .btn {
+        border: unset;
+        background: unset;
+        object-fit: cover;
+        padding: unset;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .choose-btn {
+        font-size: 25px;
+    }
+}
+
+@media(max-width: 330px),
+(max-height: 212px) {
+    #introscreen1 {
+        margin-left: 5px;
+    }
+    #introscreen1 h2 {
+        margin-top: -35px;
+        font-size: 1rem;
+    }
+    #introscreen1 span {
+        font-size: .8rem;
+    }
+    .instr-panel {
+        gap: 7px;
+    }
+    .intro-1-span {
+        width: 50px;
+    }
+}
+
+@media (max-height: 900px) {
+    body {
+        justify-content: flex-start;
+    }
+}
+
+@media only screen and (max-height: 660px) {
+    h1 {
+        font-size: 2rem;
+        margin: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+@media only screen and (max-height: 570px) {
+    h1 {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 512px) {
+    canvas {
+        border: unset;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+    .bodyimage {
+        width: 100%;
+        background-color: black;
+    }
+    .bodyimage img {
+        display: none;
+    }
+}

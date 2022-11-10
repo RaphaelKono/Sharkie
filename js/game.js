@@ -19,14 +19,41 @@ function init() {
 
 function startGame() {
     canvas = document.getElementById('canvas');
-    document.getElementById('canvasContainerStart').classList.remove('startscreen');
-    document.getElementById('midPanel').classList.add('d-none');
+    document.getElementById('canvasContainer').classList.remove('startscreen');
+    document.getElementById('startBtnPanel').classList.add('d-none');
     document.getElementById('speaker').classList.remove('d-none');
     document.getElementById('fullscreen').classList.remove('d-none');
     keyboard = new Keyboard();
     world = new World(canvas, keyboard);
     checkMobile();
-    // console.log('My character is', world.character);
+}
+
+function renderInstruction() {
+    if (isOnMobile()) {
+        document.getElementById('rotation').classList.remove('d-none');
+        document.getElementById('rotation').classList.add('please-rotate-screen');
+    }
+    document.getElementById('startBtnPanel').classList.add('d-none');
+    document.getElementById('canvasContainer').classList.remove('justify-content-between');
+    document.getElementById('canvasContainer').classList.add('intro-filter');
+    document.getElementById('introscreen1').classList.remove('d-none');
+}
+
+function unrenderInstruction(isInGame) {
+    if (!isInGame) {
+        renderStartScreenAgain();
+    }
+}
+
+function renderStartScreenAgain() {
+    if (isOnMobile()) {
+        document.getElementById('rotation').classList.add('d-none');
+        document.getElementById('rotation').classList.remove('please-rotate-screen');
+    }
+    document.getElementById('startBtnPanel').classList.remove('d-none');
+    document.getElementById('canvasContainer').classList.add('justify-content-between');
+    document.getElementById('canvasContainer').classList.remove('intro-filter');
+    document.getElementById('introscreen1').classList.add('d-none');
 }
 
 function checkMobile() {
@@ -41,9 +68,7 @@ function checkMobile() {
 }
 
 function checkScreenOrientation() {
-    window.addEventListener('resize', () => {
-        pauseGame();
-    });
+    window.addEventListener('resize', () => pauseGame());
 }
 
 function pauseGame() {
