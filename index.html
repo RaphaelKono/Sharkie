@@ -92,8 +92,8 @@
             <div id="introscreen1" class="d-none">
                 <div class="backdrop">
                     <h2>Oh no...</h2>
-                    <p>little Sharkie's gotten lost to his group. Now, he needs to swim alone for a while.</p>
-                    <p>Help him survive in the dark ocean with shocking jellyfishes, poisonous pufferfishes and something darker and more evil...</p>
+                    <p>little Sharkie's gotten lost to his group.</p>
+                    <p>Survive in the dark ocean with shocking jellyfishes, poisonous pufferfishes and something darker and more evil...</p>
                 </div>
                 <button onclick="renderInstruction(false)" class="key back-key"><img src="img/next-64.png"></button>
             </div>
@@ -131,7 +131,16 @@
                     <span>Or</span>
                     <span>Swipe Left</span>
                 </div>
-                <button onclick="unrenderInstruction(false)" class="key back-key"><img src="img/undo-4-48.png"></button>
+                <div id="unrenderInstructionBtn"></div>
+            </div>
+            <div id="introscreen3" class="d-none">
+                <div class="backdrop">
+                    <h2>Important</h2>
+                    <p>Collect ALL coins to...</p>
+                    <p>... toggle poisonous bubbles: ENTER-Key or <img class="intro-Poison-img" src="img/biohazard-64.png">(mobile)</p>
+                    <p>Collect poison to refill your stock of poisonous attacks</p>
+                </div>
+                <button onclick="renderBackStartScreen()" class="key back-key"><img src="img/undo-4-48.png"></button>
             </div>
         </div>
     </div>

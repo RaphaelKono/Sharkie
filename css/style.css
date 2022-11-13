@@ -178,6 +178,9 @@ button {
     margin: 20px;
 }
 
+
+/* Intro2 Screen */
+
 #introscreen2 {
     margin-left: 20px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -245,6 +248,19 @@ button {
 .back-key:hover {
     cursor: pointer;
     filter: brightness(0.8);
+}
+
+
+/* Intro3 Screen */
+
+#introscreen3 {
+    font-size: 1.5rem;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.intro-Poison-img {
+    height: 20px;
+    width: 20px;
 }
 
 

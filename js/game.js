@@ -28,14 +28,6 @@ function startGame() {
     checkMobile();
 }
 
-function renderInstruction() {
-    document.getElementById('startBtnPanel').classList.add('d-none');
-    document.getElementById('introscreen1').classList.add('d-none');
-    document.getElementById('canvasContainer').classList.remove('justify-content-between');
-    // document.getElementById('canvasContainer').classList.add('intro-filter');
-    document.getElementById('introscreen2').classList.remove('d-none');
-}
-
 function renderIntro1() {
     if (isOnMobile()) {
         document.getElementById('rotation').classList.remove('d-none');
@@ -47,13 +39,31 @@ function renderIntro1() {
     document.getElementById('introscreen1').classList.remove('d-none');
 }
 
-function unrenderInstruction(isInGame) {
-    if (!isInGame) {
-        renderStartScreenAgain();
-    }
+function renderInstruction(isInGame) {
+    if (isInGame)
+        document.getElementById('unrenderInstructionBtn').innerHTML = templateButtonBackToGame();
+    else
+        document.getElementById('unrenderInstructionBtn').innerHTML = templateButtonNext();
+    document.getElementById('startBtnPanel').classList.add('d-none');
+    document.getElementById('introscreen1').classList.add('d-none');
+    document.getElementById('canvasContainer').classList.remove('justify-content-between');
+    document.getElementById('introscreen2').classList.remove('d-none');
 }
 
-function renderStartScreenAgain() {
+function templateButtonNext() {
+    return `<button onclick="renderIntro3()" class="key back-key"><img src="img/next-64.png"></button>`;
+}
+
+function templateButtonBackToGame() {
+    return `<button onclick="unrenderStartScreen()" class="key back-key"><img src="img/undo-4-48.png"></button>`;
+}
+
+function renderIntro3() {
+    document.getElementById('introscreen2').classList.add('d-none');
+    document.getElementById('introscreen3').classList.remove('d-none');
+}
+
+function renderBackStartScreen() {
     if (isOnMobile()) {
         document.getElementById('rotation').classList.add('d-none');
         document.getElementById('rotation').classList.remove('please-rotate-screen');
@@ -61,7 +71,7 @@ function renderStartScreenAgain() {
     document.getElementById('startBtnPanel').classList.remove('d-none');
     document.getElementById('canvasContainer').classList.add('justify-content-between');
     document.getElementById('canvasContainer').classList.remove('intro-filter');
-    document.getElementById('introscreen2').classList.add('d-none');
+    document.getElementById('introscreen3').classList.add('d-none');
 }
 
 function checkMobile() {
@@ -89,7 +99,6 @@ function pauseGame() {
 function initListeners() {
     btnSpeaker();
     btnFullscreen();
-    // btnStartGame();
 }
 
 function renderNonLandscape() {
