@@ -1,8 +1,4 @@
 class HealthBar extends StatusBar {
-    height = 158 / 3.5;
-    width = 595 / 3.5;
-    x = 10;
-    y = 0;
     percentage = 100;
 
     IMAGES_HEALTH_BAR = [
@@ -14,9 +10,36 @@ class HealthBar extends StatusBar {
         'img/4. Marcadores/orange/100_  copia.png',
     ];
 
-    constructor() {
-        super().loadImage('img/4. Marcadores/orange/100_  copia.png');
-        this.loadImages(this.IMAGES_HEALTH_BAR);
-        this.setPercentage(100, this.IMAGES_HEALTH_BAR);
+    IMAGES_BOSS_HEALTH_BAR = [
+        'img/4. Marcadores/Purple/0_ .png',
+        'img/4. Marcadores/Purple/20__1.png',
+        'img/4. Marcadores/Purple/40_ .png',
+        'img/4. Marcadores/Purple/60_ .png',
+        'img/4. Marcadores/Purple/80_ .png',
+        'img/4. Marcadores/Purple/100_ .png'
+    ];
+
+
+    constructor(x, y, height, width, isCharacter) {
+        if (isCharacter) {
+            super().loadImage('img/4. Marcadores/orange/100_  copia.png');
+            this.loadBar(this.IMAGES_HEALTH_BAR);
+        } else {
+            super().loadImage('img/4. Marcadores/Purple/100_ .png');
+            this.loadBar(this.IMAGES_BOSS_HEALTH_BAR);
+        }
+        this.setProperties(x, y, height, width);
+    }
+
+    loadBar(imgs) {
+        this.loadImages(imgs);
+        this.setPercentage(100, imgs);
+    }
+
+    setProperties(x, y, height, width) {
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
     }
 }

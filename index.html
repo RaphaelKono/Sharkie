@@ -41,6 +41,7 @@
     <script src="models/status-bars/health-bar.class.js"></script>
     <script src="models/status-bars/poison-bar.class.js"></script>
     <script src="models/status-bars/poison-in-poison-bar.class.js"></script>
+    <script src="models/status-bars/boss-in-boss-bar.class.js"></script>
     <script src="models/status-bars/coin-bar.class.js"></script>
 
     <script src="models/collectible-objects/poison.class.js"></script>
@@ -89,9 +90,11 @@
 
             <!-- Intros -->
             <div id="introscreen1" class="d-none">
-                <h2>Oh no...</h2>
-                <p>Looks like little Sharkie got lost to his group of sharks and needs to swim alone for a while.</p>
-                <p>Help him surviving in the dark ocean with shocking jellyfishes, poisonous pufferfishes and ...</p>
+                <div class="backdrop">
+                    <h2>Oh no...</h2>
+                    <p>little Sharkie's gotten lost to his group. Now, he needs to swim alone for a while.</p>
+                    <p>Help him survive in the dark ocean with shocking jellyfishes, poisonous pufferfishes and something darker and more evil...</p>
+                </div>
                 <button onclick="renderInstruction(false)" class="key back-key"><img src="img/next-64.png"></button>
             </div>
             <div id="introscreen2" class="d-none">

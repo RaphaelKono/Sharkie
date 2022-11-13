@@ -5,11 +5,14 @@ class World {
     camera_x = 0;
     character = new Character();
     level = level1;
-    healthBar = new HealthBar();
+    healthBar = new HealthBar(10, 0, 158 / 3.5, 595 / 3.5, true);
     poisonBar = new PoisonBar();
-    coinBar = new CoinBar();
-    bubbles = [];
     poisonImprovement = new PoisonInPoisonBar();
+    coinBar = new CoinBar();
+    bossBar = new HealthBar(250, 10, 158 / 2.5, 595 / 2.5, false);
+    bossImgInBar = new BossInBossBar();
+    bubbles = [];
+
 
 
     constructor(canvas, keyboard) {
@@ -61,6 +64,8 @@ class World {
         this.addObjectToMap(this.poisonBar);
         this.addObjectToMap(this.poisonImprovement);
         this.addObjectToMap(this.coinBar);
+        this.addObjectToMap(this.bossBar);
+        this.addObjectToMap(this.bossImgInBar);
         // space end
         this.ctx.translate(this.camera_x, 0);
     }
@@ -330,6 +335,7 @@ class World {
             this.winGame(enemy)
         }
         this.character.playAudio(this.character.endboss_damage_sound);
+        this.bossBar.setPercentage(enemy.health, this.bossBar.IMAGES_BOSS_HEALTH_BAR);
     }
 
     dropLoot(xPos, yPos) {

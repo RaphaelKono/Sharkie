@@ -1,6 +1,4 @@
 class PoisonBar extends StatusBar {
-    height = 158 / 3.5;
-    width = 595 / 3.5;
     x = 10;
     y = 35;
     collectedPoisons = 0;

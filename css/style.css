@@ -159,6 +159,25 @@ button {
 
 /* Intro1 screen */
 
+#introscreen1 {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#introscreen1 h2 {
+    font-size: 2rem;
+}
+
+#introscreen1 p {
+    font-size: 1.5rem;
+}
+
+.backdrop {
+    backdrop-filter: brightness(0.8) blur(2px);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
 #introscreen2 {
     margin-left: 20px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;

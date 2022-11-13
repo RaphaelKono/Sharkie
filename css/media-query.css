@@ -31,6 +31,9 @@
         height: 70%;
         width: 90%;
     }
+    .backdrop {
+        padding-top: 1px;
+    }
 }
 
 @media only screen and (max-width: 720px) and (orientation: portrait) {
@@ -40,8 +43,20 @@
     }
 }
 
+@media (max-height: 480px) {
+    .startscreen {
+        background-size: 300%;
+    }
+}
+
 @media (max-width: 640px),
 (max-height: 428px) {
+    #introscreen1 h2 {
+        font-size: 1.5rem;
+    }
+    #introscreen1 p {
+        font-size: 1.2rem;
+    }
     #introscreen2 span {
         font-size: 20px;
     }
@@ -56,6 +71,18 @@
 
 @media (max-width: 540px),
 (max-height: 350px) {
+    #introscreen1 {
+        margin-top: -24px;
+    }
+    .backdrop {
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+    }
+    .backdrop p {
+        padding: 0;
+        margin: 0;
+        margin-bottom: 5px;
+    }
     #introscreen2 h2 {
         margin: 0px;
         margin-bottom: 10px;
@@ -67,6 +94,12 @@
 
 @media (max-width: 450px),
 (max-height: 300px) {
+    #introscreen1 p {
+        font-size: 1rem;
+    }
+    #introscreen1 h2 {
+        font-size: 1.2rem;
+    }
     #introscreen2 h2 {
         font-size: 1.5rem;
     }
@@ -80,6 +113,16 @@
 
 @media (max-width: 380px),
 (max-height: 250px) {
+    .backdrop {
+        margin: 2px;
+        margin-top: 20px;
+    }
+    #introscreen1 p {
+        font-size: 0.8rem;
+    }
+    #introscreen1 h2 {
+        margin-top: -30px;
+    }
     #introscreen2 h2 {
         font-size: 1.2rem;
     }
