@@ -1,18 +1,14 @@
 class MovableObject extends DrawableObject {
     speed;
-    speedY;
+    speedG;
     acceleration;
     health = 100;
-
-    leftDirection = false;
-    DeadByPoison = false;
-    DeadByShock = false;
     // upDirection = false;
 
 
     applyGravity() {
-        this.y += this.speedY;
-        this.speedY += this.acceleration;
+        this.y += this.speedG;
+        this.speedG += this.acceleration;
         if (!this.isAboveGround())
             this.resetGravity();
     }
@@ -22,7 +18,7 @@ class MovableObject extends DrawableObject {
     }
 
     resetGravity() {
-        this.speedY = 0.1 / fps;
+        this.speedG = 0.1 / fps;
         this.acceleration = 0.001;
     }
 

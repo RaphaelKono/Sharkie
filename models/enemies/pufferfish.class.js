@@ -12,7 +12,7 @@ class Pufferfish extends MovableObject {
     offsetRightNearby = -300;
     offsetLeftNearby = -150;
     isAlive = true;
-    speedY = 3;
+    speedG = 3;
     speed = (Math.random() * 60) / fps;
     attack = 20;
     isBlownUp = false;
@@ -107,7 +107,7 @@ class Pufferfish extends MovableObject {
 
     deathSlap() {
         if (this.isAboveGround()) {
-            this.y += this.speedY;
+            this.y += this.speedG;
             this.x -= 2;
         }
     }

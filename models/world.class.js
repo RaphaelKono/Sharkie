@@ -43,6 +43,7 @@ class World {
     addToMap() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.lights);
+        this.addObjectsToMap(this.level.barriers);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.bubbles);
@@ -71,9 +72,17 @@ class World {
     }
 
     addObjectToMap(mo) {
-        if (mo.leftDirection) {
+        this.changeCtx(mo);
+        mo.draw(this.ctx);
+        mo.drawRect(this.ctx);
+        this.rechangeCtx(mo);
+    }
+
+    changeCtx(mo) {
+        if (mo instanceof BackgroundObject)
+            this.translateBgCtx(mo.layer);
+        if (mo.leftDirection)
             this.flipImage(mo);
-        }
         // if (mo.upDirection) {
         //     this.ctx.save();
         //     this.ctx.translate(mo.x + (mo.width / 2), mo.y + (mo.height / 2));
@@ -81,17 +90,30 @@ class World {
         //     mo.y = -mo.height / 2;
         //     this.ctx.rotate(270 * Math.PI / 180);
         // }
-        mo.draw(this.ctx);
-        mo.drawRect(this.ctx);
-        if (mo.leftDirection) {
+    }
+
+    rechangeCtx(mo) {
+        if (mo.leftDirection)
             this.restoreContext(mo);
-        }
+        if (mo instanceof BackgroundObject)
+            this.translateBgCtxBack(mo.layer);
         // if (mo.upDirection) {
         //     mo.x = -(mo.x + mo.height / 2);
         //     mo.y = -(mo.y + mo.width / 2);
         //     this.ctx.restore();
         // }
     }
+
+    translateBgCtx(layer) {
+        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(this.camera_x / layer, 0);
+    }
+
+    translateBgCtxBack(layer) {
+        this.ctx.translate(-this.camera_x / layer, 0);
+        this.ctx.translate(this.camera_x, 0);
+    }
+
 
     drawNewFrame() {
         self = this;
@@ -128,6 +150,7 @@ class World {
         this.checkEnemiesCollisions();
         this.checkBubblesOutOfMap();
         this.checkCollectibleObjectCollision();
+        this.checkBarriersCollision();
         this.healthBar.setPercentage(this.character.health, this.healthBar.IMAGES_HEALTH_BAR);
     }
 
@@ -154,6 +177,14 @@ class World {
     checkCollectibleObjectCollision() {
         this.checkPoisonCollision();
         this.checkCoinCollision();
+    }
+
+    checkBarriersCollision() {
+        this.level.barriers.forEach((barrier) => {
+            if (this.character.isColliding(barrier)) {
+                this.character.isCollidingBarrier = true;
+            }
+        });
     }
 
     checkPoisonCollision() {

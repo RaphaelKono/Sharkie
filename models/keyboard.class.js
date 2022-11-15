@@ -8,6 +8,8 @@ class Keyboard {
     ENTER = false;
     touchstartX = 0;
     touchendX = 0;
+    // lastAction;
+    // lastTwoActions = [];
 
     constructor() {
         this.bindKeyPressEvents();
@@ -18,6 +20,19 @@ class Keyboard {
     bindKeyPressEvents() {
         window.addEventListener('keydown', (event) => {
             this.keyEvents(true, event.keyCode);
+            // this.lastAction = event.keyCode;
+            // console.log('Letzte Aktion: ', this.lastAction);
+            // if (this.lastTwoActions.length < 1) {
+            //     this.lastTwoActions.push(this.lastAction);
+            // }
+            // if (this.lastTwoActions.length < 2) {
+            //     this.lastTwoActions.push(this.lastAction);
+            // }
+            // if (this.lastTwoActions.length >= 2) {
+            //     this.lastTwoActions.push(this.lastAction);
+            //     this.lastTwoActions.splice(0, 1);
+            //     console.log(this.lastTwoActions);
+            // }
         });
 
         window.addEventListener('keyup', (event) => {
@@ -162,6 +177,7 @@ class Keyboard {
         document.getElementById('arrowLeft').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.LEFT = false;
+
         });
     }
 

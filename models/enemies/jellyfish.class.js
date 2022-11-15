@@ -8,7 +8,7 @@ class Jellyfish extends MovableObject {
     offsetRight = 2;
     offsetLeft = 0;
     isAlive = true;
-    speedY = -1;
+    speedG = -1;
     acceleration = -0.01;
     speed = (Math.random() * 60) / fps;
     attack = 20;

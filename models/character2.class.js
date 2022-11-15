@@ -1,11 +1,11 @@
-class Character extends MovableObject {
+class Character2 extends MovableObject {
     x = 48;
     y = 140;
     height = 1000 / 6;
     width = 815 / 6;
     world;
-    speed = 3;
-    speedG = 0.1 / fps;
+    speed = 0;
+
     acceleration = 0.001;
     wentIdle;
     requiredSleepTime = 5000;
@@ -14,6 +14,9 @@ class Character extends MovableObject {
     offsetBottom = 120;
     offsetRight = 55;
     offsetLeft = 28;
+    driftbreak = 0.01;
+    verticalSwimTimerOn = false;
+    swamVertical = this.y;
 
     isShocked = false;
     isCreatingBubbleBool = false;
@@ -23,9 +26,11 @@ class Character extends MovableObject {
     isSlapping = false;
     poisonIsActivated = false;
     leftDirection = false;
+    rightDirection = false;
+    upDirection = false;
+    downDirection = false;
     DeadByPoison = false;
     DeadByShock = false;
-    isCollidingBarrier = false;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -195,6 +200,8 @@ class Character extends MovableObject {
             self.applyGravity();
         else if (self.hasNoHealth())
             self.applyGravity();
+        else if (!self.isSwimming() && !self.isLongIdle() && !self.hasChangedDirection())
+            self.drift();
         if (self.x < 2250) {
             world.camera_x = -self.x + 100;
         }
@@ -264,8 +271,33 @@ class Character extends MovableObject {
             this.swimDown();
     }
 
+    drift() {
+        if (this.leftDirection)
+            this.driftLeft();
+        if (this.rightDirection)
+            this.driftRight();
+        // if (this.upDirection)
+        //     this.driftUp();
+        // if (this.downDirection)
+        //     this.driftDown();
+    }
+
+    hasChangedDirection() {
+        return this.hasChangedxDirection() || this.hasChangedyDirection();
+    }
+
+    hasChangedxDirection() {
+        return this.world.keyboard.lastTwoActions[0] == 68 && this.world.keyboard.lastTwoActions[1] == 65 ||
+            this.world.keyboard.lastTwoActions[0] == 65 && this.world.keyboard.lastTwoActions[1] == 68;
+    }
+
+    hasChangedyDirection() {
+        return this.world.keyboard.lastTwoActions[0] == 83 && this.world.keyboard.lastTwoActions[1] == 87 ||
+            this.world.keyboard.lastTwoActions[0] == 87 && this.world.keyboard.lastTwoActions[1] == 83;
+    }
+
     isSwimming() {
-        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.hasNoHealth() && !this.isCollidingBarrier;
+        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.hasNoHealth();
     }
 
     isSwimmingRight() {
@@ -313,20 +345,87 @@ class Character extends MovableObject {
     swimRight() {
         this.x += this.speed;
         this.leftDirection = false;
+        this.rightDirection = true;
+        this.upDirection = false;
+        this.downDirection = false;
+        this.accelerate();
+    }
+
+    driftRight() {
+        this.x += this.speed;
+        this.slowDown();
     }
 
     swimLeft() {
         this.x -= this.speed;
         this.leftDirection = true;
+        this.rightDirection = false;
+        this.upDirection = false;
+        this.downDirection = false;
+        this.accelerate();
+    }
+
+    driftLeft() {
+        this.x -= this.speed;
+        this.slowDown();
     }
 
     swimUp() {
         this.y -= this.speed;
+        if (!this.world.keyboard.LEFT) {
+            this.leftDirection = false;
+        }
+        this.rightDirection = false;
+        this.upDirection = true;
+        this.downDirection = false;
+        this.accelerate();
     }
 
     swimDown() {
         this.y += this.speed;
+        if (!this.world.keyboard.LEFT) {
+            this.leftDirection = false;
+        }
+
+        this.rightDirection = false;
+        this.upDirection = false;
+        this.downDirection = true;
+        this.accelerate();
     }
+
+
+    accelerate() {
+        if (this.speed <= 3) {
+            this.speed = this.speed + (0.2 + this.driftbreak);
+        }
+        if (this.speed >= 3)
+            this.speed = 3;
+    }
+
+    slowDown() {
+        if (this.speed >= 0) {
+            this.speed = this.speed - (0.05 - this.driftbreak);
+        }
+        if (this.speed <= 0)
+            this.speed = 0;
+    }
+
+    accelerateY() {
+        if (this.speedY <= 3) {
+            this.speedY = this.speedY + (0.2 + this.driftbreak);
+        }
+        if (this.speedY >= 3)
+            this.speedY = 3;
+    }
+
+    slowDownY() {
+        if (this.speedY >= 0) {
+            this.speedY = this.speedY - (0.05 - this.driftbreak);
+        }
+        if (this.speedY <= 0)
+            this.speedY = 0;
+    }
+
 
     noHealthAnimation() {
         if (this.DeadByShock)

@@ -2,7 +2,7 @@ class ThrowableObject extends MovableObject {
     height = 25;
     width = 25;
     speed = 3.5;
-    speedY = -0.2;
+    speedG = -0.2;
     acceleration = -0.008;
     x;
     y;

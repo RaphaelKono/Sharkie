@@ -35,7 +35,6 @@ function renderIntro1() {
     }
     document.getElementById('startBtnPanel').classList.add('d-none');
     document.getElementById('canvasContainer').classList.remove('justify-content-between');
-    // document.getElementById('canvasContainer').classList.add('intro-filter');
     document.getElementById('introscreen1').classList.remove('d-none');
 }
 
@@ -207,17 +206,6 @@ function playBackground() {
 function isOnMobile() {
     return /Mobi|Android/i.test(navigator.userAgent);
 }
-
-// function btnStartGame() {
-//     document.getElementById('startGame').addEventListener('mousedown', (e) => {
-//         e.preventDefault();
-//         startGame();
-//     });
-//     document.getElementById('startGame').addEventListener('touchend', (e) => {
-//         e.preventDefault();
-//         startGame();
-//     });
-// }
 
 function setCustomInterval(fn, time) {
     let id = setInterval(fn, time);
