@@ -14,7 +14,9 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y + this.offsetTop + this.height - this.offsetBottom < 450;
+        let arr = [];
+        world.level.barriers.forEach(barrier => arr.push(this.handleCollision(barrier)));
+        return this.y + this.offsetTop + this.height - this.offsetBottom < 450 && !arr.some(item => item === 'bottom');
     }
 
     resetGravity() {

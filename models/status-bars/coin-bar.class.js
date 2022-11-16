@@ -2,7 +2,7 @@ class CoinBar extends StatusBar {
     x = 10;
     y = 70;
     collectedCoins = 0;
-    maxCoins = 5;
+    maxCoins;
     percentage = 0;
 
     IMAGES_COIN_BAR = [

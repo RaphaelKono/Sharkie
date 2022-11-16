@@ -34,6 +34,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.coinBar.maxCoins = this.level.coins.length;
     }
 
     clearPriorFrame() {

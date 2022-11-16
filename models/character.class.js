@@ -177,7 +177,13 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_POISONED);
         this.loadImages(this.IMAGES_DEAD_BY_POISON);
         this.loadImages(this.IMAGES_FIN_SLAP);
+        this.calcProperties();
         this.animate();
+    }
+
+    calcProperties() {
+        this.halfWidth = (this.width - this.offsetRight) / 2;
+        this.halfHeight = (this.height - this.offsetBottom) / 2;
     }
 
 
@@ -265,23 +271,31 @@ class Character extends MovableObject {
     }
 
     isSwimming() {
-        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.hasNoHealth() && !this.isCollidingBarrier;
+        return (this.isSwimmingRight() || this.isSwimmingLeft() || this.isSwimmingUp() || this.isSwimmingDown()) && !this.hasNoHealth();
     }
 
     isSwimmingRight() {
-        return this.world.keyboard.RIGHT && this.isInRightBorder();
+        let arr = [];
+        this.world.level.barriers.forEach(barrier => arr.push(this.handleCollision(barrier)));
+        return this.world.keyboard.RIGHT && this.isInRightBorder() && !arr.some(item => item === 'right');
     }
 
     isSwimmingLeft() {
-        return this.world.keyboard.LEFT && this.isInLeftBorder();
+        let arr = [];
+        this.world.level.barriers.forEach(barrier => arr.push(this.handleCollision(barrier)));
+        return this.world.keyboard.LEFT && this.isInLeftBorder() && !arr.some(item => item === 'left');
     }
 
     isSwimmingUp() {
-        return this.world.keyboard.UP && this.isInTopBorder();
+        let arr = [];
+        this.world.level.barriers.forEach(barrier => arr.push(this.handleCollision(barrier)));
+        return this.world.keyboard.UP && this.isInTopBorder() && !arr.some(item => item === 'top');
     }
 
     isSwimmingDown() {
-        return this.world.keyboard.DOWN && this.isAboveGround();
+        let arr = [];
+        this.world.level.barriers.forEach(barrier => arr.push(this.handleCollision(barrier)));
+        return this.world.keyboard.DOWN && this.isAboveGround() && !arr.some(item => item === 'bottom');
     }
 
     isInRightBorder() {

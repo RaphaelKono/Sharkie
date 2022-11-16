@@ -20,5 +20,11 @@ class Barrier extends DrawableObject {
         this.offsetLeft = offsetLeft;
         this.offsetRight = offsetRight;
         this.offsetBottom = offsetBottom;
+        this.calcProperties();
+    }
+
+    calcProperties() {
+        this.halfWidth = (this.width - this.offsetRight) / 2;
+        this.halfHeight = (this.height - this.offsetBottom) / 2;
     }
 }
