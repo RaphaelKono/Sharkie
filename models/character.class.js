@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    x = 48;
+    x = -100;
     y = 140;
     height = 1000 / 6;
     width = 815 / 6;
@@ -10,10 +10,10 @@ class Character extends MovableObject {
     wentIdle;
     requiredSleepTime = 5000;
     currentImage = 0;
-    offsetTop = 80;
-    offsetBottom = 120;
-    offsetRight = 55;
-    offsetLeft = 28;
+    offsetTop = 88;
+    offsetBottom = 125;
+    offsetRight = 65;
+    offsetLeft = 35;
 
     isShocked = false;
     isCreatingBubbleBool = false;
@@ -201,7 +201,7 @@ class Character extends MovableObject {
             self.applyGravity();
         else if (self.hasNoHealth())
             self.applyGravity();
-        if (self.x < 2250) {
+        if (self.x < 2250 && self.x > -600) {
             world.camera_x = -self.x + 100;
         }
 
@@ -305,7 +305,7 @@ class Character extends MovableObject {
     // 2250
 
     isInLeftBorder() {
-        return this.x > -618;
+        return this.x > -680;
     }
 
     isInTopBorder() {

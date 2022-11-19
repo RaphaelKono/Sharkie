@@ -4,6 +4,13 @@ class MovableObject extends DrawableObject {
     acceleration;
     health = 100;
     // upDirection = false;
+    horizontalBool = false;
+    verticalBool = false;
+    x0;
+    y0;
+    distance;
+    xDistanceReached = false;
+    yDistanceReached = false;
 
 
     applyGravity() {
@@ -121,7 +128,50 @@ class MovableObject extends DrawableObject {
     bubbleX() {
         return this.x + this.width + this.offsetLeft - this.offsetRight;
     }
+
     bubbleY() {
         return this.y + this.height / 2 + 5;
+    }
+
+    setEnemyProperties(x0, y0, horizontalBool, verticalBool, distance) {
+        this.x0 = x0;
+        this.y0 = y0;
+        this.x = x0;
+        this.y = y0;
+        this.horizontalBool = horizontalBool;
+        this.verticalBool = verticalBool;
+        this.distance = distance;
+    }
+
+    enemyMovement() {
+        if (this.horizontalBool)
+            this.enemyMoveHorizontal();
+        if (this.verticalBool)
+            this.enemyMoveVertical();
+    }
+
+    enemyMoveHorizontal() {
+        if (this.x < this.x0 - this.distance)
+            this.xDistanceReached = true;
+        else if (this.x > this.x0)
+            this.xDistanceReached = false;
+        if (!this.xDistanceReached)
+            this.x -= this.speed;
+        else
+            this.x += this.speed
+    }
+
+    enemyMoveVertical() {
+        if (this.y < this.y0 - this.distance) {
+            this.yDistanceReached = true;
+        } else if (this.y > this.y0) {
+            this.yDistanceReached = false;
+        }
+
+        if (!this.yDistanceReached) {
+            this.y -= this.speed;
+        } else {
+            this.y += this.speed
+        }
     }
 }

@@ -33,7 +33,7 @@ class DrawableObject {
     }
 
     drawRect(ctx) {
-        if (this.isObjectToGetBorderRed())
+        if (this.isObjectToGetBorderRed() && !hitboxesHidden)
             this.drawRedRects(ctx);
     }
 

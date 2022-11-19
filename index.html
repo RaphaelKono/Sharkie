@@ -63,10 +63,9 @@
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
         <div id="canvasContainer" class="canvas-container justify-content-between startscreen">
-            <div class="top-panel">
+            <div id="topPanel" class="top-panel">
                 <div class="top-panel-child">
-                    <button id="speaker" class="btn toggleSpeaker"><img class="fullscreen-img" src="img/speaker-64.png"></button>
-                    <button id="fullscreen" class="btn"><img class="fullscreen-img" src="img/fullscreen-12-64.png"></button>
+                    <button id="settings" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
                 </div>
             </div>
 
@@ -97,8 +96,9 @@
                     <p>little Sharkie's gotten lost to his group.</p>
                     <p>Survive in the dark ocean with shocking jellyfishes, poisonous pufferfishes and something darker and more evil...</p>
                 </div>
-                <button onclick="renderInstruction(false)" class="key back-key"><img src="img/next-64.png"></button>
+                <button onclick="renderInstruction()" class="key back-key"><img src="img/next-64.png"></button>
             </div>
+
             <div id="introscreen2" class="d-none">
                 <h2>Instructions</h2>
                 <div class="d-flex align-items-center instr-panel">
@@ -135,6 +135,7 @@
                 </div>
                 <div id="unrenderInstructionBtn"></div>
             </div>
+
             <div id="introscreen3" class="d-none">
                 <div class="backdrop">
                     <h2>Important</h2>
@@ -144,19 +145,48 @@
                 </div>
                 <button onclick="renderBackStartScreen()" class="key back-key"><img src="img/undo-4-48.png"></button>
             </div>
+
+            <!-- SettingScreen -->
+            <div id="settingsScreen" class="d-none">
+                <div class="d-flex flex-column justify-content-between settingsScreen-child">
+                    <div class="d-flex flex-end">
+                        <button id="closeSettings" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div id="gameMenu" class="settingmenu d-flex flex-column align-items-center fit-content">
+                            <button id="closeSettingsX" class="btn close-X"><img class="fullscreen-img" src="img/x-mark-48.png"></button>
+                            <p>Game menu</p>
+                            <div class="d-flex flex-column">
+                                <button id="speaker" class="btn d-flex align-items-center menu-gap"><img class="fullscreen-img" src="img/mute-64.png"><span>Toggle Sound</span></button>
+                                <button id="fullscreen" class="btn d-flex align-items-center menu-gap"><img class="fullscreen-img" src="img/fullscreen-12-64.png"><span>Toggle Fullscreen</span></button>
+                                <button id="help" class="btn d-flex align-items-center menu-gap"><img class="fullscreen-img" src="img/help-64.png"><span>Tutorial</span></button>
+                                <button id="hitbox" class="btn d-flex align-items-center menu-gap">
+                            <div class="checkbox"><img class="fullscreen-img hidden" src="img/check-mark-6-64.png"></div>
+                            <span>Show Hitboxes</span>
+                        </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="importantLinks" class="d-flex justify-content-center flex-wrap">
+                        <a id="privacyStatement" href="">Datenschutzerklärung</a>
+                        <a id="imprint" href="">Impressum</a>
+                        <a id="attributions" href="">Attributions</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div id="rotation" class="d-none">
-        <img class="rotate-device" src="img/phone-42-128.png">
-        <h2>Please rotate device</h2>
-    </div>
 
-    <!-- Attributions -->
+        <div id="rotation" class="d-none">
+            <img class="rotate-device" src="img/phone-42-128.png">
+            <h2>Please rotate device</h2>
+        </div>
 
-    <!-- <a href="https://www.freepik.com/free-vector/ocean-sea-underwater-background-empty-bottom_7058927.htm#query=under%20water%20cartoon&position=10&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
-    <!-- <a href="https://www.freepik.com/free-vector/game-streaming-overlay-panels-buttons-with-water-texture-template-webcam-video-app-design-vector-cartoon-set-live-stream-blue-frames-show-gaming-process_21050376.htm#query=frame%20game%20aqua&position=1&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
-    <!-- <a href="https://freesound.org/people/bradwesson/sounds/135936/"> Collect Coin Sound by bradwesson on Freesound -->
-    <!-- Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6357">Pixabay</a> Fin-Slap-->
+        <!-- Attributions -->
+
+        <!-- <a href="https://www.freepik.com/free-vector/ocean-sea-underwater-background-empty-bottom_7058927.htm#query=under%20water%20cartoon&position=10&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
+        <!-- <a href="https://www.freepik.com/free-vector/game-streaming-overlay-panels-buttons-with-water-texture-template-webcam-video-app-design-vector-cartoon-set-live-stream-blue-frames-show-gaming-process_21050376.htm#query=frame%20game%20aqua&position=1&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
+        <!-- <a href="https://freesound.org/people/bradwesson/sounds/135936/"> Collect Coin Sound by bradwesson on Freesound -->
+        <!-- Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6357">Pixabay</a> Fin-Slap-->
 </body>
 
 </html>

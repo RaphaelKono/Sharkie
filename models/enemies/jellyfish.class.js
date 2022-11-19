@@ -4,13 +4,13 @@ class Jellyfish extends MovableObject {
     height = 300 / 5;
     width = 211 / 5;
     offsetTop = 7;
-    offsetBottom = 15;
-    offsetRight = 2;
-    offsetLeft = 0;
+    offsetBottom = 20;
+    offsetRight = 10;
+    offsetLeft = 5;
     isAlive = true;
     speedG = -1;
     acceleration = -0.01;
-    speed = (Math.random() * 60) / fps;
+    speed = 1;
     attack = 20;
 
 
@@ -20,7 +20,7 @@ class Jellyfish extends MovableObject {
         setCustomInterval(() => setNewPausableFn(self, this.setJellyfishTranslation), 1000 / fps);
     }
 
-    setJellyfishAnimation(self, ) {
+    setJellyfishAnimation(self) {
         switch (true) {
             case !self.isAlive:
                 self.playAnimation(self.IMAGES_TRAP);
@@ -29,12 +29,12 @@ class Jellyfish extends MovableObject {
                 self.playAnimation(self.IMAGES_SWIM);
                 break;
         }
-
     }
 
     setJellyfishTranslation(self) {
         if (self.isAlive) {
-            self.x -= self.speed;
+            self.enemyMovement();
+            // self.x -= self.speed;
         } else {
             self.applyGravity();
         }

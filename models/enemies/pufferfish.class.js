@@ -1,6 +1,6 @@
 class Pufferfish extends MovableObject {
-    x = 680 - Math.random() * 180;
-    y = Math.random() * (420 - 30);
+    x = 250;
+    y = 400;
     height = 198 / 4;
     width = 241 / 4;
     offsetTop = 0;
@@ -99,7 +99,7 @@ class Pufferfish extends MovableObject {
 
     setPufferfishTranslation(self) {
         if (self.isAlive) {
-            self.x -= self.speed;
+            // self.x -= self.speed;
         } else {
             self.deathSlap();
         }

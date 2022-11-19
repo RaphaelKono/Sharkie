@@ -12,10 +12,11 @@ class PurpleJellyfish extends Jellyfish {
         'img/2.Enemy/2 Jelly fish/Dead/Lila/L4.png'
     ];
 
-    constructor() {
+    constructor(x0, y0, horizontalBool, verticalBool, distance) {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_TRAP);
+        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distance);
         this.animate();
     }
 }

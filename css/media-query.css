@@ -76,6 +76,22 @@
     #introscreen3 h2 {
         font-size: 1.5rem;
     }
+    .settingmenu {
+        margin-top: -50px;
+    }
+}
+
+@media (max-height: 380px) {
+    .settingmenu p {
+        margin-bottom: 0;
+    }
+    .settingmenu button {
+        padding: 6px;
+    }
+    .settingmenu button img {
+        height: 18px;
+        width: 18px;
+    }
 }
 
 @media (max-width: 540px),
@@ -120,6 +136,16 @@
     }
     #introscreen3 h2 {
         margin-top: -35px;
+    }
+    .settingmenu p {
+        margin-bottom: 0px;
+        font-size: 18px;
+    }
+    .settingmenu button {
+        padding-bottom: 4px;
+    }
+    #settingsScreen a {
+        font-size: 12px;
     }
 }
 
@@ -168,6 +194,13 @@
     .choose-btn {
         font-size: 25px;
     }
+    .settingmenu p {
+        font-size: 16px;
+        margin-top: 4px;
+    }
+    .settingmenu button {
+        padding-top: 4px;
+    }
 }
 
 @media(max-width: 330px),
@@ -190,6 +223,9 @@
     }
     #introscreen3 p {
         font-size: 1rem;
+    }
+    #settingsScreen a {
+        font-size: 10px;
     }
 }
 

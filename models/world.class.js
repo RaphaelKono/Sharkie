@@ -4,7 +4,7 @@ class World {
     keyboard;
     camera_x = 0;
     character = new Character();
-    level = level1;
+    level = level1();
     healthBar = new HealthBar(10, 0, 158 / 3.5, 595 / 3.5, true);
     poisonBar = new PoisonBar();
     poisonImprovement = new PoisonInPoisonBar();
@@ -197,6 +197,7 @@ class World {
 
     collectPoison(k) {
         this.poisonBar.collectedPoisons++;
+        this.character.collectPoison_sound.currentTime = 0;
         this.character.playAudio(this.character.collectPoison_sound);
         if (this.poisonBar.isPoisonous)
             this.poisonBar.setPercentage((this.poisonBar.collectedPoisons / this.poisonBar.maxPoisons) * 100, this.poisonBar.IMAGES_POISON_BAR_ACTIVATED);
@@ -214,7 +215,8 @@ class World {
 
     collectCoin(k) {
         this.coinBar.collectedCoins++;
-        this.character.playAudio(this.character.collectPoison_sound);
+        this.character.collectCoin_sound.currentTime = 0;
+        this.character.playAudio(this.character.collectCoin_sound);
         this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
         this.level.coins.splice(k, 1);
     }
@@ -248,10 +250,10 @@ class World {
             enemy.offsetBottomNearby = 0;
             enemy.offsetRightNearby = 10;
             enemy.offsetLeftNearby = 0;
-            enemy.offsetTop = 0;
-            enemy.offsetBottom = 0;
-            enemy.offsetRight = 10;
-            enemy.offsetLeft = 0;
+            enemy.offsetTop = 5;
+            enemy.offsetBottom = 10;
+            enemy.offsetRight = 20;
+            enemy.offsetLeft = 5;
         }
     }
 
