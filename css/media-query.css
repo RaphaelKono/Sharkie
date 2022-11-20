@@ -31,12 +31,6 @@
         height: 70%;
         width: 90%;
     }
-    .backdrop {
-        padding-top: 1px;
-    }
-    #introscreen3 p {
-        margin-bottom: 0;
-    }
 }
 
 @media only screen and (max-width: 720px) and (orientation: portrait) {
@@ -54,30 +48,39 @@
 
 @media (max-width: 640px),
 (max-height: 428px) {
-    #introscreen1 h2 {
-        font-size: 1.5rem;
+    .intro-screen h2 {
+        font-size: 2rem;
     }
-    #introscreen1 p {
+    .instructions td {
         font-size: 1.2rem;
-    }
-    #introscreen2 span {
-        font-size: 20px;
-    }
-    .instr-panel {
-        gap: 25px;
-    }
-    .intro-2-span {
-        font-size: 20px;
-        width: 100px;
-    }
-    #introscreen3 p {
-        font-size: 1.2rem;
-    }
-    #introscreen3 h2 {
-        font-size: 1.5rem;
     }
     .settingmenu {
         margin-top: -50px;
+    }
+}
+
+@media(max-width: 540px) {
+    .backdrop {
+        padding: 5px;
+    }
+    .intro-screen h2 {
+        font-size: 1.5rem;
+    }
+    .intro-screen p {
+        font-size: 1.2rem;
+    }
+}
+
+@media(max-width: 480px),
+(max-height: 340px) {
+    .intro-screen h2 {
+        font-size: 1.2rem;
+    }
+    .instructions td {
+        padding: 4px;
+    }
+    .intro-screen p {
+        font-size: 1rem;
     }
 }
 
@@ -94,49 +97,8 @@
     }
 }
 
-@media (max-width: 540px),
-(max-height: 350px) {
-    #introscreen1 {
-        margin-top: -24px;
-    }
-    .backdrop {
-        margin-bottom: 5px;
-        padding-bottom: 5px;
-    }
-    .backdrop p {
-        padding: 0;
-        margin: 0;
-        margin-bottom: 5px;
-    }
-    #introscreen2 h2 {
-        margin: 0px;
-        margin-bottom: 10px;
-    }
-    .instr-panel {
-        margin-bottom: 10px;
-    }
-}
-
 @media (max-width: 450px),
 (max-height: 300px) {
-    #introscreen1 p {
-        font-size: 1rem;
-    }
-    #introscreen1 h2 {
-        font-size: 1.2rem;
-    }
-    #introscreen2 h2 {
-        font-size: 1.5rem;
-    }
-    #introscreen2 span {
-        font-size: 1rem;
-    }
-    .instr-panel {
-        gap: 10px;
-    }
-    #introscreen3 h2 {
-        margin-top: -35px;
-    }
     .settingmenu p {
         margin-bottom: 0px;
         font-size: 18px;
@@ -149,20 +111,13 @@
     }
 }
 
-@media (max-width: 380px),
-(max-height: 250px) {
-    .backdrop {
-        margin: 2px;
-        margin-top: 20px;
+@media (max-width: 420px),
+(max-height: 300px) {
+    .intro-screen h2 {
+        font-size: 1rem;
     }
-    #introscreen1 p {
-        font-size: 0.8rem;
-    }
-    #introscreen1 h2 {
-        margin-top: -30px;
-    }
-    #introscreen2 h2 {
-        font-size: 1.2rem;
+    .instructions td {
+        font-size: 1rem;
     }
     .key {
         font-size: 0.6rem;
@@ -176,7 +131,19 @@
         width: 10px;
     }
     .top-key {
-        margin-bottom: -10px;
+        margin-bottom: -4px;
+    }
+}
+
+@media(max-width: 360px) {
+    .intro-screen h2 {
+        margin: 4px;
+    }
+    .instructions td {
+        padding: 2px;
+    }
+    .backdrop {
+        padding: 0;
     }
 }
 
@@ -201,29 +168,17 @@
     .settingmenu button {
         padding-top: 4px;
     }
+    .intro-screen h2 {
+        display: none;
+    }
+    .instructions td {
+        font-size: .8rem;
+        padding: 1px;
+    }
 }
 
 @media(max-width: 330px),
 (max-height: 212px) {
-    #introscreen2 {
-        margin-left: 5px;
-    }
-    #introscreen2 h2 {
-        margin-top: -35px;
-        font-size: 1rem;
-    }
-    #introscreen2 span {
-        font-size: .8rem;
-    }
-    .instr-panel {
-        gap: 7px;
-    }
-    .intro-2-span {
-        width: 50px;
-    }
-    #introscreen3 p {
-        font-size: 1rem;
-    }
     #settingsScreen a {
         font-size: 10px;
     }

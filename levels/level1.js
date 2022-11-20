@@ -1,9 +1,9 @@
 function level1() {
     const level1 = new LevelObject(
         [
-            new PurpleJellyfish(200, 200, true, false, 50),
-            new PurpleJellyfish(200, 300, true, false, 50),
-            new PurpleJellyfish(),
+            new PurpleJellyfish(400, 130, true, false, 200),
+            new PurpleJellyfish(400, 230, true, false, 200),
+            new PurpleJellyfish(400, 330, true, false, 200),
             new YellowJellyfish(),
             new GreenJellyfish(),
             new PinkJellyfish(),
@@ -47,10 +47,6 @@ function level1() {
             new Light('img/3. Background/Layers/1. Light/1.png', 719 * 2),
             new Light('img/3. Background/Layers/1. Light/2.png', 719 * 3)
         ], [
-            // new BackgroundObject('img/3. Background/Layers/5. Water/D2.png', -720, 4),
-            // new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', -720, 3),
-            // new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', -720, 2),
-            // new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', -720, 1),
             new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 0, 0, 720, 480, 4),
             new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 0, 0, 720, 480, 3),
             new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 0, 0, 720, 480, 2),
@@ -110,21 +106,20 @@ function level1() {
             new Barrier(120, 360, 480, 0, 360 * 3 / 4, 65, 75, 3 / 4 * 380),
             new Barrier(120, 360, 480, 0, 10 * 3 / 4, 55, 75, 3 / 4 * 440),
         ], [
-            // new Poison(-100, 403, false),
-            // new Poison(100, 403, false),
-            // new Poison(50, 403, false),
-            // new Poison(-100, 403, false),
-            // new Poison(100, 403, false),
-            // new Poison(50, 403, false),
-            // new Poison(50, 403, false),
-            // new Poison(300, 403, false)
+            new Poison(-100, 403, false),
+            new Poison(100, 403, false),
+            new Poison(50, 403, false),
+            new Poison(-100, 403, false),
+            new Poison(100, 403, false),
+            new Poison(100, 403, false),
+            new Poison(100, 403, false)
         ], [
-            // new Coin(-100, 100),
-            // new Coin(-50, 150),
-            // new Coin(0, 200),
-            // new Coin(50, 150),
-            // new Coin(100, 200),
-            // new Coin(300, 200)
+            new Coin(-620, 270),
+            new Coin(-500, 150),
+            new Coin(-350, 200),
+            new Coin(-200, 250),
+            new Coin(100, 50),
+            new Coin(300, 50)
         ]
     );
     return level1;

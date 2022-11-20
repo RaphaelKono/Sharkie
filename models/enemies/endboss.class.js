@@ -1,6 +1,6 @@
 class Endboss extends MovableObject {
     x = 2200;
-    y = 100;
+    y = 0;
     height = 1216 / 4;
     width = 1041 / 4;
     offsetTop = 145;
@@ -10,6 +10,9 @@ class Endboss extends MovableObject {
     attack = 40;
     isAlive = true;
     currentImage = 0;
+    firstContact = false;
+    hasDied = false;
+    isAttacking = false;
 
     IMAGES_SWIM = [
         'img/2.Enemy/3 Final Enemy/2.floating/1.png',
@@ -42,11 +45,35 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png'
     ];
 
+    IMAGES_INTRO = [
+        'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/2.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/3.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/4.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/5.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/6.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/7.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/8.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/9.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/10.png'
+    ];
+
+    IMAGES_ATTACK = [
+        'img/2.Enemy/3 Final Enemy/Attack/1.png',
+        'img/2.Enemy/3 Final Enemy/Attack/1.png',
+        'img/2.Enemy/3 Final Enemy/Attack/1.png',
+        'img/2.Enemy/3 Final Enemy/Attack/1.png',
+        'img/2.Enemy/3 Final Enemy/Attack/1.png',
+        'img/2.Enemy/3 Final Enemy/Attack/6.png'
+    ];
+
     constructor() {
-        super().loadImage('img/2.Enemy/3 Final Enemy/2.floating/1.png');
+        super().loadImage('img/2.Enemy/3 Final Enemy/1.Introduce/1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_INTRO);
+        this.loadImages(this.IMAGES_ATTACK);
         this.animate();
     }
 
@@ -56,21 +83,60 @@ class Endboss extends MovableObject {
     }
 
     setAnimation(self) {
+        if (!self.firstContact && world.character.x >= 1895)
+            self.firstContact = true;
+        self.setCases();
+    }
+
+    setCases() {
         switch (true) {
-            case self.hasNoHealth():
-                self.playDeadAnimation(self.IMAGES_DEAD);
+            case this.firstEncounter():
+                this.playEndbossAnimationOnce(this.IMAGES_INTRO);
                 break;
-            case self.isHurt():
-                self.playAnimation(self.IMAGES_HURT);
+            case this.isAttacking:
+                this.playEndbossAnimationOnce(this.IMAGES_ATTACK);
                 break;
-            case !self.isHurt():
-                self.playAnimation(self.IMAGES_SWIM);
+            case this.hasNoHealth():
+                this.playEndbossAnimationOnce(this.IMAGES_DEAD);
+                break;
+            case this.isHurt():
+                this.playAnimation(this.IMAGES_HURT);
+                break;
+            case !this.isHurt():
+                this.setBossSwimAnimation();
                 break;
         }
     }
 
-    playDeadAnimation(imgs) {
+    playEndbossAnimationOnce(imgs) {
+        if (this.firstEncounter())
+            this.setFirstEncounterImgs(imgs);
+        else if (this.hasNoHealth())
+            this.setDeadImgs(imgs);
+    }
+
+    firstEncounter() {
+        if (this.firstContact && !world.endbossIntroduced)
+            return true;
+        else
+            return false;
+    }
+
+    setFirstEncounterImgs(imgs) {
+        this.setCurrentImage(imgs);
+        if (this.currentImage == imgs.length) {
+            world.endbossIntroduced = true;
+            this.currentImage = 0;
+        }
+    }
+
+    setDeadImgs(imgs) {
         if (this.currentImage <= 4)
             this.setCurrentImage(imgs);
+    }
+
+    setBossSwimAnimation() {
+        if (world.endbossIntroduced)
+            this.playAnimation(this.IMAGES_SWIM);
     }
 }

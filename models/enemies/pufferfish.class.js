@@ -99,7 +99,7 @@ class Pufferfish extends MovableObject {
 
     setPufferfishTranslation(self) {
         if (self.isAlive) {
-            // self.x -= self.speed;
+            self.enemyMovement();
         } else {
             self.deathSlap();
         }

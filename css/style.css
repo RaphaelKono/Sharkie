@@ -112,6 +112,17 @@ button:hover {
 
 /* Start screen */
 
+#startScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .startscreen {
     background: url('../img/3. Background/Mesa de trabajo 1.png') no-repeat center center;
     background-size: 120%;
@@ -164,57 +175,56 @@ button:hover {
 
 /* Intro1 screen */
 
-#introscreen1 {
+.intro-screen {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-#introscreen1 h2 {
-    font-size: 2rem;
+.intro-screen h2 {
+    font-size: 3rem;
+    text-align: center;
 }
 
-#introscreen1 p {
+.intro-screen p {
     font-size: 1.5rem;
 }
 
-.backdrop {
-    backdrop-filter: brightness(0.8) blur(2px);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
+.intro-screen span {
+    font-size: 1.5rem;
 }
 
-
-/* Intro2 Screen */
-
-#introscreen2 {
-    margin-left: 20px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-#introscreen2 button {
+.intro-screen button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-#introscreen2 h2 {
-    font-size: 2rem;
+.backdrop {
+    backdrop-filter: brightness(0.8) blur(2px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    padding: 16px;
 }
 
-.instr-panel {
-    font-size: 30px;
-    margin-bottom: 20px;
-    gap: 30px;
+.activate-poison img {
+    border: 2px solid rgb(240, 231, 197);
+    padding: 1px;
 }
 
-.introscreen2 span {
-    font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
-    color: #f0e7c5;
+.intro-Poison-img {
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
 }
 
-.intro-1-span {
-    font-size: 30px;
-    width: 200px;
+
+/* Intro2 Screen */
+
+.instructions td {
+    padding: 10px;
+    font-size: 1.5rem;
 }
 
 .top-key {
@@ -260,19 +270,6 @@ button:hover {
 .back-key:hover {
     cursor: pointer;
     filter: brightness(0.8);
-}
-
-
-/* Intro3 Screen */
-
-#introscreen3 {
-    font-size: 1.5rem;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.intro-Poison-img {
-    height: 20px;
-    width: 20px;
 }
 
 
@@ -415,4 +412,8 @@ button:hover {
 
 .flex-wrap {
     flex-wrap: wrap;
+}
+
+.txt-center {
+    text-align: center;
 }

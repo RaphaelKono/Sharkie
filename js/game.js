@@ -1,5 +1,7 @@
 let canvas;
 let world;
+let startScreen;
+let inGameScreen;
 let fps = 60;
 let keyboard;
 let intervalIds = [];
@@ -20,50 +22,88 @@ level_music.volume = 0.05;
 
 
 function init() {
+    canvas = document.getElementById('canvas');
+    startScreen = document.getElementById('startScreen');
+    inGameScreen = document.getElementById('inGameScreen');
     initListeners();
 }
 
 function startGame() {
     gameHasStarted = true;
-    canvas = document.getElementById('canvas');
-    document.getElementById('canvasContainer').classList.remove('startscreen');
-    document.getElementById('startBtnPanel').classList.add('d-none');
-    // document.getElementById('speaker').classList.remove('d-none');
-    // document.getElementById('fullscreen').classList.remove('d-none');
+    removeStartScreen();
+    inGameScreen.classList.remove('d-none');
     keyboard = new Keyboard();
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, level1, 1);
     checkMobile();
 }
 
-function renderIntro1() {
-    if (renderFromMenu) {
-        closeSettings();
-        gameIsPaused = true;
-        if (gameHasStarted) {
-            document.getElementById('bottomPanel').classList.add('d-none');
-            document.getElementById('swipe').classList.add('d-none');
-        }
-    }
+function removeStartScreen() {
+    document.getElementById('canvasContainer').classList.remove('startscreen');
+    startScreen.classList.add('d-none');
+}
+
+function restartLevel() {
+    document.getElementById('canvasContainer').classList.remove('win-screen');
+    document.getElementById('canvasContainer').classList.remove('lose-screen');
+    document.getElementById('nextLvl').classList.add('d-none');
+    document.getElementById('endScreenBtnPanel').classList.add('d-none');
+    world = new World(canvas, keyboard, level1, 1);
     if (isOnMobile()) {
-        document.getElementById('rotation').classList.remove('d-none');
-        document.getElementById('rotation').classList.add('please-rotate-screen');
+        addMobilePanels();
     }
-    document.getElementById('settings').classList.add('hidden');
-    document.getElementById('startBtnPanel').classList.add('d-none');
-    document.getElementById('canvasContainer').classList.remove('justify-content-between');
+}
+
+function startNextLevel() {
+    document.getElementById('canvasContainer').classList.remove('win-screen');
+    document.getElementById('nextLvl').classList.add('d-none');
+    document.getElementById('endScreenBtnPanel').classList.add('d-none');
+    world = new World(canvas, keyboard, level2, 2);
+    if (isOnMobile()) {
+        addMobilePanels();
+    }
+}
+
+function renderIntro1() {
+    removeNonIntro1();
+    document.getElementById('canvasContainer').classList.add('startscreen');
     document.getElementById('introscreen1').classList.remove('d-none');
 }
 
-function renderInstruction() {
-    document.getElementById('unrenderInstructionBtn').innerHTML = templateButtonNext();
-    document.getElementById('startBtnPanel').classList.add('d-none');
-    document.getElementById('introscreen1').classList.add('d-none');
-    document.getElementById('canvasContainer').classList.remove('justify-content-between');
-    document.getElementById('introscreen2').classList.remove('d-none');
+function removeNonIntro1() {
+    if (renderFromMenu) {
+        closeSettings();
+        gameIsPaused = true;
+        if (gameHasStarted)
+            inGameScreen.classList.add('d-none');
+    }
+    if (isOnMobile())
+        addRotationScreen();
+    startScreen.classList.add('d-none');
 }
 
-function templateButtonNext() {
-    return `<button onclick="renderIntro3()" class="key back-key"><img src="img/next-64.png"></button>`;
+function removeMobilePanels() {
+    document.getElementById('bottomPanel').classList.add('d-none');
+    document.getElementById('swipe').classList.add('d-none');
+}
+
+function addMobilePanels() {
+    document.getElementById('bottomPanel').classList.remove('d-none');
+    document.getElementById('swipe').classList.remove('d-none');
+}
+
+function addRotationScreen() {
+    document.getElementById('rotation').classList.remove('d-none');
+    document.getElementById('rotation').classList.add('please-rotate-screen');
+}
+
+function removeRotationScreen() {
+    document.getElementById('rotation').classList.add('d-none');
+    document.getElementById('rotation').classList.remove('please-rotate-screen');
+}
+
+function renderIntro2() {
+    document.getElementById('introscreen1').classList.add('d-none');
+    document.getElementById('introscreen2').classList.remove('d-none');
 }
 
 function templateButtonBackToGame() {
@@ -75,30 +115,24 @@ function renderIntro3() {
     document.getElementById('introscreen3').classList.remove('d-none');
 }
 
-function renderBackStartScreen() {
-    if (isOnMobile()) {
-        document.getElementById('rotation').classList.add('d-none');
-        document.getElementById('rotation').classList.remove('please-rotate-screen');
-    }
+function removeIntro3() {
+    if (isOnMobile())
+        removeRotationScreen();
     if (!gameHasStarted)
-        document.getElementById('startBtnPanel').classList.remove('d-none');
+        startScreen.classList.remove('d-none');
     else {
-        document.getElementById('bottomPanel').classList.remove('d-none');
-        document.getElementById('swipe').classList.remove('d-none');
+        inGameScreen.classList.remove('d-none');
+        document.getElementById('canvasContainer').classList.remove('startscreen');
     }
-    document.getElementById('canvasContainer').classList.add('justify-content-between');
-    document.getElementById('canvasContainer').classList.remove('intro-filter');
+
     document.getElementById('introscreen3').classList.add('d-none');
-    document.getElementById('settings').classList.remove('hidden');
     gameIsPaused = false;
 }
 
 function checkMobile() {
     if (isOnMobile()) {
-        document.getElementById('swipe').classList.remove('d-none');
-        document.getElementById('bottomPanel').classList.remove('d-none');
-        document.getElementById('rotation').classList.remove('d-none');
-        document.getElementById('rotation').classList.add('please-rotate-screen');
+        addMobilePanels();
+        addRotationScreen();
         pauseGame();
         checkScreenOrientation();
     }
@@ -129,72 +163,38 @@ function renderLandscape() {
 }
 
 function initListeners() {
-    btnSettings();
-    // btnSpeaker();
-    // btnFullscreen();
-}
-
-function btnSettings() {
-    document.getElementById('settings').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        openSettings();
-    });
-    document.getElementById('settings').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        openSettings();
-    });
+    listenBtnSettings();
+    listenFullScreenchange();
 }
 
 function openSettings() {
     gameIsPaused = true;
     renderFromMenu = true;
-    if (!gameHasStarted) {
-        document.getElementById('startBtnPanel').classList.add('d-none');
-        document.getElementById('canvasContainer').classList.remove('justify-content-between');
-    } else {
-        document.getElementById('bottomPanel').classList.add('d-none');
-        document.getElementById('swipe').classList.add('d-none');
-    }
+    removeNonSettings();
     if (settingsNeverOpened) {
-        btnSpeaker();
-        btnFullscreen();
-        btnTutorial();
-        btnsCloseSettings();
-        btnHitbox();
-        stopPropagationsInMenu();
+        addListeners();
         settingsNeverOpened = false;
     }
-    document.getElementById('topPanel').classList.add('d-none');
     document.getElementById('settingsScreen').classList.remove('d-none');
+}
+
+function removeNonSettings() {
+    if (!gameHasStarted)
+        startScreen.classList.add('d-none');
+    else if (isOnMobile())
+        removeMobilePanels();
 }
 
 function closeSettings() {
     if (!gameHasStarted) {
-        document.getElementById('startBtnPanel').classList.remove('d-none');
-        document.getElementById('canvasContainer').classList.add('justify-content-between');
+        startScreen.classList.remove('d-none');
     } else {
-        document.getElementById('bottomPanel').classList.remove('d-none');
-        document.getElementById('swipe').classList.remove('d-none');
+        inGameScreen.classList.remove('d-none');
     }
     document.getElementById('settingsScreen').classList.add('d-none');
-    document.getElementById('topPanel').classList.remove('d-none');
-
     gameIsPaused = false;
     renderFromMenu = false;
 }
-
-
-function btnFullscreen() {
-    document.getElementById('fullscreen').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        toggleFullScreen();
-    });
-    document.getElementById('fullscreen').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        toggleFullScreen();
-    });
-}
-
 
 function toggleFullScreen() {
     let element = document.getElementById('canvasFrameID');
@@ -203,31 +203,6 @@ function toggleFullScreen() {
     } else {
         closeFullscreen();
     }
-}
-
-function btnsCloseSettings() {
-    document.getElementById('closeSettings').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('closeSettings').addEventListener('touchend', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('closeSettingsX').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('closeSettingsX').addEventListener('touchend', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('settingsScreen').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('settingsScreen').addEventListener('touchend', (e) => preventDefaultAndCloseSettings(e));
-}
-
-function preventDefaultAndCloseSettings(e) {
-    e.preventDefault();
-    closeSettings();
-}
-
-function stopPropagationsInMenu() {
-    document.getElementById('gameMenu').addEventListener('mousedown', (e) => e.stopPropagation());
-    document.getElementById('gameMenu').addEventListener('touchend', (e) => e.stopPropagation());
-    document.getElementById('privacyStatement').addEventListener('mousedown', (e) => e.stopPropagation());
-    document.getElementById('privacyStatement').addEventListener('touchend', (e) => e.stopPropagation());
-    document.getElementById('imprint').addEventListener('mousedown', (e) => e.stopPropagation());
-    document.getElementById('imprint').addEventListener('touchend', (e) => e.stopPropagation());
-    document.getElementById('attributions').addEventListener('mousedown', (e) => e.stopPropagation());
-    document.getElementById('attributions').addEventListener('touchend', (e) => e.stopPropagation());
 }
 
 function openFullscreen(element) {
@@ -254,27 +229,6 @@ function isNotOnFullscreen(element) {
     return !document.fullscreenElement && !element.mozFullScreenElement && !element.webkitFullscreenElement;
 }
 
-window.addEventListener('fullscreenchange', (e) => {
-    document.getElementById('frameImg').classList.toggle('d-none');
-    document.getElementById('canvasFrameID').classList.toggle('toggleFullscreen');
-    if (window.innerHeight > window.innerWidth) {
-        document.getElementById('canvas').classList.toggle('w-100');
-    } else {
-        document.getElementById('canvas').classList.toggle('h-100');
-    }
-});
-
-function btnSpeaker() {
-    document.getElementById('speaker').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        toggleSound();
-    });
-    document.getElementById('speaker').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        toggleSound();
-    });
-}
-
 function toggleSound() {
     soundIsOn = !soundIsOn;
     if (soundIsOn) {
@@ -288,19 +242,7 @@ function toggleSound() {
     // document.getElementById('speaker').classList.toggle('toggleSpeaker');
 }
 
-function btnHitbox() {
-    document.getElementById('hitbox').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        toggleHitbox();
-    });
-    document.getElementById('hitbox').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        toggleHitbox();
-    });
-}
-
 function toggleHitbox() {
-    console.log('toggling Hitbox');
     hitboxesHidden = !hitboxesHidden;
     if (hitboxesHidden) {
         document.getElementById('hitbox').innerHTML = `<div class="checkbox"><img class="fullscreen-img hidden" src="img/check-mark-6-64.png"></div>
@@ -308,17 +250,6 @@ function toggleHitbox() {
     } else
         document.getElementById('hitbox').innerHTML = `<div class="checkbox"><img class="fullscreen-img" src="img/check-mark-6-64.png"></div>
             <span>Show Hitboxes</span>`;
-}
-
-function btnTutorial() {
-    document.getElementById('help').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        renderIntro1();
-    });
-    document.getElementById('help').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        renderIntro1();
-    });
 }
 
 /**

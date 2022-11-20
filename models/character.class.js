@@ -26,6 +26,7 @@ class Character extends MovableObject {
     DeadByPoison = false;
     DeadByShock = false;
     isCollidingBarrier = false;
+    godMode = false;
 
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',

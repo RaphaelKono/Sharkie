@@ -4,7 +4,8 @@ class World {
     keyboard;
     camera_x = 0;
     character = new Character();
-    level = level1();
+    level;
+    levelNr;
     healthBar = new HealthBar(10, 0, 158 / 3.5, 595 / 3.5, true);
     poisonBar = new PoisonBar();
     poisonImprovement = new PoisonInPoisonBar();
@@ -12,13 +13,16 @@ class World {
     bossBar = new HealthBar(250, 10, 158 / 2.5, 595 / 2.5, false);
     bossImgInBar = new BossInBossBar();
     bubbles = [];
+    endbossIntroduced = false;
 
 
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, levelFn, levelNr) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level = levelFn();
+        this.levelNr = levelNr;
         this.draw();
         this.setWorld();
         this.run();
@@ -66,8 +70,11 @@ class World {
         this.addObjectToMap(this.poisonBar);
         this.addObjectToMap(this.poisonImprovement);
         this.addObjectToMap(this.coinBar);
-        this.addObjectToMap(this.bossBar);
-        this.addObjectToMap(this.bossImgInBar);
+        if (this.endbossIntroduced) {
+            this.addObjectToMap(this.bossBar);
+            this.addObjectToMap(this.bossImgInBar);
+        }
+
         // space end
         this.ctx.translate(this.camera_x, 0);
     }
@@ -222,7 +229,7 @@ class World {
     }
 
     isCollisionValid(enemy) {
-        return this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive;
+        return this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive && !this.character.godMode;
     }
 
     enemyCollision(enemy) {
@@ -423,22 +430,33 @@ class World {
     }
 
     winGame() {
+        this.character.godMode = true;
         setTimeout(() => {
-            ambience_audio.pause();
-            level_music.pause();
+            this.stopLevel();
             this.character.playAudio(this.character.win_sound);
             document.getElementById('canvasContainer').classList.add('win-screen');
-            intervalIds.forEach(clearInterval);
+            document.getElementById('endScreenBtnPanel').classList.remove('d-none');
+            if (this.levelNr === 1) {
+                document.getElementById('nextLvl').classList.remove('d-none');
+            }
         }, 3000);
     }
 
     loseGame() {
+        this.character.godMode = true;
         setTimeout(() => {
-            ambience_audio.pause();
-            level_music.pause();
+            this.stopLevel();
             this.character.playAudio(this.character.lose_sound);
             document.getElementById('canvasContainer').classList.add('lose-screen');
-            intervalIds.forEach(clearInterval);
         }, 3000);
+    }
+
+    stopLevel() {
+        ambience_audio.pause();
+        level_music.pause();
+        intervalIds.forEach(clearInterval);
+        if (isOnMobile()) {
+            removeMobilePanels();
+        }
     }
 }

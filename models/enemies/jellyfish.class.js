@@ -34,7 +34,6 @@ class Jellyfish extends MovableObject {
     setJellyfishTranslation(self) {
         if (self.isAlive) {
             self.enemyMovement();
-            // self.x -= self.speed;
         } else {
             self.applyGravity();
         }

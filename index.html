@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
     <script src="js/game.js"></script>
+    <script src="js/eventListeners.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -63,87 +64,105 @@
             <canvas id="canvas" width="720" height="480"></canvas>
         </div>
         <div id="canvasContainer" class="canvas-container justify-content-between startscreen">
-            <div id="topPanel" class="top-panel">
-                <div class="top-panel-child">
+            <!-- Startscreen -->
+            <div id="startScreen" class="screen">
+                <div id="topPanel" class="top-panel">
+                    <button onclick="openSettings()" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
+                </div>
+                <div id="startBtnPanel" class="startBtn-panel">
+                    <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
+                    <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
+                </div>
+            </div>
+
+            <!-- In-Game mobile Panels-->
+            <div id="inGameScreen" class="screen d-none">
+                <div id="topPanel" class="top-panel">
                     <button id="settings" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
                 </div>
-            </div>
-
-            <!-- Mobile Panels-->
-            <div id="swipe" class="swipe-panel d-none"></div>
-            <div id="bottomPanel" class="bottom-panel d-none">
-                <div class="panel-child">
-                    <button id="arrowLeft" class="btn"><img class="arrow-left" src="img/arrow-28-64.png"></button>
-                    <button id="arrowRight" class="btn"><img src="img/arrow-28-64.png"></button>
+                <div id="swipe" class="swipe-panel d-none"></div>
+                <div id="bottomPanel" class="bottom-panel d-none">
+                    <div class="panel-child">
+                        <button id="arrowLeft" class="btn"><img class="arrow-left" src="img/arrow-28-64.png"></button>
+                        <button id="arrowRight" class="btn"><img src="img/arrow-28-64.png"></button>
+                    </div>
+                    <div class="panel-child"><button id="activatePoison" class="btn activate-poison"><img src="img/biohazard-64.png"></button></div>
+                    <div class="panel-child">
+                        <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
+                        <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
+                    </div>
                 </div>
-                <div class="panel-child"><button id="activatePoison" class="btn"><img src="img/biohazard-64.png"></button></div>
-                <div class="panel-child">
-                    <button id="arrowUp" class="btn"><img class="arrow-up" src="img/arrow-28-64.png"></button>
-                    <button id="arrowDown" class="btn"><img class="arrow-down" src="img/arrow-28-64.png"></button>
-                </div>
-            </div>
-
-            <!-- Startscreen -->
-            <div id="startBtnPanel" class="startBtn-panel">
-                <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
-                <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
             </div>
 
             <!-- Intros -->
-            <div id="introscreen1" class="d-none">
+            <div id="introscreen1" class="d-none intro-screen">
                 <div class="backdrop">
-                    <h2>Oh no...</h2>
+                    <h2>Oh no</h2>
                     <p>little Sharkie's gotten lost to his group.</p>
                     <p>Survive in the dark ocean with shocking jellyfishes, poisonous pufferfishes and something darker and more evil...</p>
                 </div>
-                <button onclick="renderInstruction()" class="key back-key"><img src="img/next-64.png"></button>
+                <button onclick="renderIntro2()" class="key back-key"><img src="img/next-64.png"></button>
             </div>
 
-            <div id="introscreen2" class="d-none">
-                <h2>Instructions</h2>
-                <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-2-span">Move shark</span>
-                    <div class="d-flex flex-column">
-                        <div class="top-key d-flex justify-content-center"><button class="key key-size"><div class="d-flex justify-content-center align-items-center">W</div></button></div>
-                        <div class="bottom-keys">
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center">A</div></button>
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center">S</div></button>
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center">D</div></button>
-                        </div>
-                    </div>
-                    <span>Or</span>
-                    <div class="d-flex flex-column">
-                        <div class="top-key d-flex justify-content-center"><button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-up"></div></button></div>
-                        <div class="bottom-keys">
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-left"></div></button>
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-down"></div></button>
-                            <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png"></div></button>
-                        </div>
-                    </div>
+            <div id="introscreen2" class="d-none intro-screen">
+                <div class="backdrop">
+                    <h2>Instructions</h2>
+                    <table class="instructions">
+                        <tr>
+                            <td>Move shark</td>
+                            <td class="txt-center">
+                                <div class="top-key d-flex justify-content-center">
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center">W</div></button>
+                                </div>
+                                <div class="bottom-keys">
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center">A</div></button>
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center">S</div></button>
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center">D</div></button>
+                                </div>
+                            </td>
+                            <td>or</td>
+                            <td class="txt-center">
+                                <div class="top-key d-flex justify-content-center"><button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-up"></div></button></div>
+                                <div class="bottom-keys">
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-left"></div></button>
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png" class="arrow-down"></div></button>
+                                    <button class="key key-size"><div class="d-flex justify-content-center align-items-center"><img src="img/arrow-37-48.png"></div></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bubble attack</td>
+                            <td class="txt-center"><button class="key space-key"><div class="d-flex justify-content-center align-items-center">SPACE</div></button></td>
+                            <td>or</td>
+                            <td class="txt-center">swipe right</td>
+                        </tr>
+                        <tr>
+                            <td class="">Fin slap</td>
+                            <td class="txt-center"><button class="key"><div class="d-flex justify-content-center align-items-center">Shift</div></button></td>
+                            <td>or</td>
+                            <td class="txt-center">swipe left</td>
+                        </tr>
+                        <tr>
+                            <td>Toggle poison</td>
+                            <td class="txt-center"><button class="key"><div class="d-flex justify-content-center align-items-center">Enter</div></button></td>
+                            <td>or</td>
+                            <td class="txt-center">
+                                <div class="activate-poison"><img class="intro-Poison-img" src="img/biohazard-64.png"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <button onclick="renderIntro3()" class="key back-key"><img src="img/next-64.png"></button>
                 </div>
-                <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-2-span">Bubble-Attack</span>
-                    <button class="key space-key"><div class="d-flex justify-content-center align-items-center">SPACE</div></button>
-                    <span>Or</span>
-                    <span>Swipe Right</span>
-                </div>
-                <div class="d-flex align-items-center instr-panel">
-                    <span class="intro-2-span">Fin-Slap</span>
-                    <button class="key"><div class="d-flex justify-content-center align-items-center">Shift</div></button>
-                    <span>Or</span>
-                    <span>Swipe Left</span>
-                </div>
-                <div id="unrenderInstructionBtn"></div>
             </div>
 
-            <div id="introscreen3" class="d-none">
+            <div id="introscreen3" class="d-none intro-screen">
                 <div class="backdrop">
                     <h2>Important</h2>
-                    <p>Collect ALL coins to...</p>
-                    <p>... toggle poisonous bubbles: ENTER-Key or <img class="intro-Poison-img" src="img/biohazard-64.png">(mobile)</p>
+                    <p>Collect ALL coins to toggle poisonous bubbles</p>
                     <p>Collect poison to refill your stock of poisonous attacks</p>
+                    <p>Don't waste and spam poisonous bubbles</p>
                 </div>
-                <button onclick="renderBackStartScreen()" class="key back-key"><img src="img/undo-4-48.png"></button>
+                <button onclick="removeIntro3()" class="key back-key"><img src="img/undo-4-48.png"></button>
             </div>
 
             <!-- SettingScreen -->
@@ -168,25 +187,24 @@
                         </div>
                     </div>
                     <div id="importantLinks" class="d-flex justify-content-center flex-wrap">
-                        <a id="privacyStatement" href="">Datenschutzerklärung</a>
-                        <a id="imprint" href="">Impressum</a>
-                        <a id="attributions" href="">Attributions</a>
+                        <a id="privacyStatement" href="data-safety.html">Datenschutzerklärung</a>
+                        <a id="imprint" href="imprint.html">Impressum</a>
+                        <a id="attributions" href="attributions.html">Attributions</a>
                     </div>
                 </div>
             </div>
+
+            <!-- Level-Endscreen -->
+            <div id="endScreenBtnPanel" class="startBtn-panel d-none">
+                <button onclick="restartLevel()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Restart Level</div></button>
+                <button onclick="startNextLevel()" id="nextLvl" class="choose-btn d-none"><div class="d-flex justify-content-center align-items-center">Next Level</div></button>
+            </div>
         </div>
-
-        <div id="rotation" class="d-none">
-            <img class="rotate-device" src="img/phone-42-128.png">
-            <h2>Please rotate device</h2>
-        </div>
-
-        <!-- Attributions -->
-
-        <!-- <a href="https://www.freepik.com/free-vector/ocean-sea-underwater-background-empty-bottom_7058927.htm#query=under%20water%20cartoon&position=10&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
-        <!-- <a href="https://www.freepik.com/free-vector/game-streaming-overlay-panels-buttons-with-water-texture-template-webcam-video-app-design-vector-cartoon-set-live-stream-blue-frames-show-gaming-process_21050376.htm#query=frame%20game%20aqua&position=1&from_view=search&track=sph">Image by upklyak</a> on Freepik -->
-        <!-- <a href="https://freesound.org/people/bradwesson/sounds/135936/"> Collect Coin Sound by bradwesson on Freesound -->
-        <!-- Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6357">Pixabay</a> Fin-Slap-->
+    </div>
+    <div id="rotation" class="d-none">
+        <img class="rotate-device" src="img/phone-42-128.png">
+        <h2>Please rotate device</h2>
+    </div>
 </body>
 
 </html>
