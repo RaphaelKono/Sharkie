@@ -75,8 +75,6 @@ function listenBtnTutorial() {
 }
 
 function listenBtnsCloseSettings() {
-    document.getElementById('closeSettings').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));
-    document.getElementById('closeSettings').addEventListener('touchend', (e) => preventDefaultAndCloseSettings(e));
     document.getElementById('closeSettingsX').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));
     document.getElementById('closeSettingsX').addEventListener('touchend', (e) => preventDefaultAndCloseSettings(e));
     document.getElementById('settingsScreen').addEventListener('mousedown', (e) => preventDefaultAndCloseSettings(e));

@@ -54,9 +54,6 @@
     .instructions td {
         font-size: 1.2rem;
     }
-    .settingmenu {
-        margin-top: -50px;
-    }
 }
 
 @media(max-width: 540px) {
@@ -133,6 +130,10 @@
     .top-key {
         margin-bottom: -4px;
     }
+    .links {
+        font-size: .8rem;
+        gap: 10px;
+    }
 }
 
 @media(max-width: 360px) {
@@ -174,6 +175,9 @@
     .instructions td {
         font-size: .8rem;
         padding: 1px;
+    }
+    .links {
+        font-size: .7rem;
     }
 }
 

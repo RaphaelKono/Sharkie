@@ -15,11 +15,11 @@ class PinkJellyfish extends Jellyfish {
     ];
     attack = 30;
 
-    constructor(x0, y0, horizontalBool, verticalBool, distance) {
+    constructor(x0, y0, horizontalBool, verticalBool, distanceX, distanceY) {
         super().loadImage('img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_TRAP);
-        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distance);
+        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distanceX, distanceY);
         this.animate();
     }
 }

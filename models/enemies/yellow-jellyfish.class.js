@@ -12,11 +12,11 @@ class YellowJellyfish extends Jellyfish {
         'img/2.Enemy/2 Jelly fish/Dead/Yellow/y4.png'
     ];
 
-    constructor(x0, y0, horizontalBool, verticalBool, distance) {
+    constructor(x0, y0, horizontalBool, verticalBool, distanceX, distanceY) {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_TRAP);
-        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distance);
+        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distanceX, distanceY);
         this.animate();
     }
 }

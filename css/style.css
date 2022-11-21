@@ -131,7 +131,7 @@ button:hover {
 .startBtn-panel {
     display: flex;
     justify-content: center;
-    padding: 15px;
+    padding: 0 15px;
     gap: 15px;
 }
 
@@ -296,17 +296,13 @@ button:hover {
     gap: 16px;
 }
 
-#importantLinks {
-    gap: 16px;
-    margin-bottom: 10px;
-}
-
 .settingsScreen-child {
     height: 100%;
 }
 
 .settingmenu {
     position: relative;
+    margin-top: 1rem;
     backdrop-filter: brightness(0.8) blur(2px);
     border: 2px solid #f0e7c5;
     border-radius: 10px;
@@ -330,16 +326,17 @@ button:hover {
     border-radius: 10px;
 }
 
-.hidden {
-    visibility: hidden;
+.links {
+    gap: 16px;
+    margin-bottom: 10px;
 }
 
-#importantLinks a {
+.links a {
     text-decoration: unset;
     color: #f0e7c5;
 }
 
-#importantLinks a:hover {
+.links a:hover {
     filter: brightness(0.7);
 }
 
@@ -416,4 +413,8 @@ button:hover {
 
 .txt-center {
     text-align: center;
+}
+
+.hidden {
+    visibility: hidden;
 }

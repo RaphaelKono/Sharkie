@@ -69,9 +69,16 @@
                 <div id="topPanel" class="top-panel">
                     <button onclick="openSettings()" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
                 </div>
-                <div id="startBtnPanel" class="startBtn-panel">
-                    <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
-                    <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
+                <div>
+                    <div id="startBtnPanel" class="startBtn-panel">
+                        <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
+                        <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
+                    </div>
+                    <div class="links d-flex justify-content-center flex-wrap">
+                        <a href="data-safety.html">Datenschutzerklärung</a>
+                        <a href="imprint.html">Impressum</a>
+                        <a href="attributions.html">Attributions</a>
+                    </div>
                 </div>
             </div>
 
@@ -168,9 +175,6 @@
             <!-- SettingScreen -->
             <div id="settingsScreen" class="d-none">
                 <div class="d-flex flex-column justify-content-between settingsScreen-child">
-                    <div class="d-flex flex-end">
-                        <button id="closeSettings" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
-                    </div>
                     <div class="d-flex justify-content-center">
                         <div id="gameMenu" class="settingmenu d-flex flex-column align-items-center fit-content">
                             <button id="closeSettingsX" class="btn close-X"><img class="fullscreen-img" src="img/x-mark-48.png"></button>
@@ -186,7 +190,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="importantLinks" class="d-flex justify-content-center flex-wrap">
+                    <div id="importantLinks" class="d-flex links justify-content-center flex-wrap">
                         <a id="privacyStatement" href="data-safety.html">Datenschutzerklärung</a>
                         <a id="imprint" href="imprint.html">Impressum</a>
                         <a id="attributions" href="attributions.html">Attributions</a>

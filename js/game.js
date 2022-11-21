@@ -14,11 +14,11 @@ let renderFromMenu = false;
 
 let ambience_audio = new Audio('audio/ambience.mp3');
 ambience_audio.loop = true;
-ambience_audio.volume = 0.05;
+ambience_audio.volume = 0.2;
 
 let level_music = new Audio('audio/levelMusic.mp3');
 level_music.loop = true;
-level_music.volume = 0.05;
+level_music.volume = 0.2;
 
 
 function init() {
@@ -181,14 +181,18 @@ function openSettings() {
 function removeNonSettings() {
     if (!gameHasStarted)
         startScreen.classList.add('d-none');
-    else if (isOnMobile())
-        removeMobilePanels();
+    else {
+        inGameScreen.classList.add('d-none');
+        if (isOnMobile())
+            removeMobilePanels();
+    }
 }
 
 function closeSettings() {
     if (!gameHasStarted) {
         startScreen.classList.remove('d-none');
     } else {
+        document.getElementById('topPanel').classList.add('d-none');
         inGameScreen.classList.remove('d-none');
     }
     document.getElementById('settingsScreen').classList.add('d-none');

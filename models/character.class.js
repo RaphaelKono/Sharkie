@@ -161,8 +161,10 @@ class Character extends MovableObject {
     collectCoin_sound = new Audio('audio/collectCoin.mp3');
     activate_poison_sound = new Audio('audio/activatePoison.mp3');
     endboss_damage_sound = new Audio('audio/endbossDmg.mp3');
+    endboss_music_sound = new Audio('audio/endbossFightMusic.mp3');
     win_sound = new Audio('audio/win.mp3');
     lose_sound = new Audio('audio/lose.mp3');
+
 
 
     constructor() {

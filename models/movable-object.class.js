@@ -8,9 +8,11 @@ class MovableObject extends DrawableObject {
     verticalBool = false;
     x0;
     y0;
-    distance;
+    distanceX;
+    distanceY;
     xDistanceReached = false;
     yDistanceReached = false;
+
 
 
     applyGravity() {
@@ -133,14 +135,15 @@ class MovableObject extends DrawableObject {
         return this.y + this.height / 2 + 5;
     }
 
-    setEnemyProperties(x0, y0, horizontalBool, verticalBool, distance) {
+    setEnemyProperties(x0, y0, horizontalBool, verticalBool, distanceX, distanceY) {
         this.x0 = x0;
         this.y0 = y0;
         this.x = x0;
         this.y = y0;
         this.horizontalBool = horizontalBool;
         this.verticalBool = verticalBool;
-        this.distance = distance;
+        this.distanceX = distanceX;
+        this.distanceY = distanceY;
     }
 
     enemyMovement() {
@@ -151,7 +154,14 @@ class MovableObject extends DrawableObject {
     }
 
     enemyMoveHorizontal() {
-        if (this.x < this.x0 - this.distance)
+        if (this.distanceX >= 0)
+            this.initiallyLeft();
+        else
+            this.initiallyRight();
+    }
+
+    initiallyLeft() {
+        if (this.x < this.x0 - this.distanceX)
             this.xDistanceReached = true;
         else if (this.x > this.x0)
             this.xDistanceReached = false;
@@ -161,8 +171,40 @@ class MovableObject extends DrawableObject {
             this.x += this.speed
     }
 
+    initiallyRight() {
+        if (this.x > this.x0 - this.distanceX)
+            this.xDistanceReached = true;
+        else if (this.x < this.x0)
+            this.xDistanceReached = false;
+        if (!this.xDistanceReached)
+            this.x += this.speed;
+        else
+            this.x -= this.speed
+    }
+
     enemyMoveVertical() {
-        if (this.y < this.y0 - this.distance) {
+        if (this.distanceY >= 0)
+            this.initiallyDown();
+        else
+            this.initiallyUp();
+    }
+
+    initiallyDown() {
+        if (this.y > this.y0 + this.distanceY) {
+            this.yDistanceReached = true;
+        } else if (this.y < this.y0) {
+            this.yDistanceReached = false;
+        }
+
+        if (!this.yDistanceReached) {
+            this.y += this.speed;
+        } else {
+            this.y -= this.speed
+        }
+    }
+
+    initiallyUp() {
+        if (this.y < this.y0 + this.distanceY) {
             this.yDistanceReached = true;
         } else if (this.y > this.y0) {
             this.yDistanceReached = false;

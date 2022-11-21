@@ -158,14 +158,15 @@ class World {
         this.checkEnemiesCollisions();
         this.checkBubblesOutOfMap();
         this.checkCollectibleObjectCollision();
-        this.checkBarriersCollision();
         this.healthBar.setPercentage(this.character.health, this.healthBar.IMAGES_HEALTH_BAR);
     }
 
     checkEnemiesCollisions() {
         this.level.enemies.forEach((enemy, i) => {
-            if (this.isCharacterCloseToPufferfish(enemy))
-                this.pufferfishBlowUp(enemy);
+            if (this.isCharacterCloseToEnemy(enemy))
+                this.setCloseEnemy(enemy)
+            else if (enemy instanceof Endboss)
+                enemy.isAttacking = false;
             if (this.isCollisionValid(enemy))
                 this.enemyCollision(enemy);
             if (this.isEnemyOutOfMap(enemy))
@@ -176,23 +177,18 @@ class World {
 
     checkBubblesOutOfMap() {
         this.bubbles.forEach((bubble, k) => {
-            if (bubble.y + bubble.height * 3 / 4 <= 0) {
+            if (bubble.y + bubble.height * 3 / 4 <= 0)
                 this.bubbles.splice(k, 1);
-            }
+            this.level.barriers.forEach((barrier) => {
+                if (bubble.isColliding(barrier))
+                    this.bubbles.splice(k, 1);
+            })
         });
     }
 
     checkCollectibleObjectCollision() {
         this.checkPoisonCollision();
         this.checkCoinCollision();
-    }
-
-    checkBarriersCollision() {
-        this.level.barriers.forEach((barrier) => {
-            if (this.character.isColliding(barrier)) {
-                this.character.isCollidingBarrier = true;
-            }
-        });
     }
 
     checkPoisonCollision() {
@@ -230,6 +226,13 @@ class World {
 
     isCollisionValid(enemy) {
         return this.character.isColliding(enemy) && !this.character.isHurt() && !this.character.hasNoHealth() && enemy.isAlive && !this.character.godMode;
+    }
+
+    setCloseEnemy(enemy) {
+        if (enemy instanceof Pufferfish)
+            this.pufferfishBlowUp(enemy);
+        if (enemy instanceof Endboss)
+            enemy.isAttacking = true;
     }
 
     enemyCollision(enemy) {
@@ -384,8 +387,8 @@ class World {
         this.level.poisons.push(poison);
     }
 
-    isCharacterCloseToPufferfish(enemy) {
-        return (enemy instanceof Pufferfish) && this.character.isNearby(enemy);
+    isCharacterCloseToEnemy(enemy) {
+        return (enemy instanceof Pufferfish || enemy instanceof Endboss) && this.character.isNearby(enemy);
     }
 
     isCharacterSlappingPufferfish(enemy) {
@@ -454,9 +457,8 @@ class World {
     stopLevel() {
         ambience_audio.pause();
         level_music.pause();
+        world.character.endboss_music_sound.pause();
         intervalIds.forEach(clearInterval);
-        if (isOnMobile()) {
-            removeMobilePanels();
-        }
+        inGameScreen.classList.add('d-none');
     }
 }

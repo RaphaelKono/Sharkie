@@ -13,7 +13,7 @@ class Pufferfish extends MovableObject {
     offsetLeftNearby = -150;
     isAlive = true;
     speedG = 3;
-    speed = (Math.random() * 60) / fps;
+    speed = 1;
     attack = 20;
     isBlownUp = false;
     isBlowingUp = false;
@@ -51,12 +51,13 @@ class Pufferfish extends MovableObject {
 
 
 
-    constructor() {
+    constructor(x0, y0, horizontalBool, verticalBool, distanceX, distanceY) {
         super().loadImage('img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/1.swim1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_TRANSITION);
         this.loadImages(this.IMAGES_BUBBLESWIM);
         this.loadImages(this.IMAGES_DEAD);
+        this.setEnemyProperties(x0, y0, horizontalBool, verticalBool, distanceX, distanceY);
         this.animate();
     }
 
