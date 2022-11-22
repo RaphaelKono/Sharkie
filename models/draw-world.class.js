@@ -68,27 +68,19 @@ class DrawWorld {
     changeCtx(mo) {
         if (mo instanceof BackgroundObject)
             this.translateBgCtx(mo.layer);
-        if (mo.leftDirection)
+        if (mo.reversedDirection)
             this.flipImage(mo);
-        // if (mo.upDirection) {
-        //     this.ctx.save();
-        //     this.ctx.translate(mo.x + (mo.width / 2), mo.y + (mo.height / 2));
-        //     mo.x = -mo.width / 2;
-        //     mo.y = -mo.height / 2;
-        //     this.ctx.rotate(270 * Math.PI / 180);
-        // }
+        if (mo.reversedYDirection)
+            this.flipImageY(mo);
     }
 
     rechangeCtx(mo) {
-        if (mo.leftDirection)
+        if (mo.reversedDirection)
             this.restoreContext(mo);
         if (mo instanceof BackgroundObject)
             this.translateBgCtxBack(mo.layer);
-        // if (mo.upDirection) {
-        //     mo.x = -(mo.x + mo.height / 2);
-        //     mo.y = -(mo.y + mo.width / 2);
-        //     this.ctx.restore();
-        // }
+        if (mo.reversedYDirection)
+            this.restoreContextY(mo);
     }
 
     translateBgCtx(layer) {
@@ -118,6 +110,18 @@ class DrawWorld {
 
     restoreContext(mo) {
         mo.x = -mo.x;
+        this.ctx.restore();
+    }
+
+    flipImageY(mo) {
+        this.ctx.save();
+        this.ctx.translate(0, mo.height);
+        this.ctx.scale(1, -1);
+        mo.y = -mo.y;
+    }
+
+    restoreContextY(mo) {
+        mo.y = -mo.y;
         this.ctx.restore();
     }
 }

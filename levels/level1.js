@@ -13,9 +13,9 @@ function level1() {
             new PinkJellyfish(1075, 30, false, true, 0, 150),
             new PinkJellyfish(1200, 20, false, true, 0, 150),
             new PinkJellyfish(1325, 10, false, true, 0, 150),
-            new Pufferfish(400, 400, true, false, -100),
-            new Pufferfish(675, 400, true, false, 100),
-            new Pufferfish(1550, 125, true, true, 100, 100),
+            new GreenPufferfish(400, 400, true, false, -100),
+            new OrangePufferfish(675, 400, true, false, 100),
+            new RedPufferfish(1550, 125, true, true, 100, 100),
             new Endboss(2250, -150, true, true, 400, 340)
         ], [
             new Light('img/3. Background/Layers/1. Light/2.png', -720),

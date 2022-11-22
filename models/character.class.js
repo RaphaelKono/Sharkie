@@ -22,7 +22,6 @@ class Character extends MovableObject {
     isPoisoned = false;
     isSlapping = false;
     poisonIsActivated = false;
-    leftDirection = false;
     DeadByPoison = false;
     DeadByShock = false;
     isCollidingBarrier = false;
@@ -330,16 +329,17 @@ class Character extends MovableObject {
 
     swimRight() {
         this.x += this.speed;
-        this.leftDirection = false;
+        this.reversedDirection = false;
     }
 
     swimLeft() {
         this.x -= this.speed;
-        this.leftDirection = true;
+        this.reversedDirection = true;
     }
 
     swimUp() {
         this.y -= this.speed;
+        this.upDirection = true;
     }
 
     swimDown() {

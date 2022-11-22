@@ -12,6 +12,9 @@ class MovableObject extends DrawableObject {
     distanceY;
     xDistanceReached = false;
     yDistanceReached = false;
+    reversedDirection = false;
+    reversedYDirection = false;
+    upDirection = false;
 
 
 
@@ -166,9 +169,9 @@ class MovableObject extends DrawableObject {
         else if (this.x > this.x0)
             this.xDistanceReached = false;
         if (!this.xDistanceReached)
-            this.x -= this.speed;
+            this.swimLeft();
         else
-            this.x += this.speed
+            this.swimRight();
     }
 
     initiallyRight() {
@@ -177,9 +180,19 @@ class MovableObject extends DrawableObject {
         else if (this.x < this.x0)
             this.xDistanceReached = false;
         if (!this.xDistanceReached)
-            this.x += this.speed;
+            this.swimRight();
         else
-            this.x -= this.speed
+            this.swimLeft();
+    }
+
+    swimLeft() {
+        this.reversedDirection = false;
+        this.x -= this.speed;
+    }
+
+    swimRight() {
+        this.reversedDirection = true;
+        this.x += this.speed;
     }
 
     enemyMoveVertical() {
@@ -197,9 +210,9 @@ class MovableObject extends DrawableObject {
         }
 
         if (!this.yDistanceReached) {
-            this.y += this.speed;
+            this.swimDown();
         } else {
-            this.y -= this.speed
+            this.swimUp();
         }
     }
 
@@ -211,9 +224,21 @@ class MovableObject extends DrawableObject {
         }
 
         if (!this.yDistanceReached) {
-            this.y -= this.speed;
+            this.swimUp();
         } else {
-            this.y += this.speed
+            this.swimDown();
         }
+    }
+
+    swimUp() {
+        if (this instanceof Jellyfish)
+            this.reversedYDirection = false;
+        this.y -= this.speed
+    }
+
+    swimDown() {
+        if (this instanceof Jellyfish)
+            this.reversedYDirection = true;
+        this.y += this.speed;
     }
 }
