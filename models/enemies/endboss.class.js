@@ -90,7 +90,7 @@ class Endboss extends MovableObject {
     }
 
     setAnimation(self) {
-        if (!self.firstContact && world.character.x >= 1895)
+        if (!self.firstContact && world.character.x >= world.level.level_end_x - 355)
             self.firstContact = true;
         if (self.firstContact) {
             self.changeBackgroundMusic();
@@ -162,7 +162,7 @@ class Endboss extends MovableObject {
 
     changeBackgroundMusic() {
         level_music.pause();
-        world.character.endboss_music_sound.play();
+        world.character.playAudio(world.character.endboss_music_sound);
         world.character.endboss_music_sound.volume = 0.4;
         if (world.character.endboss_music_sound.currentTime >= 27) {
             world.character.endboss_music_sound.currentTime = 12.8;

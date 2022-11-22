@@ -204,7 +204,7 @@ class Character extends MovableObject {
             self.applyGravity();
         else if (self.hasNoHealth())
             self.applyGravity();
-        if (self.x < 2250 && self.x > -600) {
+        if (self.x < self.world.level.level_end_x && self.x > -600) {
             world.camera_x = -self.x + 100;
         }
 
@@ -302,7 +302,7 @@ class Character extends MovableObject {
     }
 
     isInRightBorder() {
-        return this.x < 2750;
+        return this.x < this.world.level.level_end_x + 500;
     }
 
     // 2250

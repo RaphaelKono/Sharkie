@@ -1,6 +1,63 @@
 body {
     margin: 0;
-    padding: 1rem;
     font-family: 'Roboto';
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none !important;
+    color: #f0e7c5 !important;
+}
+
+header {
+    width: 100%;
+    background-color: rgb(27, 55, 131);
+    color: #f0e7c5;
+    gap: 1rem;
+}
+
+footer {
+    width: 100%;
+    background-color: rgb(27, 55, 131);
+    color: #f0e7c5;
+}
+
+.specific-padding {
+    padding: 1rem;
+}
+
+.header-logo {
+    height: 40px;
+    width: 40px;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.black {
+    color: black !important;
+}
+
+.navbar-links {
+    margin-top: .5rem;
+}
+
+.wrap-link {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dont-break-out {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }

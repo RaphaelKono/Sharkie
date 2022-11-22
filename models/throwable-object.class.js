@@ -27,7 +27,7 @@ class ThrowableObject extends MovableObject {
     setProperties(x, y) {
         this.x = x;
         this.y = y;
-        if (world.character.leftDirection) {
+        if (world.character.reversedDirection) {
             this.speed = -3.5;
             this.x = x - 100;
         }

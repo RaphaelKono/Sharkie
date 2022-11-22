@@ -44,14 +44,19 @@ function level1() {
             new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', -720, 0, 720, 480, 3),
             new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', -720, 0, 720, 480, 2),
             new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', -720, 0, 720, 480, 1),
-            new BackgroundObject('img/3. Background/Barrier/1.png', -720, 0, 720, 480, 1),
-            new BackgroundObject('img/3. Background/Barrier/2.png', 1000, 240, 360, 240, 1),
             new BackgroundObject('img/3. Background/Barrier/3.png', -760, 0, 120, 480, 1),
+            new BackgroundObject('img/3. Background/Barrier/1.png', -720, 0, 720, 480, 1),
             new BackgroundObject('img/3. Background/Barrier/3.png', 480, 0, 120, 360, 1),
-            new BackgroundObject('img/3. Background/Barrier/1.png', 2519, 0, 720, 480, 1),
-            new BackgroundObject('img/3. Background/Barrier/3.png', 1730, 0, 120, 360, 1)
+            new BackgroundObject('img/3. Background/Barrier/2.png', 1000, 240, 360, 240, 1),
+            new BackgroundObject('img/3. Background/Barrier/3.png', 1730, 0, 120, 360, 1),
+            new BackgroundObject('img/3. Background/Barrier/1.png', 2519, 0, 720, 480, 1)
         ], [
-            // new Barrier('img/3. Background/Barrier/1.png', 720, 480, -720, 0, 380, 0, 30, 0),
+            new Barrier(120, 480, -760, 0, 25, 35, 65, 53),
+            new Barrier(120, 480, -760, 0, 70, 17, 65, 170),
+            new Barrier(120, 480, -760, 0, 120, 50, 70, 130),
+            new Barrier(120, 480, -760, 0, 360, 65, 75, 380),
+            new Barrier(120, 480, -760, 0, 10, 55, 75, 440),
+
             new Barrier(720, 480, -720, 0, 410, 40, 75, 0),
             new Barrier(720, 480, -720, 0, 400, 60, 100, 0),
             new Barrier(720, 480, -720, 0, 390, 90, 145, 0),
@@ -68,22 +73,22 @@ function level1() {
             new Barrier(720, 480, -720, 0, 0, 465, 520, 350),
             new Barrier(720, 480, -720, 0, 0, 495, 640, 325),
 
-            new Barrier(360, 240, 1000, 240, 120, 20, 35, 0),
-            new Barrier(360, 240, 1000, 240, 100, 70, 90, 200),
-            new Barrier(360, 240, 1000, 240, 55, 90, 155, 0),
-            new Barrier(360, 240, 1000, 240, 15, 165, 245, 0),
-
-            new Barrier(120, 480, -760, 0, 25, 35, 65, 53),
-            new Barrier(120, 480, -760, 0, 70, 17, 65, 170),
-            new Barrier(120, 480, -760, 0, 120, 50, 70, 130),
-            new Barrier(120, 480, -760, 0, 360, 65, 75, 380),
-            new Barrier(120, 480, -760, 0, 10, 55, 75, 440),
-
             new Barrier(120, 360, 480, 0, 25 * 3 / 4, 35, 65, 3 / 4 * 53),
             new Barrier(120, 360, 480, 0, 70 * 3 / 4, 17, 65, 3 / 4 * 170),
             new Barrier(120, 360, 480, 0, 120 * 3 / 4, 50, 70, 3 / 4 * 130),
             new Barrier(120, 360, 480, 0, 360 * 3 / 4, 65, 75, 3 / 4 * 380),
             new Barrier(120, 360, 480, 0, 10 * 3 / 4, 55, 75, 3 / 4 * 440),
+
+            new Barrier(360, 240, 1000, 240, 120, 20, 35, 0),
+            new Barrier(360, 240, 1000, 240, 100, 70, 90, 200),
+            new Barrier(360, 240, 1000, 240, 55, 90, 155, 0),
+            new Barrier(360, 240, 1000, 240, 15, 165, 245, 0),
+
+            new Barrier(120, 360, 1730, 0, 25 * 3 / 4, 35, 65, 3 / 4 * 53),
+            new Barrier(120, 360, 1730, 0, 70 * 3 / 4, 17, 65, 3 / 4 * 170),
+            new Barrier(120, 360, 1730, 0, 120 * 3 / 4, 50, 70, 3 / 4 * 130),
+            new Barrier(120, 360, 1730, 0, 360 * 3 / 4, 65, 75, 3 / 4 * 380),
+            new Barrier(120, 360, 1730, 0, 10 * 3 / 4, 55, 75, 3 / 4 * 440),
 
             new Barrier(720, 480, 2519, 0, 410, 40, 75, 0),
             new Barrier(720, 480, 2519, 0, 400, 60, 100, 0),
@@ -93,13 +98,7 @@ function level1() {
             new Barrier(720, 480, 2519, 0, 425, 18, 45, 0),
             new Barrier(720, 480, 2519, 0, 440, 5, 20, 0),
             new Barrier(720, 480, 2519, 0, 360, 250, 395, 0),
-            new Barrier(720, 480, 2519, 0, 355, 350, 640, 0),
-
-            new Barrier(120, 360, 1730, 0, 25 * 3 / 4, 35, 65, 3 / 4 * 53),
-            new Barrier(120, 360, 1730, 0, 70 * 3 / 4, 17, 65, 3 / 4 * 170),
-            new Barrier(120, 360, 1730, 0, 120 * 3 / 4, 50, 70, 3 / 4 * 130),
-            new Barrier(120, 360, 1730, 0, 360 * 3 / 4, 65, 75, 3 / 4 * 380),
-            new Barrier(120, 360, 1730, 0, 10 * 3 / 4, 55, 75, 3 / 4 * 440)
+            new Barrier(720, 480, 2519, 0, 355, 350, 640, 0)
         ], [
             new Poison(-250, 330, false),
             new Poison(150, 390, false),
@@ -118,7 +117,8 @@ function level1() {
             new Coin(1500, 385)
         ], [
             new Heart(1775, 370)
-        ]
+        ],
+        2250
     );
     return level1;
 }

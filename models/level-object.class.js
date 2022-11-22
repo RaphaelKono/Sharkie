@@ -16,5 +16,6 @@ class LevelObject {
         this.poisons = poisons;
         this.coins = coins;
         this.hearts = hearts;
+        this.level_end_x = level_end_x;
     }
 }

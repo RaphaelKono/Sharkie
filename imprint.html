@@ -8,24 +8,29 @@
     <title>Impressum</title>
     <link rel="stylesheet" href="css/dsgvo.css" />
     <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
+    <script src="script.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-    <header></header>
-    <h1>Impressum</h1>
+<body onload="init()">
+    <header w3-include-html="header.html" class="specific-padding"></header>
+    <div class="d-flex flex-column flex-grow specific-padding">
+        <h1>Impressum</h1>
 
-    <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
-    <p>Raphael Konopatzki<br /> Cranger Stra&szlig;e, 191<br /> 45891 Gelsenkirchen</p>
+        <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
+        <p>Raphael Konopatzki<br /> Cranger Stra&szlig;e, 191<br /> 45891 Gelsenkirchen</p>
 
-    <h2>Kontakt</h2>
-    <p>Telefon: +49 (0) 20940533754<br /> E-Mail: raphaelkonopatzki@web.de</p>
+        <h2>Kontakt</h2>
+        <p>Telefon: +49 (0) 20940533754<br /> E-Mail: raphaelkonopatzki@web.de</p>
 
-    <p>Quelle: <a href="https://www.e-recht24.de/impressum-generator.html">https://www.e-recht24.de/impressum-generator.html</a></p>
-    <footer></footer>
+        <p>Quelle: <a href="https://www.e-recht24.de/impressum-generator.html" class="black">https://www.e-recht24.de/impressum-generator.html</a></p>
+    </div>
+    <footer w3-include-html="footer.html" class="specific-padding"></footer>
 </body>
 
 </html>

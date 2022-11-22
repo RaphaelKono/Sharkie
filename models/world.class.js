@@ -335,7 +335,6 @@ class World extends DrawWorld {
     winGame() {
         this.character.godMode = true;
         availableLevel++;
-        console.log(availableLevel);
         setTimeout(() => this.stopLvl(this.character.win_sound, 'win-screen'), 3000);
     }
 

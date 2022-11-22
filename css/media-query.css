@@ -106,6 +106,10 @@
     #settingsScreen a {
         font-size: 12px;
     }
+    .lvl-btn {
+        font-size: 3rem;
+        padding: 0 1.5rem;
+    }
 }
 
 @media (max-width: 420px),

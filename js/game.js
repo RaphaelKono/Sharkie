@@ -77,14 +77,7 @@ function startNextLevel() {
     document.getElementById('endScreen').classList.add('d-none');
     document.getElementById('levelScreen').classList.remove('d-none');
     document.getElementById('lvl2').classList.remove('gray-lvl-btn');
-    document.getElementById('lvl2').addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startGame(level2);
-    });
-    document.getElementById('lvl2').addEventListener('touchend', (e) => {
-        e.preventDefault();
-        startGame(level2);
-    });
+    addNextLvlListener();
 }
 
 function renderIntro1() {
@@ -205,19 +198,15 @@ function openSettings() {
 function removeNonSettings() {
     if (!gameHasStarted)
         startScreen.classList.add('d-none');
-    else {
+    else
         inGameScreen.classList.add('d-none');
-        if (isOnMobile())
-            removeMobilePanels();
-    }
 }
 
 function closeSettings() {
-    if (!gameHasStarted) {
+    if (!gameHasStarted)
         startScreen.classList.remove('d-none');
-    } else {
+    else
         inGameScreen.classList.remove('d-none');
-    }
     document.getElementById('settingsScreen').classList.add('d-none');
     gameIsPaused = false;
     renderFromMenu = false;
@@ -266,7 +255,6 @@ function toggleSound() {
         ambience_audio.pause();
         document.getElementById('speaker').innerHTML = `<img class="fullscreen-img" src="img/mute-64.png"><span>Toggle Sound</span>`;
     }
-    // document.getElementById('speaker').classList.toggle('toggleSpeaker');
 }
 
 function toggleHitbox() {
@@ -284,8 +272,8 @@ function toggleHitbox() {
  */
 function playBackground() {
     if (soundIsOn) {
-        ambience_audio.play();
         level_music.play();
+        ambience_audio.play();
     } else {
         level_music.pause();
         ambience_audio.pause();

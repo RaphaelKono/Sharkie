@@ -217,7 +217,7 @@ button:hover {
     font-size: 1.5rem;
 }
 
-.intro-screen button {
+.unset-appearance {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

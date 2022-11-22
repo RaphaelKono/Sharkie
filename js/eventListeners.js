@@ -93,6 +93,15 @@ function stopPropagationsInMenu() {
     document.getElementById('privacyStatement').addEventListener('touchend', (e) => e.stopPropagation());
     document.getElementById('imprint').addEventListener('mousedown', (e) => e.stopPropagation());
     document.getElementById('imprint').addEventListener('touchend', (e) => e.stopPropagation());
-    document.getElementById('attributions').addEventListener('mousedown', (e) => e.stopPropagation());
-    document.getElementById('attributions').addEventListener('touchend', (e) => e.stopPropagation());
+}
+
+function addNextLvlListener() {
+    document.getElementById('lvl2').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startGame(level2);
+    });
+    document.getElementById('lvl2').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        startGame(level2);
+    });
 }
