@@ -2,15 +2,17 @@ let canvas;
 let world;
 let startScreen;
 let inGameScreen;
+let canvasContainer;
 let fps = 60;
 let keyboard;
 let intervalIds = [];
 let soundIsOn = false;
-let gameIsPaused = false;
+let gameIsPaused = true;
 let gameHasStarted = false;
 let settingsNeverOpened = true;
 let hitboxesHidden = true;
 let renderFromMenu = false;
+let availableLevel = 1;
 
 let ambience_audio = new Audio('audio/ambience.mp3');
 ambience_audio.loop = true;
@@ -23,49 +25,71 @@ level_music.volume = 0.2;
 
 function init() {
     canvas = document.getElementById('canvas');
+    canvasContainer = document.getElementById('canvasContainer');
     startScreen = document.getElementById('startScreen');
     inGameScreen = document.getElementById('inGameScreen');
     initListeners();
 }
 
-function startGame() {
+function startGame(levelFn) {
     gameHasStarted = true;
-    removeStartScreen();
+    canvasContainer.classList.remove('startscreen');
+    document.getElementById('levelScreen').classList.add('d-none');
     inGameScreen.classList.remove('d-none');
     keyboard = new Keyboard();
-    world = new World(canvas, keyboard, level1, 1);
+    world = new World(canvas, keyboard, levelFn);
     checkMobile();
+    gameIsPaused = false;
 }
 
-function removeStartScreen() {
-    document.getElementById('canvasContainer').classList.remove('startscreen');
-    startScreen.classList.add('d-none');
-}
-
-function restartLevel() {
-    document.getElementById('canvasContainer').classList.remove('win-screen');
-    document.getElementById('canvasContainer').classList.remove('lose-screen');
-    document.getElementById('nextLvl').classList.add('d-none');
-    document.getElementById('endScreenBtnPanel').classList.add('d-none');
-    world = new World(canvas, keyboard, level1, 1);
+function restartLevel(levelFn) {
+    removeEndScreen();
+    inGameScreen.classList.remove('d-none');
+    gameHasStarted = true;
+    playBackground();
+    world = new World(canvas, keyboard, levelFn);
     if (isOnMobile()) {
         addMobilePanels();
     }
+}
+
+function renderLvlScreen() {
+    startScreen.classList.add('d-none');
+    document.getElementById('levelScreen').classList.remove('d-none');
+}
+
+function renderStartScreen() {
+    removeEndScreen();
+    startScreen.classList.remove('d-none');
+    canvasContainer.classList.add('startscreen');
+    playBackground();
+}
+
+function removeEndScreen() {
+    canvasContainer.classList.remove('win-screen');
+    canvasContainer.classList.remove('lose-screen');
+    document.getElementById('endScreen').classList.add('d-none');
 }
 
 function startNextLevel() {
-    document.getElementById('canvasContainer').classList.remove('win-screen');
-    document.getElementById('nextLvl').classList.add('d-none');
-    document.getElementById('endScreenBtnPanel').classList.add('d-none');
-    world = new World(canvas, keyboard, level2, 2);
-    if (isOnMobile()) {
-        addMobilePanels();
-    }
+    canvasContainer.classList.remove('win-screen');
+    canvasContainer.classList.add('startscreen');
+    document.getElementById('endScreen').classList.add('d-none');
+    document.getElementById('levelScreen').classList.remove('d-none');
+    document.getElementById('lvl2').classList.remove('gray-lvl-btn');
+    document.getElementById('lvl2').addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startGame(level2);
+    });
+    document.getElementById('lvl2').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        startGame(level2);
+    });
 }
 
 function renderIntro1() {
     removeNonIntro1();
-    document.getElementById('canvasContainer').classList.add('startscreen');
+    canvasContainer.classList.add('startscreen');
     document.getElementById('introscreen1').classList.remove('d-none');
 }
 
@@ -122,7 +146,7 @@ function removeIntro3() {
         startScreen.classList.remove('d-none');
     else {
         inGameScreen.classList.remove('d-none');
-        document.getElementById('canvasContainer').classList.remove('startscreen');
+        canvasContainer.classList.remove('startscreen');
     }
 
     document.getElementById('introscreen3').classList.add('d-none');
@@ -192,7 +216,6 @@ function closeSettings() {
     if (!gameHasStarted) {
         startScreen.classList.remove('d-none');
     } else {
-        document.getElementById('topPanel').classList.add('d-none');
         inGameScreen.classList.remove('d-none');
     }
     document.getElementById('settingsScreen').classList.add('d-none');

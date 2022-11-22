@@ -113,14 +113,17 @@ button:hover {
 /* Start screen */
 
 #startScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.screen {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .startscreen {
@@ -147,9 +150,31 @@ button:hover {
     width: 90%;
 }
 
+.lvl-btn {
+    background-color: unset;
+    border: unset;
+    font-size: 4rem;
+    background-color: #531A82;
+    border-radius: 100%;
+    border: 4px solid #f0e7c5;
+    padding: 0 2rem;
+}
+
+.gray-lvl-btn {
+    filter: grayscale(1);
+}
+
+.gray-lvl-btn:hover {
+    filter: grayscale(1) !important;
+}
+
 .choose-btn:hover {
     cursor: pointer;
     filter: brightness(0.9);
+}
+
+#levelScreen h2 {
+    font-size: 2rem;
 }
 
 
@@ -417,4 +442,8 @@ button:hover {
 
 .hidden {
     visibility: hidden;
+}
+
+.flex-grow {
+    flex-grow: 1;
 }

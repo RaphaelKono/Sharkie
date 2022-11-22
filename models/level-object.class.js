@@ -7,7 +7,7 @@ class LevelObject {
     poisons = [];
     coins = [];
 
-    constructor(enemies, lights, backgroundObjects, barriers, poisons, coins, level_end_x) {
+    constructor(enemies, lights, backgroundObjects, barriers, poisons, coins, hearts, level_end_x) {
         this.enemies = enemies;
         this.lights = lights;
         this.backgroundObjects = backgroundObjects;
@@ -15,5 +15,6 @@ class LevelObject {
         this.level_end_x = level_end_x;
         this.poisons = poisons;
         this.coins = coins;
+        this.hearts = hearts;
     }
 }

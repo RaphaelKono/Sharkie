@@ -17,6 +17,7 @@
     <link rel="manifest" href="favicon/site.webmanifest">
     <script src="js/game.js"></script>
     <script src="js/eventListeners.js"></script>
+    <script src="models/draw-world.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -49,8 +50,8 @@
 
     <script src="models/collectible-objects/poison.class.js"></script>
     <script src="models/collectible-objects/coin.class.js"></script>
+    <script src="models/collectible-objects/heart.class.js"></script>
 
-    <!-- <script src="js/keyEvents.js"></script> -->
     <script src="levels/level1.js"></script>
     <script src="levels/level2.js"></script>
 </head>
@@ -71,7 +72,7 @@
                 </div>
                 <div>
                     <div id="startBtnPanel" class="startBtn-panel">
-                        <button onclick="startGame()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
+                        <button onclick="renderLvlScreen()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Start</div></button>
                         <button onclick="renderIntro1()" id="introGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Intro</div></button>
                     </div>
                     <div class="links d-flex justify-content-center flex-wrap">
@@ -82,8 +83,18 @@
                 </div>
             </div>
 
+            <!-- LevelScreen -->
+            <div id="levelScreen" class="d-none screen">
+                <div class="backdrop d-flex flex-column">
+                    <h2 class="txt-center">Choose Level</h2>
+                    <div class="d-flex flex-wrap justify-content-center align-items-center flex-grow menu-gap">
+                        <button onclick="startGame(level1)" class="lvl-btn">1</button>
+                        <button id="lvl2" class="lvl-btn gray-lvl-btn">2</button>
+                    </div>
+                </div>
+            </div>
             <!-- In-Game mobile Panels-->
-            <div id="inGameScreen" class="screen d-none">
+            <div id="inGameScreen" class="screen d-none d-flex flex-column">
                 <div id="topPanel" class="top-panel">
                     <button id="settings" class="btn"><img class="fullscreen-img" src="img/settings-5-64.png"></button>
                 </div>
@@ -199,9 +210,12 @@
             </div>
 
             <!-- Level-Endscreen -->
-            <div id="endScreenBtnPanel" class="startBtn-panel d-none">
-                <button onclick="restartLevel()" id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Restart Level</div></button>
-                <button onclick="startNextLevel()" id="nextLvl" class="choose-btn d-none"><div class="d-flex justify-content-center align-items-center">Next Level</div></button>
+            <div id="endScreen" class="d-none screen flex-column d-flex flex-end">
+                <div id="endScreenBtnPanel" class="startBtn-panel">
+                    <button id="startGame" class="choose-btn"><div class="d-flex justify-content-center align-items-center">Restart Level</div></button>
+                    <button onclick="startNextLevel()" id="nextLvl" class="choose-btn d-none"><div class="d-flex justify-content-center align-items-center">Continue</div></button>
+                    <button onclick="renderStartScreen()" id="btnStartScreen" class="choose-btn d-none"><div class="d-flex justify-content-center align-items-center">Start Screen</div></button>
+                </div>
             </div>
         </div>
     </div>

@@ -116,6 +116,8 @@ function level1() {
             new Coin(650, 205),
             new Coin(650, 105),
             new Coin(1500, 385)
+        ], [
+            new Heart(1775, 370)
         ]
     );
     return level1;

@@ -1,11 +1,9 @@
-class World {
-    ctx;
-    canvas;
+class World extends DrawWorld {
     keyboard;
     camera_x = 0;
     character = new Character();
     level;
-    levelNr;
+    levelFn;
     healthBar = new HealthBar(10, 0, 158 / 3.5, 595 / 3.5, true);
     poisonBar = new PoisonBar();
     poisonImprovement = new PoisonInPoisonBar();
@@ -17,130 +15,18 @@ class World {
 
 
 
-    constructor(canvas, keyboard, levelFn, levelNr) {
-        this.ctx = canvas.getContext('2d');
+    constructor(canvas, keyboard, levelFn) {
+        super().ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = levelFn();
-        this.levelNr = levelNr;
+        this.levelFn = levelFn;
         this.draw();
         this.setWorld();
         this.run();
     }
 
-    draw() {
-        this.clearPriorFrame();
-        this.ctx.translate(this.camera_x, 0);
-        this.addToMap();
-        this.drawNewFrame();
-        this.ctx.translate(-this.camera_x, 0);
-    }
 
-    setWorld() {
-        this.character.world = this;
-        this.coinBar.maxCoins = this.level.coins.length;
-    }
-
-    clearPriorFrame() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    addToMap() {
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.lights);
-        this.addObjectsToMap(this.level.barriers);
-        this.addObjectToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.bubbles);
-        this.addObjectsToMap(this.level.poisons);
-        this.addObjectsToMap(this.level.coins);
-        this.addFixedObjects();
-    }
-
-    addObjectsToMap(obj) {
-        obj.forEach(o => {
-            this.addObjectToMap(o);
-        });
-    }
-
-    addFixedObjects() {
-        this.ctx.translate(-this.camera_x, 0);
-        // Space for fixed Objects:
-        this.addObjectToMap(this.healthBar);
-        this.addObjectToMap(this.poisonBar);
-        this.addObjectToMap(this.poisonImprovement);
-        this.addObjectToMap(this.coinBar);
-        if (this.endbossIntroduced) {
-            this.addObjectToMap(this.bossBar);
-            this.addObjectToMap(this.bossImgInBar);
-        }
-
-        // space end
-        this.ctx.translate(this.camera_x, 0);
-    }
-
-    addObjectToMap(mo) {
-        this.changeCtx(mo);
-        mo.draw(this.ctx);
-        mo.drawRect(this.ctx);
-        this.rechangeCtx(mo);
-    }
-
-    changeCtx(mo) {
-        if (mo instanceof BackgroundObject)
-            this.translateBgCtx(mo.layer);
-        if (mo.leftDirection)
-            this.flipImage(mo);
-        // if (mo.upDirection) {
-        //     this.ctx.save();
-        //     this.ctx.translate(mo.x + (mo.width / 2), mo.y + (mo.height / 2));
-        //     mo.x = -mo.width / 2;
-        //     mo.y = -mo.height / 2;
-        //     this.ctx.rotate(270 * Math.PI / 180);
-        // }
-    }
-
-    rechangeCtx(mo) {
-        if (mo.leftDirection)
-            this.restoreContext(mo);
-        if (mo instanceof BackgroundObject)
-            this.translateBgCtxBack(mo.layer);
-        // if (mo.upDirection) {
-        //     mo.x = -(mo.x + mo.height / 2);
-        //     mo.y = -(mo.y + mo.width / 2);
-        //     this.ctx.restore();
-        // }
-    }
-
-    translateBgCtx(layer) {
-        this.ctx.translate(-this.camera_x, 0);
-        this.ctx.translate(this.camera_x / layer, 0);
-    }
-
-    translateBgCtxBack(layer) {
-        this.ctx.translate(-this.camera_x / layer, 0);
-        this.ctx.translate(this.camera_x, 0);
-    }
-
-
-    drawNewFrame() {
-        self = this;
-        requestAnimationFrame(function() {
-            self.draw();
-        });
-    }
-
-    flipImage(mo) {
-        this.ctx.save();
-        this.ctx.translate(mo.width, 0);
-        this.ctx.scale(-1, 1);
-        mo.x = -mo.x;
-    }
-
-    restoreContext(mo) {
-        mo.x = -mo.x;
-        this.ctx.restore();
-    }
 
     run() {
         let self = this;
@@ -189,6 +75,7 @@ class World {
     checkCollectibleObjectCollision() {
         this.checkPoisonCollision();
         this.checkCoinCollision();
+        this.checkHeartCollision();
     }
 
     checkPoisonCollision() {
@@ -222,6 +109,19 @@ class World {
         this.character.playAudio(this.character.collectCoin_sound);
         this.coinBar.setPercentage((this.coinBar.collectedCoins / this.coinBar.maxCoins) * 100, this.coinBar.IMAGES_COIN_BAR);
         this.level.coins.splice(k, 1);
+    }
+
+    checkHeartCollision() {
+        this.level.hearts.forEach((heart, k) => {
+            if (this.character.isColliding(heart))
+                this.collectHeart(k);
+        });
+    }
+
+    collectHeart(k) {
+        this.character.health = 100;
+        this.character.playAudio(this.character.health_sound);
+        this.level.hearts.splice(k, 1);
     }
 
     isCollisionValid(enemy) {
@@ -434,31 +334,63 @@ class World {
 
     winGame() {
         this.character.godMode = true;
-        setTimeout(() => {
-            this.stopLevel();
-            this.character.playAudio(this.character.win_sound);
-            document.getElementById('canvasContainer').classList.add('win-screen');
-            document.getElementById('endScreenBtnPanel').classList.remove('d-none');
-            if (this.levelNr === 1) {
-                document.getElementById('nextLvl').classList.remove('d-none');
-            }
-        }, 3000);
+        availableLevel++;
+        console.log(availableLevel);
+        setTimeout(() => this.stopLvl(this.character.win_sound, 'win-screen'), 3000);
     }
 
     loseGame() {
         this.character.godMode = true;
-        setTimeout(() => {
-            this.stopLevel();
-            this.character.playAudio(this.character.lose_sound);
-            document.getElementById('canvasContainer').classList.add('lose-screen');
-        }, 3000);
+        setTimeout(() => this.stopLvl(this.character.lose_sound, 'lose-screen'), 3000);
     }
 
-    stopLevel() {
+    stopLvl(soundObj, className) {
+        this.stopLvlMusic();
+        intervalIds.forEach(clearInterval);
+        intervalIds = [];
+        gameHasStarted = false;
+        this.character.playAudio(soundObj);
+        this.renderEndScreen(className);
+    }
+
+    stopLvlMusic() {
+        this.character.sleeping_sound.pause();
         ambience_audio.pause();
         level_music.pause();
-        world.character.endboss_music_sound.pause();
-        intervalIds.forEach(clearInterval);
-        inGameScreen.classList.add('d-none');
+        this.character.endboss_music_sound.pause();
     }
+
+    renderEndScreen(className) {
+        inGameScreen.classList.add('d-none');
+        canvasContainer.classList.add(className);
+        document.getElementById('endScreen').classList.remove('d-none');
+        if (className === 'win-screen')
+            document.getElementById('endScreenBtnPanel').innerHTML = this.templateWinScreen();
+        if (className === 'lose-screen' || className === 'win-screen' && this.levelFn == level2)
+            document.getElementById('endScreenBtnPanel').innerHTML = this.templateLoseScreen();
+    }
+
+    templateWinScreen() {
+        return `
+        <button onclick="restartLevel(${this.levelFn})" class="choose-btn">
+            <div class="d-flex justify-content-center align-items-center">Restart Level</div>
+        </button>
+        <button onclick="startNextLevel()" class="choose-btn">
+            <div class="d-flex justify-content-center align-items-center">Continue</div>
+        </button>
+        `;
+    }
+
+    templateLoseScreen() {
+        return `
+        <button onclick="restartLevel(${this.levelFn})" class="choose-btn">
+            <div class="d-flex justify-content-center align-items-center">Restart Level</div>
+        </button>
+        <button onclick="renderStartScreen()" class="choose-btn">
+            <div class="d-flex justify-content-center align-items-center">Start Screen</div>
+        </button>
+        `;
+    }
+
+
 }

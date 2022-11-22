@@ -51,10 +51,6 @@ class DrawableObject {
         ctx.lineWidth = '1';
         ctx.strokeStyle = 'red';
         ctx.rect(this.x + this.offsetLeft, this.y + this.offsetTop, this.width - this.offsetRight, this.height - this.offsetBottom);
-        if (this instanceof Endboss) {
-            ctx.rect(this.x + this.offsetLeftNearby, this.y + this.offsetTopNearby, this.width - this.offsetRightNearby, this.height - this.offsetBottomNearby);
-        }
-        ctx.rect(this.x, this.y, this.width, this.height);
         ctx.stroke();
     }
 

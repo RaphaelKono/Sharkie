@@ -164,6 +164,7 @@ class Character extends MovableObject {
     endboss_music_sound = new Audio('audio/endbossFightMusic.mp3');
     win_sound = new Audio('audio/win.mp3');
     lose_sound = new Audio('audio/lose.mp3');
+    health_sound = new Audio('audio/health.mp3');
 
 
 
