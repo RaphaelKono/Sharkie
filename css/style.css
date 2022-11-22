@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
     font-family: 'LuckiestGuy', Arial, Helvetica, sans-serif;
     color: #f0e7c5;
+    overflow-x: hidden;
     overflow-y: hidden;
     -webkit-touch-callout: none;
     -webkit-user-select: none;

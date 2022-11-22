@@ -13,6 +13,14 @@ let settingsNeverOpened = true;
 let hitboxesHidden = true;
 let renderFromMenu = false;
 let availableLevel = 1;
+let mobileApple = [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+]
 
 let ambience_audio = new Audio('audio/ambience.mp3');
 ambience_audio.loop = true;
@@ -281,7 +289,9 @@ function playBackground() {
 }
 
 function isOnMobile() {
-    return /Mobi|Android/i.test(navigator.userAgent);
+    return /Mobi|Android/i.test(navigator.userAgent) ||
+        mobileApple.includes(navigator.platform) ||
+        (navigator.userAgent.includes("Mac") && "ontouchend" in document);
 }
 
 function setCustomInterval(fn, time) {
