@@ -1,6 +1,17 @@
 function level2() {
     const level2 = new LevelObject(
-        [
+        createLevel2Enemies(),
+        createLevel2Lights(),
+        createLevel2Backgrounds(),
+        createLevel2Barriers(),
+        createLevel2Poisons(),
+        createLevel2Coins(),
+        createLevel2Hearts(),
+        3400
+    );
+
+    function createLevel2Enemies() {
+        return [
             new GreenPufferfish(-670, 190, true, false, -400),
             new GreenPufferfish(-670, 280, true, false, -400),
             new GreenJellyfish(200, 310, false, true, 0, -60),
@@ -26,7 +37,11 @@ function level2() {
             new RedPufferfish(2850, 240, true, true, 200, -200),
             new RedPufferfish(3030, 340, true, true, 300, -300),
             new Endboss(3600, -150, true, true, 400, 340)
-        ], [
+        ];
+    }
+
+    function createLevel2Lights() {
+        return [
             new Light('img/3. Background/Layers/1. Light/2.png', -720),
             new Light('img/3. Background/Layers/1. Light/1.png', 0),
             new Light('img/3. Background/Layers/1. Light/2.png', 719),
@@ -34,7 +49,11 @@ function level2() {
             new Light('img/3. Background/Layers/1. Light/2.png', 719 * 3),
             new Light('img/3. Background/Layers/1. Light/2.png', 719 * 4),
             new Light('img/3. Background/Layers/1. Light/2.png', 719 * 5)
-        ], [
+        ];
+    }
+
+    function createLevel2Backgrounds() {
+        return [
             new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 0, 0, 720, 480, 4),
             new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 0, 0, 720, 480, 3),
             new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 0, 0, 720, 480, 2),
@@ -72,7 +91,11 @@ function level2() {
             new BackgroundObject('img/3. Background/Barrier/3.png', 2500, 120, 120, 360, 1),
             new BackgroundObject('img/3. Background/Barrier/3.png', 3050, 0, 120, 360, 1),
             new BackgroundObject('img/3. Background/Barrier/3.png', 3920, 0, 120, 480, 1)
-        ], [
+        ];
+    }
+
+    function createLevel2Barriers() {
+        return [
             new Barrier(720, 480, -1000, 0, 410, 40, 75, 0),
             new Barrier(720, 480, -1000, 0, 400, 60, 100, 0),
             new Barrier(720, 480, -1000, 0, 390, 90, 145, 0),
@@ -165,22 +188,34 @@ function level2() {
             new Barrier(120, 480, 3920, 0, 120, 50, 70, 130),
             new Barrier(120, 480, 3920, 0, 360, 65, 75, 380),
             new Barrier(120, 480, 3920, 0, 10, 55, 75, 440)
-        ], [
+        ];
+    }
+
+    function createLevel2Poisons() {
+        return [
             new Poison(465, 330, false),
             new Poison(1870, 330, false),
             new Poison(2400, 380, false),
             new Poison(2555, 75, false),
             new Poison(2750, 390, false)
-        ], [
+        ];
+    }
+
+    function createLevel2Coins() {
+        return [
             new Coin(-660, 270),
             new Coin(150, 240),
             new Coin(1700, 380),
             new Coin(2280, 360),
             new Coin(2950, 50)
-        ], [
+        ];
+    }
+
+    function createLevel2Hearts() {
+        return [
             new Heart(3095, 370)
-        ],
-        3400
-    );
+        ];
+    }
+
     return level2;
 }

@@ -1,7 +1,17 @@
 function level1() {
     const level1 = new LevelObject(
-        [
-            new PurpleJellyfish(400, 130, true, false, 200),
+        createLevel1Enemies(),
+        createLevel1Light(),
+        createLevel1Background(),
+        createLevel1Barriers(),
+        createLevel1Poisons(),
+        createLevel1Coins(),
+        createLevel1Hearts(),
+        2250
+    );
+
+    function createLevel1Enemies() {
+        return [new PurpleJellyfish(400, 130, true, false, 200),
             new PurpleJellyfish(200, 230, true, false, -200),
             new PurpleJellyfish(400, 330, true, false, 200),
             new YellowJellyfish(640, 250, true, false, -200),
@@ -17,13 +27,21 @@ function level1() {
             new OrangePufferfish(675, 400, true, false, 100),
             new RedPufferfish(1550, 125, true, true, 100, 100),
             new Endboss(2250, -150, true, true, 400, 340)
-        ], [
+        ];
+    }
+
+    function createLevel1Light() {
+        return [
             new Light('img/3. Background/Layers/1. Light/2.png', -720),
             new Light('img/3. Background/Layers/1. Light/1.png', 0),
             new Light('img/3. Background/Layers/1. Light/2.png', 719),
             new Light('img/3. Background/Layers/1. Light/1.png', 719 * 2),
             new Light('img/3. Background/Layers/1. Light/2.png', 719 * 3)
-        ], [
+        ];
+    }
+
+    function createLevel1Background() {
+        return [
             new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 0, 0, 720, 480, 4),
             new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 0, 0, 720, 480, 3),
             new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 0, 0, 720, 480, 2),
@@ -50,7 +68,11 @@ function level1() {
             new BackgroundObject('img/3. Background/Barrier/2.png', 1000, 240, 360, 240, 1),
             new BackgroundObject('img/3. Background/Barrier/3.png', 1730, 0, 120, 360, 1),
             new BackgroundObject('img/3. Background/Barrier/1.png', 2519, 0, 720, 480, 1)
-        ], [
+        ];
+    }
+
+    function createLevel1Barriers() {
+        return [
             new Barrier(120, 480, -760, 0, 25, 35, 65, 53),
             new Barrier(120, 480, -760, 0, 70, 17, 65, 170),
             new Barrier(120, 480, -760, 0, 120, 50, 70, 130),
@@ -99,7 +121,11 @@ function level1() {
             new Barrier(720, 480, 2519, 0, 440, 5, 20, 0),
             new Barrier(720, 480, 2519, 0, 360, 250, 395, 0),
             new Barrier(720, 480, 2519, 0, 355, 350, 640, 0)
-        ], [
+        ];
+    }
+
+    function createLevel1Poisons() {
+        return [
             new Poison(-487, 335, false),
             new Poison(-250, 330, false),
             new Poison(150, 390, false),
@@ -108,7 +134,11 @@ function level1() {
             new Poison(1217, 220, false),
             new Poison(1600, 385, false),
             new Poison(1690, 363, false),
-        ], [
+        ];
+    }
+
+    function createLevel1Coins() {
+        return [
             new Coin(-620, 270),
             new Coin(-500, 150),
             new Coin(-350, 200),
@@ -118,10 +148,14 @@ function level1() {
             new Coin(650, 205),
             new Coin(650, 105),
             new Coin(1500, 385)
-        ], [
+        ];
+    }
+
+    function createLevel1Hearts() {
+        return [
             new Heart(1775, 370)
-        ],
-        2250
-    );
+        ];
+    }
+
     return level1;
 }
