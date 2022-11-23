@@ -170,9 +170,8 @@ class World extends DrawWorld {
     checkEnemyCollisionWithBubble(enemy) {
         this.bubbles.forEach((bubble, j) => {
             if (enemy.isColliding(bubble)) {
-                if (enemy instanceof Jellyfish) {
+                if (enemy instanceof Jellyfish)
                     this.addDamageToEnemy(enemy);
-                }
                 if (enemy instanceof Endboss && this.poisonBar.isPoisonous && !enemy.isHurt() && enemy.isAlive)
                     this.addDamageToEnemy(enemy);
                 this.bubbles.splice(j, 1);
@@ -182,9 +181,8 @@ class World extends DrawWorld {
 
     checkBubbleAttack() {
         if (this.keyboard.SPACE) {
-            if (this.character.isSlapping) {
+            if (this.character.isSlapping)
                 this.stopSlapping();
-            }
             this.character.isCreatingBubbleBool = true;
         }
     }
@@ -196,9 +194,8 @@ class World extends DrawWorld {
 
     checkFinSlap() {
         if (this.keyboard.SHIFT && !this.character.isShocked && !this.character.isPoisoned) {
-            if (this.character.isCreatingBubbleBool) {
+            if (this.character.isCreatingBubbleBool)
                 this.stopBubbling();
-            }
             this.character.isSlapping = true;
             this.character.isCreatingBubbleBool = false;
         }
@@ -210,9 +207,8 @@ class World extends DrawWorld {
     }
 
     checkPoisonBubbleActivation() {
-        if (this.keyboard.ENTER && this.coinBar.percentage >= 100 && !this.isPoisonActivationCooldown()) {
+        if (this.keyboard.ENTER && this.coinBar.percentage >= 100 && !this.isPoisonActivationCooldown())
             this.togglePoison();
-        }
     }
 
     togglePoison() {
@@ -334,7 +330,9 @@ class World extends DrawWorld {
 
     winGame() {
         this.character.godMode = true;
-        availableLevel++;
+        lvlJSON.lvl++;
+        let lvlAsText = JSON.stringify(lvlJSON);
+        localStorage.setItem('availableLvl', lvlAsText);
         setTimeout(() => this.stopLvl(this.character.win_sound, 'win-screen'), 3000);
     }
 
@@ -390,6 +388,4 @@ class World extends DrawWorld {
         </button>
         `;
     }
-
-
 }

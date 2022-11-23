@@ -100,11 +100,14 @@ function level1() {
             new Barrier(720, 480, 2519, 0, 360, 250, 395, 0),
             new Barrier(720, 480, 2519, 0, 355, 350, 640, 0)
         ], [
+            new Poison(-487, 335, false),
             new Poison(-250, 330, false),
             new Poison(150, 390, false),
             new Poison(245, 363, false),
             new Poison(930, 370, false),
-            new Poison(1622, 385, false)
+            new Poison(1217, 220, false),
+            new Poison(1600, 385, false),
+            new Poison(1690, 363, false),
         ], [
             new Coin(-620, 270),
             new Coin(-500, 150),

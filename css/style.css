@@ -248,6 +248,11 @@ button:hover {
 
 /* Intro2 Screen */
 
+table {
+    display: flex;
+    justify-content: center;
+}
+
 .instructions td {
     padding: 10px;
     font-size: 1.5rem;
@@ -328,7 +333,6 @@ button:hover {
 
 .settingmenu {
     position: relative;
-    margin-top: 1rem;
     backdrop-filter: brightness(0.8) blur(2px);
     border: 2px solid #f0e7c5;
     border-radius: 10px;

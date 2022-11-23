@@ -76,31 +76,42 @@ class DrawableObject {
     }
 
     handleCollision(obj) {
-        if (this.isColliding(obj)) {
-            // Calculate the distance between centers
-            let diffX = this.centerX() - obj.centerX(),
-                diffY = this.centerY() - obj.centerY();
-            // Calculate the minimum distance to separate along X and Y
-            let minDistX = this.halfWidth + obj.halfWidth,
-                minDistY = this.halfHeight + obj.halfHeight;
-            // Calculate the depth of collision for both the X and Y axis
-            let depthX = diffX > 0 ? minDistX - diffX : -minDistX - diffX,
-                depthY = diffY > 0 ? minDistY - diffY : -minDistY - diffY;
-
-            // having the depth, pick the smaller depth and move along that axis
-            if (depthX != 0 && depthY != 0) {
-                // Collision along the X-axis...
-                if (Math.abs(depthX) < Math.abs(depthY)) {
-                    if (depthX > 0) return 'left';
-                    return 'right';
-                    // Collision along the Y-axis...    
-                } else {
-                    if (depthY > 0) return 'top';
-                    return 'bottom';
-                }
-            }
-        } else {
+        if (this.isColliding(obj))
+            return this.whatCollision(obj);
+        else
             return null;
+    }
+
+    whatCollision(obj) {
+        // Calculate the distance between centers
+        let diffX = this.centerX() - obj.centerX(),
+            diffY = this.centerY() - obj.centerY();
+        // Calculate the minimum distance to separate along X and Y
+        let minDistX = this.halfWidth + obj.halfWidth,
+            minDistY = this.halfHeight + obj.halfHeight;
+        // Calculate the depth of collision for both the X and Y axis
+        let depthX = diffX > 0 ? minDistX - diffX : -minDistX - diffX,
+            depthY = diffY > 0 ? minDistY - diffY : -minDistY - diffY;
+        return this.whatCollisionAxis(depthX, depthY);
+    }
+
+    whatCollisionAxis(depthX, depthY) {
+        // having the depth, pick the smaller depth and move along that axis
+        if (depthX != 0 && depthY != 0) {
+            if (Math.abs(depthX) < Math.abs(depthY))
+                return this.whatCollisionAlongX(depthX);
+            else
+                return this.whatCollisionAlongY(depthY)
         }
+    }
+
+    whatCollisionAlongX(depthX) {
+        if (depthX > 0) return 'left';
+        return 'right';
+    }
+
+    whatCollisionAlongY(depthY) {
+        if (depthY > 0) return 'top';
+        return 'bottom';
     }
 }

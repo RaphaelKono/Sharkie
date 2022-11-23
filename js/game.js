@@ -13,6 +13,7 @@ let settingsNeverOpened = true;
 let hitboxesHidden = true;
 let renderFromMenu = false;
 let availableLevel = 1;
+let lvlJSON = { 'lvl': 1 }
 let mobileApple = [
     'iPad Simulator',
     'iPhone Simulator',
@@ -37,6 +38,15 @@ function init() {
     startScreen = document.getElementById('startScreen');
     inGameScreen = document.getElementById('inGameScreen');
     initListeners();
+    setLevel();
+    checkMobile();
+}
+
+function setLevel() {
+    let lvlAsString = localStorage.getItem('availableLvl');
+    lvlJSON = JSON.parse(lvlAsString);
+    if (lvlJSON == null)
+        lvlJSON = { 'lvl': 1 }
 }
 
 function startGame(levelFn) {
@@ -56,14 +66,14 @@ function restartLevel(levelFn) {
     gameHasStarted = true;
     playBackground();
     world = new World(canvas, keyboard, levelFn);
-    if (isOnMobile()) {
-        addMobilePanels();
-    }
+    checkMobile();
 }
 
 function renderLvlScreen() {
     startScreen.classList.add('d-none');
     document.getElementById('levelScreen').classList.remove('d-none');
+    if (lvlJSON.lvl > 1)
+        activateLvlTwo();
 }
 
 function renderStartScreen() {
@@ -84,6 +94,10 @@ function startNextLevel() {
     canvasContainer.classList.add('startscreen');
     document.getElementById('endScreen').classList.add('d-none');
     document.getElementById('levelScreen').classList.remove('d-none');
+    activateLvlTwo();
+}
+
+function activateLvlTwo() {
     document.getElementById('lvl2').classList.remove('gray-lvl-btn');
     addNextLvlListener();
 }
@@ -101,8 +115,7 @@ function removeNonIntro1() {
         if (gameHasStarted)
             inGameScreen.classList.add('d-none');
     }
-    if (isOnMobile())
-        addRotationScreen();
+    checkMobile();
     startScreen.classList.add('d-none');
 }
 
@@ -141,26 +154,32 @@ function renderIntro3() {
 }
 
 function removeIntro3() {
-    if (isOnMobile())
-        removeRotationScreen();
+    checkMobile();
     if (!gameHasStarted)
         startScreen.classList.remove('d-none');
     else {
         inGameScreen.classList.remove('d-none');
         canvasContainer.classList.remove('startscreen');
     }
-
     document.getElementById('introscreen3').classList.add('d-none');
     gameIsPaused = false;
 }
 
 function checkMobile() {
-    if (isOnMobile()) {
-        addMobilePanels();
-        addRotationScreen();
-        pauseGame();
-        checkScreenOrientation();
-    }
+    if (isOnMobile())
+        setMobileSettings()
+}
+
+function setMobileSettings() {
+    addMobilePanels();
+    addRotationScreen();
+    pauseGame();
+    setH1();
+    checkScreenOrientation();
+}
+
+function setH1() {
+    document.getElementById('mobileh1').classList.remove('d-none');
 }
 
 function checkScreenOrientation() {
@@ -222,31 +241,28 @@ function closeSettings() {
 
 function toggleFullScreen() {
     let element = document.getElementById('canvasFrameID');
-    if (isNotOnFullscreen(element)) { // current working methods
+    if (isNotOnFullscreen(element)) // current working methods
         openFullscreen(element);
-    } else {
+    else
         closeFullscreen();
-    }
 }
 
 function openFullscreen(element) {
-    if (element.requestFullscreen) {
+    if (element.requestFullscreen)
         element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
+    else if (element.mozRequestFullScreen)
         element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
+    else if (element.webkitRequestFullscreen)
         element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    }
 }
 
 function closeFullscreen() {
-    if (document.cancelFullScreen) {
+    if (document.cancelFullScreen)
         document.cancelFullScreen();
-    } else if (document.mozCancelFullScreen) {
+    else if (document.mozCancelFullScreen)
         document.mozCancelFullScreen();
-    } else if (document.webkitCancelFullScreen) {
+    else if (document.webkitCancelFullScreen)
         document.webkitCancelFullScreen();
-    }
 }
 
 function isNotOnFullscreen(element) {

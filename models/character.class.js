@@ -169,6 +169,12 @@ class Character extends MovableObject {
 
     constructor() {
         super().loadImage('img/1.Sharkie/3.Swim/1.png');
+        this.loadCharacterImages();
+        this.calcProperties();
+        this.animate();
+    }
+
+    loadCharacterImages() {
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEP);
@@ -180,8 +186,6 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_POISONED);
         this.loadImages(this.IMAGES_DEAD_BY_POISON);
         this.loadImages(this.IMAGES_FIN_SLAP);
-        this.calcProperties();
-        this.animate();
     }
 
     calcProperties() {
@@ -204,10 +208,8 @@ class Character extends MovableObject {
             self.applyGravity();
         else if (self.hasNoHealth())
             self.applyGravity();
-        if (self.x < self.world.level.level_end_x && self.x > -600) {
+        if (self.x < self.world.level.level_end_x && self.x > -600)
             world.camera_x = -self.x + 100;
-        }
-
     }
 
     setImageAnimation(self) {
@@ -305,8 +307,6 @@ class Character extends MovableObject {
         return this.x < this.world.level.level_end_x + 500;
     }
 
-    // 2250
-
     isInLeftBorder() {
         return this.x > -680;
     }
@@ -339,7 +339,6 @@ class Character extends MovableObject {
 
     swimUp() {
         this.y -= this.speed;
-        this.upDirection = true;
     }
 
     swimDown() {
@@ -417,9 +416,8 @@ class Character extends MovableObject {
             this.playAnimationOnce(this.IMAGES_SLEEP);
         else {
             this.playAnimation(this.IMAGES_LONG_SLEEP);
-            if (this.health < 100) {
+            if (this.health < 100)
                 this.health += 0.05;
-            }
         }
     }
 

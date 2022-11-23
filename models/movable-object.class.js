@@ -52,6 +52,12 @@ class MovableObject extends DrawableObject {
     playAnimationOnce(imgs) {
         this.resetForCorrectAnimation(imgs.length);
         this.setCurrentImage(imgs);
+        this.setOptionsWithinAnimation(imgs);
+        if (this.isAtLastElement(imgs.length))
+            this.setParametersDoStopLoop(imgs.length);
+    }
+
+    setOptionsWithinAnimation(imgs) {
         if (this.isFallingAsleep())
             this.offsetTop += 1.4;
         if (this.DeadByPoison)
@@ -59,9 +65,6 @@ class MovableObject extends DrawableObject {
         if (this.isSlapping && this.currentImage == imgs.length - 3) {
             this.slap_sound.volume = 0.2;
             this.playAudio(this.slap_sound);
-        }
-        if (this.isAtLastElement(imgs.length)) {
-            this.setParametersDoStopLoop(imgs.length);
         }
     }
 
@@ -91,11 +94,14 @@ class MovableObject extends DrawableObject {
         this.isShocked = false;
         this.isPoisoned = false;
         this.isSlapping = false;
-        if (this.hasNoHealth()) {
-            this.DeadByShock = false;
-            this.DeadByPoison = false;
-            this.currentImage = IMG_length;
-        }
+        if (this.hasNoHealth())
+            this.setNoHealth(IMG_length);
+    }
+
+    setNoHealth(IMG_length) {
+        this.DeadByShock = false;
+        this.DeadByPoison = false;
+        this.currentImage = IMG_length;
     }
 
 
@@ -203,31 +209,25 @@ class MovableObject extends DrawableObject {
     }
 
     initiallyDown() {
-        if (this.y > this.y0 + this.distanceY) {
+        if (this.y > this.y0 + this.distanceY)
             this.yDistanceReached = true;
-        } else if (this.y < this.y0) {
+        else if (this.y < this.y0)
             this.yDistanceReached = false;
-        }
-
-        if (!this.yDistanceReached) {
+        if (!this.yDistanceReached)
             this.swimDown();
-        } else {
+        else
             this.swimUp();
-        }
     }
 
     initiallyUp() {
-        if (this.y < this.y0 + this.distanceY) {
+        if (this.y < this.y0 + this.distanceY)
             this.yDistanceReached = true;
-        } else if (this.y > this.y0) {
+        else if (this.y > this.y0)
             this.yDistanceReached = false;
-        }
-
-        if (!this.yDistanceReached) {
+        if (!this.yDistanceReached)
             this.swimUp();
-        } else {
+        else
             this.swimDown();
-        }
     }
 
     swimUp() {

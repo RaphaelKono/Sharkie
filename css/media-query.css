@@ -207,7 +207,7 @@
 }
 
 @media only screen and (max-height: 570px) {
-    h1 {
+    #h1 {
         display: none;
     }
 }

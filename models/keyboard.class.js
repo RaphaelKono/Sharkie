@@ -8,8 +8,7 @@ class Keyboard {
     ENTER = false;
     touchstartX = 0;
     touchendX = 0;
-    // lastAction;
-    // lastTwoActions = [];
+
 
     constructor() {
         this.bindKeyPressEvents();
@@ -18,26 +17,8 @@ class Keyboard {
     }
 
     bindKeyPressEvents() {
-        window.addEventListener('keydown', (event) => {
-            this.keyEvents(true, event.keyCode);
-            // this.lastAction = event.keyCode;
-            // console.log('Letzte Aktion: ', this.lastAction);
-            // if (this.lastTwoActions.length < 1) {
-            //     this.lastTwoActions.push(this.lastAction);
-            // }
-            // if (this.lastTwoActions.length < 2) {
-            //     this.lastTwoActions.push(this.lastAction);
-            // }
-            // if (this.lastTwoActions.length >= 2) {
-            //     this.lastTwoActions.push(this.lastAction);
-            //     this.lastTwoActions.splice(0, 1);
-            //     console.log(this.lastTwoActions);
-            // }
-        });
-
-        window.addEventListener('keyup', (event) => {
-            this.keyEvents(false, event.keyCode);
-        });
+        window.addEventListener('keydown', (event) => this.keyEvents(true, event.keyCode));
+        window.addEventListener('keyup', (event) => this.keyEvents(false, event.keyCode));
     }
 
     keyEvents(bool, key) {
@@ -76,15 +57,13 @@ class Keyboard {
     }
 
     eventSHIFT(bool, key) {
-        if (this.eventIsSHIFT(key)) {
+        if (this.eventIsSHIFT(key))
             this.SHIFT = bool;
-        }
     }
 
     eventENTER(bool, key) {
-        if (this.eventIsENTER(key)) {
+        if (this.eventIsENTER(key))
             this.ENTER = bool;
-        }
     }
 
 
@@ -227,16 +206,12 @@ class Keyboard {
 
 
     swipeEvents() {
-        document.getElementById('swipe').addEventListener('touchstart', e => {
-            this.touchstartX = e.changedTouches[0].screenX;
-        });
+        document.getElementById('swipe').addEventListener('touchstart', e => this.touchstartX = e.changedTouches[0].screenX);
         document.getElementById('swipe').addEventListener('touchend', e => {
             this.touchendX = e.changedTouches[0].screenX;
             this.checkDirection();
         });
-        document.getElementById('swipe').addEventListener('touchstart', e => {
-            this.touchstartX = e.changedTouches[0].screenX;
-        });
+        document.getElementById('swipe').addEventListener('touchstart', e => this.touchstartX = e.changedTouches[0].screenX);
         document.getElementById('swipe').addEventListener('touchend', e => {
             this.touchendX = e.changedTouches[0].screenX;
             this.checkDirection();
@@ -244,12 +219,10 @@ class Keyboard {
     }
 
     checkDirection() {
-        if (this.touchendX < this.touchstartX) {
+        if (this.touchendX < this.touchstartX)
             this.SHIFT = true;
-        }
-        if (this.touchendX > this.touchstartX) {
+        if (this.touchendX > this.touchstartX)
             this.SPACE = true;
-        }
         setTimeout(() => {
             this.SPACE = false;
             this.SHIFT = false;
